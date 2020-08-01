@@ -1,0 +1,321 @@
+# env:
+#    TERM: xterm-256color
+
+window:
+  # If both are `0`, this setting is ignored.
+  dimensions:
+    columns: 100
+    lines: 35
+  padding:
+    x: 0
+    y: 0
+  # Spread additional padding evenly around the terminal content.
+  dynamic_padding: true 
+  decorations: full
+ 
+scrolling:
+  history: 10000
+  multiplier: 3
+
+# tabspaces: 4
+cursor:
+  style: Block 
+  unfocused_hollow: true            
+# Font configuration (changes require restart)
+font:
+  size: 12
+
+  normal:
+    family: Fira Code
+    style: Retina 
+  bold:
+    family: Fira Code
+    style: Bold
+  italic:
+    family: Fira Code
+    style: Light 
+
+  # normal:
+  #   family: Noto Mono
+  # bold:
+  #   family: Noto Mono
+  #   style: Bold
+  # italic:
+  #   family: Noto Mono
+  #   style: Italic
+
+  offset:
+    x: 0
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
+  use_thin_strokes: false
+
+draw_bold_text_with_bright_colors: false
+
+schemes:
+  solarized_light: &solarized_light
+    primary:
+      background: '#fdf6e3' # base3
+      foreground: '#657b83' # base00
+    cursor:
+      text:   '#fdf6e3' # base3
+      cursor: '#657b83' # base00
+    normal:
+      black:   '#073642' # base02
+      red:     '#dc322f' # red
+      green:   '#859900' # green
+      yellow:  '#b58900' # yellow
+      blue:    '#268bd2' # blue
+      magenta: '#d33682' # magenta
+      cyan:    '#2aa198' # cyan
+      white:   '#eee8d5' # base2
+    bright:
+      black:   '#002b36' # base03
+      red:     '#cb4b16' # orange
+      green:   '#586e75' # base01
+      yellow:  '#657b83' # base00
+      blue:    '#839496' # base0
+      magenta: '#6c71c4' # violet
+      cyan:    '#93a1a1' # base1
+      white:   '#fdf6e3' # base3
+  solarized_dark: &solarized_dark
+    primary:
+      background: '#002b36' # base03
+      foreground: '#839496' # base0
+    cursor:
+      text:   '#002b36' # base03
+      cursor: '#839496' # base0
+    normal:
+      black:   '#073642' # base02
+      red:     '#cb4b16' # orange
+      # red:     '#dc322f' # red
+      green:   '#859900' # green
+      yellow:  '#b58900' # yellow
+      blue:    '#268bd2' # blue
+      magenta: '#d33682' # magenta
+      cyan:    '#2aa198' # cyan
+      white:   '#eee8d5' # base2
+    bright:
+      black:   '#586e75' # base01
+      red:     '#cb4b16' # orange
+      green:   '#586e75' # base01
+      yellow:  '#657b83' # base00
+      blue:    '#839496' # base0
+      magenta: '#6c71c4' # violet
+      cyan:    '#93a1a1' # base1
+      white:   '#fdf6e3' # base3
+  gruvbox_dark: &gruvbox_dark
+    primary:
+      # hard contrast: background = '#1d2021'
+      # soft contrast: background = '#32302f'
+      # background: '#1d2021'
+      background: '#32302f'
+      foreground: '#ebdbb2'
+    normal:
+      black:   '#282828'
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    #7daea3'
+      # blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#a89984'
+    bright:
+      black:   '#928374'
+      red:     '#fb4934'
+      green:   '#b8bb26'
+      yellow:  '#fabd2f'
+      blue:    #7daea3'
+      # blue:    '#83a598'
+      magenta: '#d3869b'
+      cyan:    '#8ec07c'
+      white:   '#ebdbb2'
+  gruvbox_material: &gruvbox_material
+    primary:
+      background: #1d2021'
+      foreground: #dfbf8e'
+      foreground: #d5c4a1'
+    normal:
+      black:   '#665c54'
+      red:     '#ea6962'
+      green:   '#a9b665'
+      yellow:  '#e78a4e'
+      blue:    '#7daea3'
+      magenta: '#d3869b'
+      cyan:    '#89b482'
+      white:   '#dfbf8e'
+    bright:
+      black:   '#928374'
+      red:     '#ea6962'
+      green:   '#a9b665'
+      yellow:  '#e3a84e'
+      blue:    '#7daea3'
+      magenta: '#d3869b'
+      cyan:    '#89b482'
+      white:   '#dfbf8e'
+  gruvbox_base16_dark: &gruvbox_base16_dark
+    primary:
+      background: '#1d2021'
+      foreground: '#d5c4a1'
+    cursor:
+      text: '#1d2021'
+      cursor: '#d5c4a1'
+    normal:
+      black:   '#1d2021'
+      red:     '#fb4934'
+      # red:     '#b04934'
+      green:   '#b8bb26'
+      yellow:  '#fabd2f'
+      blue:    '#83a598'
+      magenta: '#d3869b'
+      cyan:    '#8ec07c'
+      white:   '#d5c4a1'
+    bright:
+      black:   '#665c54'
+      red:     '#fe8019'
+      green:   '#3c3836'
+      yellow:  '#504945'
+      blue:    '#bdae93'
+      magenta: '#ebdbb2'
+      cyan:    '#d65d0e'
+      white:   '#fbf1c7'
+  material_dark: &material_dark
+    primary:
+      background: '#263238'
+      foreground: '#eeffff'
+    cursor:
+      text: '#263238'
+      cursor: '#eeffff'
+    normal:
+      black:   '#263238'
+      red:     '#f07178'
+      green:   '#c3e88d'
+      yellow:  '#ffcb6b'
+      blue:    '#82aaff'
+      magenta: '#c792ea'
+      cyan:    '#89ddff'
+      white:   '#eeffff'
+    bright:
+      black:   '#546e7a'
+      red:     '#f07178'
+      green:   '#c3e88d'
+      yellow:  '#ffcb6b'
+      blue:    '#82aaff'
+      magenta: '#c792ea'
+      cyan:    '#89ddff'
+      white:   '#ffffff'
+    indexed_colors:
+      - { index: 16, color: '#f78c6c' }
+      - { index: 17, color: '#ff5370' }
+      - { index: 18, color: '#2e3c43' }
+      - { index: 19, color: '#314549' }
+      - { index: 20, color: '#b2ccd6' }
+      - { index: 21, color: '#eeffff' }
+  one_base16_light: &one_base16_light
+    primary:
+      background: '#fafafa'
+      foreground: '#383a42'
+    cursor:
+      text: '#fafafa'
+      cursor: '#383a42'
+    normal:
+      black:   '#fafafa'
+      red:     '#ca1243'
+      green:   '#50a14f'
+      yellow:  '#c18401'
+      blue:    '#4078f2'
+      magenta: '#a626a4'
+      cyan:    '#0184bc'
+      white:   '#383a42'
+    bright:
+      black:   '#a0a1a7'
+      red:     '#d75f00'
+      green:   '#f0f0f1'
+      yellow:  '#e5e5e6'
+      blue:    '#696c77'
+      magenta: '#202227'
+      cyan:    '#986801'
+      white:   '#090a0b'
+  gruvbox_base16_light: &gruvbox_base16_light
+    primary:
+      background: '#f9f5d7'
+      foreground: '#504945'
+    cursor:
+      text: '#f9f5d7'
+      cursor: '#504945'
+    normal:
+      black:   '#f9f5d7'
+      red:     '#9d0006'
+      green:   '#79740e'
+      yellow:  '#b57614'
+      blue:    '#076678'
+      magenta: '#8f3f71'
+      cyan:    '#427b58'
+      white:   '#504945'
+    bright:
+      black:   '#bdae93'
+      red:     '#af3a03'
+      green:   '#ebdbb2'
+      yellow:  '#d5c4a1'
+      blue:    '#665c54'
+      magenta: '#3c3836'
+      cyan:    '#d65d0e'
+      white:   '#282828'
+  
+# colors: *material_dark
+# colors: *gruvbox_base16_light
+
+# colors: *gruvbox_base16_dark
+colors: *gruvbox_base16_light
+# colors: *one_base16_light
+
+visual_bell:
+  animation: EaseOutExpo
+  duration: 0
+  color: '#ffffff'
+
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
+
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+  hide_when_typing:  true
+  url:
+    launcher:
+      program: xdg-open
+      args: []
+    modifiers: None
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+  save_to_clipboard: true
+
+dynamic_title: true
+live_config_reload: true
+background_opacity: 1.0
+
+shell:
+  program: /bin/zsh
+enable_experimental_conpty_backend: false
+
+# Send ESC (\x1b) before characters when alt is pressed.
+alt_send_esc: false 
+
+key_bindings:
+  # (Windows/Linux only)
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: PageUp,   mods: Shift,   action: ScrollPageUp   }
+  - { key: PageDown, mods: Shift,   action: ScrollPageDown }
+  - { key: End,      mods: Shift,   action: ScrollToBottom }
+  - { key: Home,     mods: Shift,   action: ScrollToTop    }
+  - { key: J,        mods: Alt,     chars: "\x1bj"                       }
+  - { key: K,        mods: Alt,     chars: "\x1bk"                       }
+  - { key: H,        mods: Alt,     chars: "\x1bh"                       }
+  - { key: L,        mods: Alt,     chars: "\x1bl"                       }
+  - { key: N,        mods: Alt,     chars: "\x1bn"                       }
+  - { key: P,        mods: Alt,     chars: "\x1bp"                       }

@@ -1,5 +1,5 @@
 call plug#begin('~/.local/share/nvim/site/plugged')
-" call plug#begin('~/.config/nvim/plugged')
+
 Plug 'SirVer/ultisnips'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
@@ -14,17 +14,10 @@ Plug 'jiangmiao/auto-pairs', { 'tag': 'v2.0.0' }
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'kassio/neoterm'
-Plug 'kyazdani42/nvim-tree.lua'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'liuchengxu/vista.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree'
-Plug 'neovim/nvim-lsp'
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'nvim-lua/completion-nvim'
-Plug 'steelsojka/completion-buffers'
-Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'pechorin/any-jump.vim'
 Plug 'pseewald/vim-anyfold' 
 Plug 'sbdchd/neoformat'
@@ -32,10 +25,29 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'nvim-lua/diagnostic-nvim'
 Plug 'mhinz/vim-startify'
-" Plug '/home/jari/dev/rust/redbush/plugin'
+Plug 'joshdick/onedark.vim'
+
+"" neovim 0.5 lsp
+Plug 'nvim-lua/diagnostic-nvim'
+Plug 'nvim-lua/completion-nvim'
+Plug 'neovim/nvim-lsp'
+
+"" neovim 0.5 other 
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'norcalli/nvim-colorizer.lua'
+
+"" disabled
+"" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"" Plug '/home/jari/dev/rust/redbush/plugin'
+"""Plug 'steelsojka/completion-buffers'
+
 call plug#end()
 
-" lua require'plugins'
+nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
+
 lua require'init'.setup()

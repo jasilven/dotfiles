@@ -1,100 +1,88 @@
 {
-  "lua.commandPath": "/usr/local/bin/lua-lsp",
-  "lua.enable": true,
-  "rust-analyzer.diagnostics.enable": true,
-  "json.enable": true,
-  "codeLens.enable": true,
-  "codeLens.separator": " ",
-  "json.format.enable": true,
-  "coc.preferences.formatOnType": true,
-  "coc.source.buffer.ignoreGitignore": true,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "rust",
-    "clojure",
-    "go",
-    "lua",
-    "json"
-  ],
-  "coc.preferences.snippets.enable": true,
-  "diagnostic.enableSign": true,
-  "diagnostic.messageTarget": "float",
-  "diagnostic.virtualTextCurrentLineOnly": false,
-  "diagnostic.virtualText": true,
-  "diagnostic.infoSign": "i",
-  "diagnostic.errorSign": "✗",
-  "diagnostic.warningSign": "⚠",
-  "diagnostic.highlightOffset": 1000,
-  "diagnostic.hintSign": "i",
-  "diagnostic.refreshOnInsertMode": true,
-  "suggest.autoTrigger": "always",
-  "suggest.snippetIndicator": "~",
-  "suggest.labelMaxLength": 60,
-  "suggest.maxPreviewWidth": 60,
-  "suggest.detailMaxLength": 60,
-  "suggest.enablePreview": true,
-  "suggest.disableKind": false,
-  "suggest.completionItemKindLabels": {
-    "keyword": "",
-    "variable": "",
-    "value": "",
-    "operator": "Ψ",
-    "function": "ƒ",
-    "reference": "渚",
-    "constant": "",
-    "method": "",
-    "struct": "פּ",
-    "class": "",
-    "interface": "",
-    "text": "",
-    "enum": "",
-    "enumMember": "",
-    "module": "",
-    "color": "",
-    "property": "",
-    "field": "料",
-    "unit": "",
-    "event": "鬒",
-    "file": "",
-    "folder": "",
-    "snippet": "",
-    "typeParameter": "",
-    "default": ""
-  },
-  "languageserver": {
-    "clojure-lsp": {
-      "command": "bash",
-      "args": [
-        "-c",
-        "clojure-lsp"
-      ],
-      "filetypes": [
-        "clojure"
-      ],
-      "rootPatterns": [
-        "project.clj",
-        "deps.edn"
-      ],
-      "additionalSchemes": [
-        "jar",
-        "zipfile"
-      ],
-      "trace.server": "verbose",
-      "initializationOptions": {}
+    "lua.commandPath": "/usr/local/bin/lua-lsp",
+    "lua.enable": true,
+    "rust-analyzer.diagnostics.enable": true,
+    "json.enable": true,
+    "codeLens.enable": true,
+    "codeLens.separator": " ",
+    "json.format.enable": true,
+    "coc.preferences.formatOnType": true,
+    "coc.source.buffer.ignoreGitignore": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "rust",
+        "clojure",
+        "go",
+        "lua",
+        "json"
+    ],
+    "coc.preferences.snippets.enable": true,
+    "diagnostic.enableMessage": "always",
+    "diagnostic.messageDelay": 500,
+    "diagnostic.enableSign": true,
+    "diagnostic.messageTarget": "float",
+    "diagnostic.virtualTextCurrentLineOnly": false,
+    "diagnostic.virtualText": true,
+    "diagnostic.infoSign": "i",
+    "diagnostic.errorSign": "⛔",
+    "diagnostic.warningSign": "▲",
+    "diagnostic.highlightOffset": 1000,
+    "diagnostic.hintSign": "i",
+    "diagnostic.refreshOnInsertMode": false,
+    "diagnostic.virtualTextPrefix": "   ",
+    "suggest.autoTrigger": "always",
+    "suggest.snippetIndicator": "~",
+    "suggest.labelMaxLength": 60,
+    "suggest.maxPreviewWidth": 60,
+    "suggest.detailMaxLength": 60,
+    "suggest.enablePreview": true,
+    "suggest.disableKind": false,
+    "suggest.completionItemKindLabels": {
+        "keyword": "",
+        "variable": "",
+        "value": "",
+        "operator": "Ψ",
+        "function": "ƒ",
+        "reference": "渚",
+        "constant": "",
+        "method": "",
+        "struct": "פּ",
+        "class": "",
+        "interface": "",
+        "text": "",
+        "enum": "",
+        "enumMember": "",
+        "module": "",
+        "color": "",
+        "property": "",
+        "field": "料",
+        "unit": "",
+        "event": "鬒",
+        "file": "",
+        "folder": "",
+        "snippet": "",
+        "typeParameter": "",
+        "default": ""
     },
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": [
-        "go.mod",
-        ".vim/",
-        ".git/",
-        ".hg/"
-      ],
-      "filetypes": [
-        "go"
-      ],
-      "initializationOptions": {
-        "usePlaceholders": true
-      }
+    "languageserver": {
+        "clojure-lsp": {
+            "command": "bash",
+            "args": [
+                "-c",
+                "clojure-lsp"
+            ],
+            "filetypes": [
+                "clojure"
+            ],
+            "rootPatterns": [
+                "project.clj",
+                "deps.edn"
+            ],
+            "additionalSchemes": [
+                "jar",
+                "zipfile"
+            ],
+            "trace.server": "verbose",
+            "initializationOptions": {}
+        }
     }
-  }
 }

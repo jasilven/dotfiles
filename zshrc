@@ -19,6 +19,8 @@ bindkey '^X^X' history-beginning-search-menu
 
 eval "$(starship init zsh)"
 
+alias pbcopy="xclip -selection c"
+alias pbpaste="xclip -selection c -o"
 alias more="bat"
 alias less="bat"
 alias cat="bat"
@@ -33,4 +35,4 @@ alias tm="tmux attach || tmux new"
 alias ps="procs --sortd cpu --watch-interval 3"
 alias open=xdg-open
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

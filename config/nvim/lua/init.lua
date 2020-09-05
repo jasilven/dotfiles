@@ -112,7 +112,7 @@ function Setup_options()
     vim.o["wildmode"] = "list:longest,full"
     vim.o["wrap"] = false
     vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
-    vim.o["grepformat"] =  "%f:%l:%c:%m"
+    vim.o["grepformat"] = "%f:%l:%c:%m"
     vim.wo["foldenable"] = false
     vim.wo["number"] = true
     vim.wo["signcolumn"] = "yes:1"
@@ -151,7 +151,7 @@ function Setup_treesitter()
     require "nvim-treesitter.configs".setup {
         highlight = {
             enable = true,
-            disable = {"lua"},
+            disable = {"Xlua"},
             custom_captures = {}
         },
         incremental_selection = {
@@ -203,8 +203,8 @@ function Setup_treesitter()
 end
 
 function Setup_colorizer()
-    -- require "colorizer".setup(nil, {css = true})
-    -- require "colorizer".setup()
+    require "colorizer".setup(nil, {css = true})
+    require "colorizer".setup()
 end
 
 function Setup_nvimtree()
@@ -249,7 +249,7 @@ end
 function Setup_lsp()
     local function setup_diagnostics()
         vim.g.diagnostic_enable_virtual_text = 1
-        vim.g.diagnostic_virtual_text_prefix = ""
+        -- vim.g.diagnostic_virtual_text_prefix = ""
         vim.g.diagnostic_trimmed_virtual_text = "200"
         vim.g.diagnostic_enable_underline = 1
         vim.g.diagnostic_insert_delay = 0
@@ -289,7 +289,7 @@ function Setup_lsp()
     end
 
     require "nvim_lsp".sumneko_lua.setup {on_attach = lsp_attach}
-    require "nvim_lsp".rust_analyzer.setup {on_attach = lsp_attach}
+    require "nvim_lsp".rust_analyzer.setup {cmd = {"rust-analyzer"}, filetypes = {"rust"}, on_attach = lsp_attach}
     require "nvim_lsp".jsonls.setup {on_attach = lsp_attach}
     require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
@@ -306,7 +306,7 @@ function Setup_lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
 
-    api.nvim_exec("autocmd BufWritePre <silent> *.rs,*.go  lua vim.lsp.buf.formatting_sync({}, 1000)", "")
+    -- api.nvim_exec("autocmd BufWritePre <silent> *.rs  lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
 end
 
 function Setup_fzf()
@@ -339,24 +339,6 @@ function Setup_fzf()
     ]],
         ""
     )
-
-    -- function Float_fzf()
-    --     local buf = api.nvim_create_buf(false, true)
-    --     api.nvim_buf_set_var(buf, "&signcolumn", "no")
-    --     local col = 0
-    --     local height = 20
-    --     local row = api.nvim_win_get_height(0) - height + 1
-    --     local width = api.nvim_win_get_width(0) - 2 * col
-    --     local opts = {
-    --         relative = "cursor",
-    --         row = row,
-    --         col = col,
-    --         width = width,
-    --         height = height,
-    --         style = "minimal"
-    --     }
-    --     api.nvim_open_win(buf, true, opts)
-    -- end
 
     api.nvim_exec("au FileType fzf tnoremap <Esc> <c-g>", "")
 end
@@ -419,6 +401,7 @@ end
 
 function Setup_neoformat()
     vim.g.neoformat_only_msg_on_error = 1
+    api.nvim_exec([[ autocmd BufWritePre * undojoin | Neoformat ]], "")
 end
 
 function Setup_vista()
@@ -601,6 +584,9 @@ function Setup_theme()
         hi! link cocerrorfloat errormsg 
         hi! link cocerrorsign errormsg
         hi! link cocerrorvirtualtext comment
+        hi! link lspdiagnosticserror errormsg
+        hi! link lspdiagnosticswarning warningmsg
+        hi! link lspdiagnosticsunderline underlined 
         hi! link cocwarningfloat warningmsg
         hi! link cocwarningsign comment 
         hi! link cocwarningsign warningmsg 
@@ -608,6 +594,14 @@ function Setup_theme()
         hi! link character constant
         hi! rustenumvariant guifg=none
         hi! ruststorage guifg=none
+        hi! rustsigil guifg=none
+        hi! link rustattributeXX comment
+        hi! link rustderive comment
+        hi! link rustassert macro 
+        hi! mkdlinebreak guibg=none
+        hi! link helpexample string
+        hi! link helpcommand string
+        hi! matchparen guifg=orange
 		]],
             ""
         )
@@ -619,6 +613,12 @@ function Setup_theme()
             hi! string guifg=green
             hi! linenr guifg=#dcdcdc
             hi! nontext guifg=#dbdbdb
+            hi! normalfloat guibg=#f4f4f4
+            hi! warningmsg guifg=orange guibg=none
+            hi! errormsg guifg=red guibg=none
+            hi! normal guibg=#f6f8fa
+            hi! pmenu guibg=#e0e0e0
+            hi! cursorline guibg=#f0f0f0
 		]],
                 ""
             )
@@ -659,14 +659,22 @@ function Setup_theme()
         elseif vim.g.colors_name == "base16-tomorrow-night" then
             api.nvim_exec(
                 [[
-            hi! warningmsg guifg=yellow guibg=none
-            hi! XXnormalfloat guibg=#373b41
-            hi! statusline guifg=#dcdcdc
-            hi! cursorline guibg=#393b3f
+            hi! warningmsg guifg=#f0c674 guibg=none
+            hi! normalfloat guibg=#373b41
+            hi! statusline guibg=#dcdcdc guifg=#000000
+            hi! statuslineNC guibg=#888888 guifg=#000000
+            hi! cursorline guibg=#393b3e
+            hi! cursorline guibg=#282a2e
             hi! link repeat keyword
             hi! nontext guifg=#444444
             hi! linenr guifg=#484b52
             hi! comment guifg=#5f5f5f
+            hi! constant guifg=#c69f83
+            hi! link number constant
+            hi! link boolean constant
+            hi! cursorlinenr guifg=#ffffff 
+            hi! pmenu guifg=#eeeeee guibg=#404040
+            hi! pmenusel guibg=#c0c0c0
 		]],
                 ""
             )
@@ -761,55 +769,111 @@ function Setup_fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-function Setup_plugins()
-    vim.cmd [[packadd packer.nvim]]
-    vim._update_package_paths()
-
-    return require("packer").startup(
-        function()
-            use {"wbthomason/packer.nvim", opt = true}
-            use {"cespare/vim-toml"}
-            use {"farmergreg/vim-lastplace"}
-            use {"honza/vim-snippets"}
-            use {"sheerun/vim-polyglot"}
-            use {"tpope/vim-commentary"}
-            use {"tpope/vim-surround"}
-            use {"wincent/ferret"}
-            use {"diepm/vim-rest-console"}
-            use {"chriskempson/base16-vim"}
-            use {"kyazdani42/nvim-web-devicons"}
-            use {"ryanoasis/vim-devicons"}
-            use {"mbbill/undotree"}
-            use {"tpope/vim-fugitive", config = Setup_fugitive()}
-            use {"kyazdani42/nvim-tree.lua", config = Setup_nvimtree()}
-            use {"SirVer/ultisnips", config = Setup_ultisnips()}
-            use {"airblade/vim-rooter", config = Setup_vimrooter()}
-            use {"easymotion/vim-easymotion", config = Setup_easymotion()}
-            use {"guns/vim-sexp", ft = "clojure", config = Setup_sexp()}
-            use {"jasilven/redbush", run = "cargo install --path .", ft = "clojure", config = Setup_redbush()}
-            use {"jiangmiao/auto-pairs", config = Setup_autopairs()}
-            use {"junegunn/fzf", run = "./install --all"}
-            use {"junegunn/fzf.vim", config = Setup_fzf()}
-            use {"kassio/neoterm", config = Setup_neoterm()}
-            use {"liuchengxu/vista.vim", config = Setup_vista()}
-            use {"ludovicchabant/vim-gutentags", config = Setup_gutentags()}
-            use {"majutsushi/tagbar", config = Setup_tagbar()}
-            use {"pechorin/any-jump.vim", config = Setup_anyjump()}
-            use {"pseewald/vim-anyfold", config = Setup_anyfold()}
-            use {"sbdchd/neoformat", config = Setup_neoformat()}
-            use {"mhinz/vim-startify", config = Setup_startify()}
-            use {"pacha/vem-tabline", config = Setup_vemtabline()}
-            use {"mhinz/vim-signify", config = Setup_signify()}
-            use {"neoclide/coc.nvim", branch = "release", config = Setup_coc()}
-            -- use {"norcalli/nvim-colorizer.lua"}
-            -- use {'nvim-treesitter/nvim-treesitter', config = Setup_treesitter() }
-            -- use {'neovim/nvim-lsp', requires = {{'nvim-lua/completion-nvim'}, {'nvim-lua/diagnostic-nvim'}}, config = Setup_lsp()}
-        end
+function Setup_fern() 
+    api.nvim_exec(
+        [[
+        au FileType fern nmap <silent><buffer> I <Plug>(fern-action-hidden-toggle)
+        au FileType fern nmap <silent><buffer> q :bd<CR>
+        au FileType fern nmap <silent><buffer> U <Plug>(fern-action-leave)
+        au FileType fern nmap <silent><buffer> R <Plug>(fern-action-move)
+    
+      ]],
+        ""
     )
 end
 
+function Setup_bufferline()
+    require'bufferline'.setup{
+      options = {
+        view = "multiwindow",
+        numbers = "none",
+        number_style = "", 
+        mappings = true,
+        close_icon = "x",
+        max_name_length = 18,
+        tab_size = 18,
+        show_buffer_close_icons = false,
+        separator_style = "thin",
+        enforce_regular_tabs = false,
+      }
+    }
+end
+
+function Setup_plugins()
+    Setup_fugitive()
+    Setup_nvimtree()
+    Setup_ultisnips()
+    Setup_vimrooter()
+    Setup_easymotion()
+    Setup_sexp()
+    Setup_redbush()
+    Setup_autopairs()
+    Setup_fzf()
+    Setup_neoterm()
+    Setup_vista()
+    Setup_gutentags()
+    Setup_tagbar()
+    Setup_anyjump()
+    Setup_anyfold()
+    Setup_bufferline()
+    -- Setup_fern()
+    -- Setup_neoformat()
+    -- Setup_lightline()
+    Setup_startify()
+    -- Setup_vemtabline()
+    Setup_signify()
+    Setup_treesitter()
+    Setup_coc()
+    -- Setup_lsp()
+
+    --     vim.cmd [[packadd packer.nvim]]
+    --     vim._update_package_paths()
+    --     return require("packer").startup(
+    --         function(use)
+    --             use {"wbthomason/packer.nvim", opt = true}
+    --             use {"cespare/vim-toml"}
+    --             use {"farmergreg/vim-lastplace"}
+    --             use {"honza/vim-snippets"}
+    --             use {"sheerun/vim-polyglot"}
+    --             use {"tpope/vim-commentary"}
+    --             use {"tpope/vim-surround"}
+    --             use {"wincent/ferret"}
+    --             use {"diepm/vim-rest-console"}
+    --             use {"chriskempson/base16-vim"}
+    --             use {"kyazdani42/nvim-web-devicons"}
+    --             use {"ryanoasis/vim-devicons"}
+    --             use {"mbbill/undotree"}
+    --             use {"tpope/vim-fugitive", config = Setup_fugitive()}
+    --             use {"kyazdani42/nvim-tree.lua", config = Setup_nvimtree()}
+    --             use {"SirVer/ultisnips", config = Setup_ultisnips()}
+    --             use {"airblade/vim-rooter", config = Setup_vimrooter()}
+    --             use {"easymotion/vim-easymotion", config = Setup_easymotion()}
+    --             use {"guns/vim-sexp", ft = "clojure", config = Setup_sexp()}
+    --             use {"jasilven/redbush", run = "cargo install --path .", ft = "clojure", config = Setup_redbush()}
+    --             use {"jiangmiao/auto-pairs", config = Setup_autopairs()}
+    --             use {"junegunn/fzf", run = "./install --all"}
+    --             use {"junegunn/fzf.vim", config = Setup_fzf()}
+    --             use {"kassio/neoterm", config = Setup_neoterm()}
+    --             use {"liuchengxu/vista.vim", config = Setup_vista()}
+    --             use {"ludovicchabant/vim-gutentags", config = Setup_gutentags()}
+    --             use {"majutsushi/tagbar", config = Setup_tagbar()}
+    --             use {"pechorin/any-jump.vim", config = Setup_anyjump()}
+    --             use {"pseewald/vim-anyfold", config = Setup_anyfold()}
+    --             use {"sbdchd/neoformat", config = Setup_neoformat()}
+    --             use {"mhinz/vim-startify", config = Setup_startify()}
+    --             use {"pacha/vem-tabline", config = Setup_vemtabline()}
+    --             use {"mhinz/vim-signify", config = Setup_signify()}
+    --             -- use {"neoclide/coc.nvim", branch = "release", config = Setup_coc()}
+    --             -- use {"norcalli/nvim-colorizer.lua"}
+    --             -- use {'nvim-treesitter/nvim-treesitter', config = Setup_treesitter() }
+    --             -- use {'neovim/nvim-lsp', requires = {{'nvim-lua/completion-nvim'}, {'nvim-lua/diagnostic-nvim'}}, config = Setup_lsp()}
+    --             use {'neovim/nvim-lsp', requires = {{'nvim-lua/completion-nvim'}, {'nvim-lua/diagnostic-nvim'}}}
+    --         end
+    --     )
+end
+
 function Setup()
-    Setup_keymaps(keymaps)
+    Setup_keymaps()
     Setup_options()
     Setup_general()
 

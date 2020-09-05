@@ -1,1 +1,48 @@
+call plug#begin('~/.vim/plugged')
+Plug 'cespare/vim-toml'
+Plug 'farmergreg/vim-lastplace'
+Plug 'honza/vim-snippets'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'wincent/ferret'
+Plug 'diepm/vim-rest-console'
+Plug 'chriskempson/base16-vim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'ryanoasis/vim-devicons'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'SirVer/ultisnips'
+Plug 'airblade/vim-rooter'
+Plug 'easymotion/vim-easymotion'
+Plug 'guns/vim-sexp', { 'for': 'clojure' }
+Plug 'jasilven/redbush', { 'for': 'clojure' }
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf', {'run': './install --all'}
+Plug 'junegunn/fzf.vim'
+Plug 'kassio/neoterm'
+Plug 'liuchengxu/vista.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'majutsushi/tagbar'
+Plug 'pechorin/any-jump.vim'
+Plug 'pseewald/vim-anyfold'
+Plug 'sbdchd/neoformat'
+Plug 'mhinz/vim-startify'
+Plug 'wincent/loupe'
+" Plug 'lambdalisue/fern.vim'
+" Plug 'pacha/vem-tabline'
+" Plug 'ap/vim-buftabline'
+Plug 'Akin909/nvim-bufferline.lua'
+Plug 'mhinz/vim-signify'
+Plug 'justinmk/vim-dirvish'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'nvim-treesitter/nvim-treesitter'
+" Plug 'neovim/nvim-lsp'
+" Plug 'nvim-lua/completion-nvim'
+" Plug 'nvim-lua/diagnostic-nvim'
+Plug 'kyazdani42/blue-moon'
+call plug#end()
+
 lua require("init")

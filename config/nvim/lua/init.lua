@@ -401,7 +401,7 @@ end
 
 function Setup_neoformat()
     vim.g.neoformat_only_msg_on_error = 1
-    api.nvim_exec([[ autocmd BufWritePre * undojoin | Neoformat ]], "")
+    -- api.nvim_exec([[ autocmd BufWritePre * undojoin | Neoformat ]], "")
 end
 
 function Setup_vista()
@@ -613,12 +613,14 @@ function Setup_theme()
             hi! string guifg=green
             hi! linenr guifg=#dcdcdc
             hi! nontext guifg=#dbdbdb
-            hi! normalfloat guibg=#f4f4f4
+            hi! normalfloat guibg=#e3e3e3
             hi! warningmsg guifg=orange guibg=none
             hi! errormsg guifg=red guibg=none
             hi! normal guibg=#f6f8fa
             hi! pmenu guibg=#e0e0e0
             hi! cursorline guibg=#f0f0f0
+            hi! startifyfile guifg=#000000
+            hi! cursorlinenr guifg=#222222 guibg=NONE
 		]],
                 ""
             )
@@ -634,6 +636,7 @@ function Setup_theme()
             hi! linenr guifg=#dcdcdc
             hi! nontext guifg=#dbdbdb
             hi! tabline guifg=#bbbbbb
+            hi! normalfloat guibg=#e3e3e3
             hi! tablinesel guifg=#222222
 		]],
                 ""
@@ -708,7 +711,7 @@ function Setup_startify()
 end
 
 function Setup_coc()
-    vim.g.coc_global_extensions = {"coc-rust-analyzer", "coc-json", "coc-lua", "coc-ultisnips", "coc-go"}
+    vim.g.coc_global_extensions = {"coc-rust-analyzer", "coc-json", "coc-lua", "coc-ultisnips", "coc-go", "coc-metals"}
     api.nvim_set_keymap("n", "gi", "<Plug>(coc-implementation)", keyopts)
     api.nvim_set_keymap("n", "K", ":call CocAction('doHover')<cr>", keyopts)
     api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], keyopts)
@@ -815,16 +818,15 @@ function Setup_plugins()
     Setup_tagbar()
     Setup_anyjump()
     Setup_anyfold()
-    Setup_bufferline()
+    -- Setup_bufferline()
     -- Setup_fern()
     -- Setup_neoformat()
     -- Setup_lightline()
     Setup_startify()
-    -- Setup_vemtabline()
     Setup_signify()
     Setup_treesitter()
-    Setup_coc()
-    -- Setup_lsp()
+    -- Setup_coc()
+    Setup_lsp()
 
     --     vim.cmd [[packadd packer.nvim]]
     --     vim._update_package_paths()

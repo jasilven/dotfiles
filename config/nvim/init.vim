@@ -32,17 +32,16 @@ Plug 'mhinz/vim-startify'
 Plug 'wincent/loupe'
 " Plug 'lambdalisue/fern.vim'
 " Plug 'pacha/vem-tabline'
-" Plug 'ap/vim-buftabline'
-Plug 'Akin909/nvim-bufferline.lua'
+Plug 'ap/vim-buftabline'
+" Plug 'Akin909/nvim-bufferline.lua'
 Plug 'mhinz/vim-signify'
 Plug 'justinmk/vim-dirvish'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'nvim-treesitter/nvim-treesitter'
-" Plug 'neovim/nvim-lsp'
-" Plug 'nvim-lua/completion-nvim'
-" Plug 'nvim-lua/diagnostic-nvim'
-Plug 'kyazdani42/blue-moon'
+Plug 'neovim/nvim-lsp'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 lua require("init")

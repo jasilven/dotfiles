@@ -42,7 +42,7 @@ function Setup_keymaps()
         {mods = {"n"}, lhs = "<MiddleMouse>", rhs = "<C-o>", {noremap = false}},
         {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
         {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
-        {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
+        {mods = {"n"}, lhs = "<space>w", rhs = ":w<cr>"},
         {mods = {"n"}, lhs = "<space>Q", rhs = ":wqa<cr>"},
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
         {mods = {"n"}, lhs = "Q", rhs = ":wqa<cr>"},
@@ -222,6 +222,7 @@ function Setup_nvimtree()
     vim.g.lua_tree_icons = {default = ""}
     vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target"}
     vim.g.lua_tree_follow = 1
+    vim.g.lua_tree_width= 40
 
     function Tree_toggle()
         if require "lib.lib".win_open() then
@@ -667,8 +668,8 @@ function Setup_theme()
             hi! normalfloat guibg=#373b41
             hi! statusline guibg=#dcdcdc guifg=#000000
             hi! statuslineNC guibg=#888888 guifg=#000000
-            hi! cursorline guibg=#393b3e
             hi! cursorline guibg=#282a2e
+            hi! cursorline guibg=none gui=underline
             hi! link repeat keyword
             hi! nontext guifg=#444444
             hi! linenr guifg=#484b52
@@ -676,8 +677,8 @@ function Setup_theme()
             hi! constant guifg=#c69f83
             hi! link number constant
             hi! link boolean constant
-            hi! cursorlinenr guifg=#ffffff 
-            hi! pmenu guifg=#eeeeee guibg=#404040
+            hi! cursorlinenr guifg=#dddddd guibg=none
+            hi pmenu guifg=#eeeeee guibg=#404040
             hi! pmenusel guibg=#c0c0c0
 		]],
                 ""

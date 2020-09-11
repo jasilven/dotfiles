@@ -373,10 +373,6 @@ end
 function Setup_signify()
     vim.g.signify_line_highlight = 0
     vim.g.signify_disable_by_default = 1
-    -- vim.g.gitgutter_override_sign_column_highlight = 0
-    -- vim.g.gitgutter_sign_allow_clobber = 0
-    -- vim.g.gitgutter_set_sign_backgrounds = 0
-    -- vim.g.gitgutter_preview_win_floating = 1
 end
 
 function Setup_vimrooter()
@@ -559,7 +555,7 @@ end
 function Setup_theme()
     function Mytheme(theme, bg)
         vim.o["background"] = bg or vim.o["background"]
-        vim.cmd("colorscheme " .. (theme or vim.g.colors_name or "base16-tomorrow-night"))
+        vim.cmd("colorscheme " .. theme)
         api.nvim_exec(
             [[
         hi! link TSError Normal
@@ -606,21 +602,25 @@ function Setup_theme()
             ""
         )
         if vim.g.colors_name == "base16-github" then
+            vim.o["background"] = "light"
             api.nvim_exec(
                 [[
             hi! link repeat keyword
             hi! statusline guifg=#222222
             hi! string guifg=green
-            hi! linenr guifg=#dcdcdc
+            hi! linenr guifg=#dcdcdc guibg=#f6f8fa
+            hi! cursorlinenr guibg=#f6f8fa guifg=#000000
             hi! nontext guifg=#dbdbdb
             hi! normalfloat guibg=#e3e3e3
             hi! warningmsg guifg=orange guibg=none
             hi! errormsg guifg=red guibg=none
             hi! normal guibg=#f6f8fa
             hi! pmenu guibg=#e0e0e0
-            hi! cursorline guibg=#f0f0f0
             hi! startifyfile guifg=#000000
-            hi! cursorlinenr guifg=#222222 guibg=NONE
+            hi! statusline guibg=#e5e5e6
+            hi! statuslineNC guibg=#e5e5e6
+            hi! signcolumn guibg=NONE
+            hi! vertsplit guibg=none guifg=#e5e5e6
 		]],
                 ""
             )
@@ -630,6 +630,7 @@ function Setup_theme()
             hi! link repeat keyword
 		]], "")
         elseif vim.g.colors_name == "base16-one-light" then
+            vim.o["background"] = "light"
             api.nvim_exec(
                 [[
             hi! statusline guifg=#222222
@@ -681,6 +682,18 @@ function Setup_theme()
 		]],
                 ""
             )
+        elseif vim.g.colors_name == "flattened_light" then
+            vim.o["background"] = "light"
+            api.nvim_exec(
+                [[
+            hi! tabline gui=none
+            hi! tablinesel gui=none guibg=#fdf6e3 guifg=#000000
+            hi! tablinefill gui=none
+            hi! linenr guibg=#fdf6e3 guifg=#cccccc
+            hi! XXnontext guifg=#dbdbdb
+		]],
+                ""
+            )
         else
         end
     end
@@ -688,12 +701,13 @@ function Setup_theme()
     api.nvim_exec(
         [[
         command! -nargs=* SetTheme lua Mytheme(<f-args>)
-        command! -nargs=* Mytheme call fzf#run(fzf#wrap({'source': ['base16-tomorrow-night', 'base16-one-light', 'base16-gruvbox-dark-hard', 'base16-github', 'base16-material'], 'sink': 'SetTheme'}))
+        command! -nargs=* Mytheme call fzf#run(fzf#wrap({'source': ['flattened_light', 'base16-tomorrow-night', 'base16-one-light', 'base16-gruvbox-dark-hard', 'base16-github', 'base16-material'], 'sink': 'SetTheme'}))
         ]],
         ""
     )
 
-    Mytheme("base16-tomorrow-night", "dark")
+    -- Mytheme("base16-tomorrow-night", "dark")
+    Mytheme("base16-github", "light")
 end
 
 function Setup_redbush()

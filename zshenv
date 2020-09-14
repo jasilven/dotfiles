@@ -7,6 +7,6 @@ export LC_TIME=en_US.UTF-8
 export SKIM_DEFAULT_COMMAND="fd --type f || git ls-tree -r --name-only HEAD || rg --files || find ."
 export FZF_DEFAULT_COMMAND="fd --type f || git ls-tree -r --name-only HEAD || rg --files || find ."
 export FZF_DEFAULT_OPTS="--layout=reverse"
-export BAT_THEME="base16"
+export BAT_THEME="Nord"
 export TERM=xterm-256color
 export CARGO_TARGET_DIR=$HOME/.cargo/target_dir

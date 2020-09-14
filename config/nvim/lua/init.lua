@@ -358,7 +358,7 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
-    api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
+    api.nvim_set_keymap("n", "<C-s>", ":MyRg .<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
@@ -366,7 +366,7 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
     api.nvim_set_keymap("n", "<space><space>", ":Commands<cr>", keyopts)
-    api.nvim_set_keymap("n", "<C-f>", ":RgHome<cr>", {})
+    api.nvim_set_keymap("n", "<C-f>", ":MyRgHome<cr>", {})
     api.nvim_exec(
         [[ 
         au FileType fzf tnoremap <buffer> jk jk
@@ -379,10 +379,9 @@ function Setup_fzf()
         au FileType fzf set laststatus=0
         au BufEnter term://*fzf* startinsert
         au BufLeave term://*fzf*  set laststatus=2
-        command! -bang -nargs=* RgHome call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        let g:fzf_colors = { 'fg+':  ['fg', 'PmenuSel'], 'bg+':  ['bg', 'PmenuSel'], 'hl+':  ['fg', 'PmenuSel'], 'pointer': ['fg', 'PmenuSel'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'Keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'Ignore'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
-        let g:XXfzf_colors = { 'fg+':  ['fg', 'search'], 'bg+':  ['bg', 'search'], 'hl+':  ['fg', 'search'], 'pointer': ['fg', 'search'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'Keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'Ignore'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
+        command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never  --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        let g:fzf_colors = { 'fg+':  ['fg', 'warningmsg'], 'bg+':  ['bg', 'warningmsg'], 'hl+':  ['fg', 'warningmsg'], 'pointer': ['fg', 'warningmsg'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'Keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'Ignore'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
     ]],
         ""

@@ -34,6 +34,7 @@ function Setup_keymaps()
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
         {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:close<cr>"},
+        {mods = {"n", "i"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:e.<cr>"},
         {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
         {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
         {mods = {"v"}, lhs = "<C-S-up>", rhs = ":m '<-2<CR>gv=gv"},
@@ -76,7 +77,7 @@ function Setup_options()
     vim.o["expandtab"] = true
     vim.o["fileencoding"] = "utf-8"
     vim.o["fillchars"] = "eob: ,vert:│"
-    vim.o["guicursor"] = "n-v-c:block-Cursor/lCursor-blinkon0,i-ci-ve:ver40-Cursor/lCursor,r-cr:hor20-Cursor/lCursor"
+    -- vim.o["guicursor"] = "n-v-c:block-Cursor/lCursor-blinkon0,i-ci-ve:ver40-Cursor/lCursor,r-cr:hor20-Cursor/lCursor"
     vim.o["hidden"] = true
     vim.o["hlsearch"] = true
     vim.o["ignorecase"] = true
@@ -119,6 +120,9 @@ function Setup_options()
 end
 
 function Setup_general()
+    vim.g.netrw_liststyle = 3
+    vim.g.netrw_banner = 0
+    vim.g.netrw_hide = 1
     vim.o["statusline"] =
         " %*%F%{&modified?'*':''}  %{exists('g:loaded_fugitive')?''.fugitive#head():''} %= %l,%.4c  %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
@@ -151,7 +155,7 @@ function Setup_treesitter()
     require "nvim-treesitter.configs".setup {
         highlight = {
             enable = true,
-            disable = {"Xlua"},
+            disable = {"rust"},
             custom_captures = {}
         },
         incremental_selection = {
@@ -203,49 +207,84 @@ function Setup_treesitter()
 end
 
 function Setup_colorizer()
-    require "colorizer".setup(nil, {css = true})
+    -- require "colorizer".setup(nil, {css = true})
     require "colorizer".setup()
 end
 
-function Setup_nvimtree()
-    vim.g.lua_tree_bindings = {
-        edit = "<CR>",
-        edit_vsplit = "v",
-        edit_split = "s",
-        edit_tab = "!",
-        toggle_dotfiles = "I",
-        cd = "R"
-    }
-    vim.g.lua_tree_auto_close = 1
-    vim.g.lua_tree_git_hl = 0
-    vim.g.lua_tree_hide_dotfiles = 1
-    vim.g.lua_tree_icons = {default = ""}
-    vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target"}
-    vim.g.lua_tree_follow = 1
-    vim.g.lua_tree_width= 40
+-- function Setup_nvimtree()
+--     vim.g.lua_tree_bindings = {
+--         edit = "<CR>",
+--         edit_vsplit = "v",
+--         edit_split = "s",
+--         edit_tab = "!",
+--         toggle_dotfiles = "I",
+--         cd = "R"
+--     }
+--     vim.g.lua_tree_auto_close = 1
+--     vim.g.lua_tree_git_hl = 0
+--     vim.g.lua_tree_hide_dotfiles = 1
+--     vim.g.lua_tree_icons = {default = ""}
+--     vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target"}
+--     vim.g.lua_tree_follow = 1
+--     vim.g.lua_tree_width= 40
 
-    function Tree_toggle()
-        if require "lib.lib".win_open() then
-            vim.cmd("LuaTreeClose")
-        else
-            if (vim.bo["filetype"] == "" or vim.bo["filetype"] == "startify" or vim.bo["filetype"] == "neoterm") then
-                vim.cmd("LuaTreeOpen")
-            else
-                vim.cmd("LuaTreeFindFile")
-            end
-        end
-    end
+--     function Tree_toggle()
+--         if vim.bo["filetype"] == "LuaTree" then
+--             vim.cmd("close")
+--         else
+--             if (vim.bo["filetype"] == "" or vim.bo["filetype"] == "startify" or vim.bo["filetype"] == "neoterm") then
+--                 vim.cmd("LuaTreeOpen")
+--             else
+--                 vim.cmd("LuaTreeFindFile")
+--             end
+--         end
+--     end
 
+--     api.nvim_exec(
+--         [[
+--         au FileType LuaTree nnoremap <buffer> q :LuaTreeClose<cr>
+--         au FileType LuaTree nnoremap <buffer> <C-h> <Nop>
+--         au FileType LuaTree nnoremap <buffer> <C-l> <Nop>
+--         au FileType LuaTree nnoremap <buffer> <C-o> <Nop>
+--         au FileType LuaTree nnoremap <buffer> <C-i> <Nop>
+--         command! TreeToggle call v:lua.Tree_toggle()
+--         ]],
+--         ""
+--     )
+--     api.nvim_set_keymap("n", "<C-n>", ":TreeToggle<cr>", keyopts)
+--     api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:TreeToggle<cr>", keyopts)
+-- end
+
+function Setup_chadtree()
     api.nvim_exec(
         [[
-        au FileType LuaTree nnoremap <buffer> q :LuaTreeClose<cr>
-        command! TreeToggle call v:lua.Tree_toggle()
+        au FileType ChadTree nnoremap <buffer> <C-h> <Nop>
+        au FileType ChadTree nnoremap <buffer> <C-l> <Nop>
+        au FileType ChadTree nnoremap <buffer> <C-o> <Nop>
+        au FileType ChadTree nnoremap <buffer> <C-i> <Nop>
+        au FileType ChadTree nmap <buffer> U C
         ]],
         ""
     )
-    api.nvim_set_keymap("n", "<C-n>", ":TreeToggle<cr>", keyopts)
-    api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:TreeToggle<cr>", keyopts)
+    api.nvim_set_var("chadtree_ignores", { name = {".*", ".git"} })
+    api.nvim_set_var("chadtree_settings", { keymap = { change_focus_up = {"h"}, change_focus = {"l"} } })
+    api.nvim_set_keymap("n", "<C-n>", ":CHADopen<cr>", keyopts)
+    api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:CHADopen<cr>", keyopts)
 end
+
+function Setup_vimbuffet()
+    vim.g.buffet_tab_icon = ''
+    vim.g.buffet_separator = ''
+    api.nvim_exec([[
+        function! g:BuffetSetCustomColors()
+          hi! link BuffetCurrentBuffer tablinesel
+          hi! link BuffetBuffer tablinefill
+          hi! link BuffetTab tablinefill
+          hi! link BuffetActiveBuffer tablinefill
+        endfunction
+        ]], "")
+end
+
 
 function Setup_lsp()
     local function setup_diagnostics()
@@ -295,7 +334,6 @@ function Setup_lsp()
     require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
 
-    api.nvim_set_keymap("n", "<space>F", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
@@ -307,25 +345,22 @@ function Setup_lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
 
-    -- api.nvim_exec("autocmd BufWritePre <silent> *.rs  lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
+    api.nvim_exec("autocmd BufWritePre <silent> *.rs  lua vim.lsp.buf.formatting_sync()", "")
 end
 
 function Setup_fzf()
-    -- vim.g.fzf_layout = {down = "~18%"}
-    -- vim.g.fzf_layout = {window = "call v:lua.Float_fzf()"}
-    vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
-    -- vim.g.fzf_layout = {window = "13new"}
-
+    -- vim.g.fzf_layout = {window = {width = 1, height = 0.5, yoffset = 1}}
+    vim.g.fzf_layout = { window = '30new' }
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
     api.nvim_set_keymap("n", "<F12>", ":Colors<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>L", ":RgHome<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
@@ -334,14 +369,26 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<C-f>", ":RgHome<cr>", {})
     api.nvim_exec(
         [[ 
-        command! -bang -nargs=* RgHome call fzf#vim#grep('rg  --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        let g:fzf_colors = { 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'Keyword'], 'fg+':  ['fg', 'Keyword', 'CursorColumn', 'Normal'], 'bg+':  ['bg', 'Keyword', 'CursorColumn'], 'hl+':  ['fg', 'Keyword'], 'info': ['fg', 'PreProc'], 'border': ['fg', 'Ignore'], 'prompt': ['fg', 'Conditional'], 'pointer': ['fg', 'Exception'], 'marker': ['fg', 'Keyword'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
+        au FileType fzf tnoremap <buffer> jk jk
+        au FileType fzf tmap <buffer> <Esc> <c-g>
+        au FileType fzf imap <buffer> <Esc> <c-g>
+        au FileType fzf tmap <buffer> <C-l> <Down>
+        au FileType fzf tmap <buffer> <C-j> <Down>
+        au FileType fzf tmap <buffer> <C-h> <Up>
+        au FileType fzf set laststatus=0 noshowmode
+        au FileType fzf set laststatus=0
+        au BufEnter term://*fzf* startinsert
+        au BufLeave term://*fzf*  set laststatus=2
+        command! -bang -nargs=* RgHome call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        let g:fzf_colors = { 'fg+':  ['fg', 'PmenuSel'], 'bg+':  ['bg', 'PmenuSel'], 'hl+':  ['fg', 'PmenuSel'], 'pointer': ['fg', 'PmenuSel'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'Keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'Ignore'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
+        let g:XXfzf_colors = { 'fg+':  ['fg', 'search'], 'bg+':  ['bg', 'search'], 'hl+':  ['fg', 'search'], 'pointer': ['fg', 'search'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'Keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'Ignore'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
     ]],
         ""
     )
 
-    api.nvim_exec("au FileType fzf tnoremap <Esc> <c-g>", "")
+
 end
 
 function Setup_anyjump()
@@ -398,7 +445,7 @@ end
 
 function Setup_neoformat()
     vim.g.neoformat_only_msg_on_error = 1
-    -- api.nvim_exec([[ autocmd BufWritePre * undojoin | Neoformat ]], "")
+    api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
 end
 
 function Setup_vista()
@@ -553,164 +600,6 @@ function Setup_neoterm()
     )
 end
 
-function Setup_theme()
-    function Mytheme(theme, bg)
-        vim.o["background"] = bg or vim.o["background"]
-        vim.cmd("colorscheme " .. theme)
-        api.nvim_exec(
-            [[
-        hi! link TSError Normal
-        hi! errormsg guibg=none
-        hi! delimiter guifg=none
-        hi! identifier guifg=none
-        hi! operator guibg=none
-        hi! link macro function
-        hi! vertsplit guibg=none
-        hi! type guifg=none
-        hi! linenr guibg=none
-        hi! signcolumn guibg=none
-        hi! SignifySignAdd guibg=none
-        hi! SignifySignChange guibg=none
-        hi! SignifySignDelete guibg=none
-        hi! SignifySignDeleteFirstLine guibg=none
-        hi! gitgutteradd guibg=NONE 
-        hi! gitgutterchange guibg=NONE 
-        hi! gitgutterchangedelete guibg=NONE 
-        hi! gitgutterdelete guibg=NONE 
-        hi! link cocrustchaininghint nontext
-        hi! link cocerrorfloat errormsg 
-        hi! link cocerrorsign errormsg
-        hi! link cocerrorvirtualtext comment
-        hi! link lspdiagnosticserror errormsg
-        hi! link lspdiagnosticswarning warningmsg
-        hi! link lspdiagnosticsunderline underlined 
-        hi! link cocwarningfloat warningmsg
-        hi! link cocwarningsign comment 
-        hi! link cocwarningsign warningmsg 
-        hi! link cocwarningvirtualtext comment 
-        hi! link character constant
-        hi! rustenumvariant guifg=none
-        hi! ruststorage guifg=none
-        hi! rustsigil guifg=none
-        hi! link rustattributeXX comment
-        hi! link rustderive comment
-        hi! link rustassert macro 
-        hi! mkdlinebreak guibg=none
-        hi! link helpexample string
-        hi! link helpcommand string
-        hi! matchparen guifg=orange
-		]],
-            ""
-        )
-        if vim.g.colors_name == "base16-github" then
-            vim.o["background"] = "light"
-            api.nvim_exec(
-                [[
-            hi! link repeat keyword
-            hi! statusline guifg=#222222
-            hi! string guifg=green
-            hi! linenr guifg=#dcdcdc guibg=#f6f8fa
-            hi! cursorlinenr guibg=#f6f8fa guifg=#000000
-            hi! nontext guifg=#dbdbdb
-            hi! normalfloat guibg=#e3e3e3
-            hi! warningmsg guifg=orange guibg=none
-            hi! errormsg guifg=red guibg=none
-            hi! normal guibg=#f6f8fa
-            hi! pmenu guibg=#e0e0e0
-            hi! startifyfile guifg=#000000
-            hi! statusline guibg=#e5e5e6
-            hi! statuslineNC guibg=#e5e5e6
-            hi! signcolumn guibg=NONE
-            hi! vertsplit guibg=none guifg=#e5e5e6
-		]],
-                ""
-            )
-        elseif vim.g.colors_name == "base16-gruvbox-dark-hard" then
-            api.nvim_exec([[
-            hi! warningmsg guifg=#fadd2f
-            hi! link repeat keyword
-		]], "")
-        elseif vim.g.colors_name == "base16-one-light" then
-            vim.o["background"] = "light"
-            api.nvim_exec(
-                [[
-            hi! statusline guifg=#222222
-            hi! linenr guifg=#dcdcdc
-            hi! nontext guifg=#dbdbdb
-            hi! tabline guifg=#bbbbbb
-            hi! normalfloat guibg=#e3e3e3
-            hi! tablinesel guifg=#222222
-		]],
-                ""
-            )
-        elseif vim.g.colors_name == "base16-onedark" then
-            api.nvim_exec(
-                [[
-            hi! XXstatusline guifg=#222222
-            hi! XXlinenr guifg=#dcdcdc
-            hi! XXnontext guifg=#dbdbdb
-		]],
-                ""
-            )
-        elseif vim.g.colors_name == "base16-material" then
-            api.nvim_exec(
-                [[
-            hi! statusline guifg=#dddddd
-            hi! XXlinenr guifg=#dcdcdc
-            hi! XXnontext guifg=#dbdbdb
-		]],
-                ""
-            )
-        elseif vim.g.colors_name == "base16-tomorrow-night" then
-            api.nvim_exec(
-                [[
-            hi! warningmsg guifg=#f0c674 guibg=none
-            hi! normalfloat guibg=#373b41
-            hi! statusline guibg=#dcdcdc guifg=#000000
-            hi! statuslineNC guibg=#888888 guifg=#000000
-            hi! cursorline guibg=#282a2e
-            hi! cursorline guibg=none gui=underline
-            hi! link repeat keyword
-            hi! nontext guifg=#444444
-            hi! linenr guifg=#484b52
-            hi! comment guifg=#5f5f5f
-            hi! constant guifg=#c69f83
-            hi! link number constant
-            hi! link boolean constant
-            hi! cursorlinenr guifg=#dddddd guibg=none
-            hi pmenu guifg=#eeeeee guibg=#404040
-            hi! pmenusel guibg=#c0c0c0
-		]],
-                ""
-            )
-        elseif vim.g.colors_name == "flattened_light" then
-            vim.o["background"] = "light"
-            api.nvim_exec(
-                [[
-            hi! tabline gui=none
-            hi! tablinesel gui=none guibg=#fdf6e3 guifg=#000000
-            hi! tablinefill gui=none
-            hi! linenr guibg=#fdf6e3 guifg=#cccccc
-            hi! XXnontext guifg=#dbdbdb
-		]],
-                ""
-            )
-        else
-        end
-    end
-
-    api.nvim_exec(
-        [[
-        command! -nargs=* SetTheme lua Mytheme(<f-args>)
-        command! -nargs=* Mytheme call fzf#run(fzf#wrap({'source': ['flattened_light', 'base16-tomorrow-night', 'base16-one-light', 'base16-gruvbox-dark-hard', 'base16-github', 'base16-material'], 'sink': 'SetTheme'}))
-        ]],
-        ""
-    )
-
-    -- Mytheme("base16-tomorrow-night", "dark")
-    Mytheme("base16-github", "light")
-end
-
 function Setup_redbush()
     vim.g.redbush_bin = "redbush" -- '~/dev/rust/redbush/target/debug/redbush'
     vim.g.redbush_filepath = "/tmp/redbush-eval.clj"
@@ -787,7 +676,7 @@ function Setup_fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-function Setup_fern() 
+function Setup_fern()
     api.nvim_exec(
         [[
         au FileType fern nmap <silent><buffer> I <Plug>(fern-action-hidden-toggle)
@@ -819,7 +708,6 @@ end
 
 function Setup_plugins()
     Setup_fugitive()
-    Setup_nvimtree()
     Setup_ultisnips()
     Setup_vimrooter()
     Setup_easymotion()
@@ -833,60 +721,20 @@ function Setup_plugins()
     Setup_tagbar()
     Setup_anyjump()
     Setup_anyfold()
-    -- Setup_bufferline()
-    -- Setup_fern()
-    -- Setup_neoformat()
-    -- Setup_lightline()
+    Setup_neoformat()
     Setup_startify()
     Setup_signify()
     Setup_treesitter()
+    Setup_chadtree()
+    Setup_vimbuffet()
+    Setup_colorizer()
+    -- Setup_nvimtree()
+    -- Setup_bufferline()
+    -- Setup_fern()
+    -- Setup_lightline()
     -- Setup_coc()
     Setup_lsp()
 
-    --     vim.cmd [[packadd packer.nvim]]
-    --     vim._update_package_paths()
-    --     return require("packer").startup(
-    --         function(use)
-    --             use {"wbthomason/packer.nvim", opt = true}
-    --             use {"cespare/vim-toml"}
-    --             use {"farmergreg/vim-lastplace"}
-    --             use {"honza/vim-snippets"}
-    --             use {"sheerun/vim-polyglot"}
-    --             use {"tpope/vim-commentary"}
-    --             use {"tpope/vim-surround"}
-    --             use {"wincent/ferret"}
-    --             use {"diepm/vim-rest-console"}
-    --             use {"chriskempson/base16-vim"}
-    --             use {"kyazdani42/nvim-web-devicons"}
-    --             use {"ryanoasis/vim-devicons"}
-    --             use {"mbbill/undotree"}
-    --             use {"tpope/vim-fugitive", config = Setup_fugitive()}
-    --             use {"kyazdani42/nvim-tree.lua", config = Setup_nvimtree()}
-    --             use {"SirVer/ultisnips", config = Setup_ultisnips()}
-    --             use {"airblade/vim-rooter", config = Setup_vimrooter()}
-    --             use {"easymotion/vim-easymotion", config = Setup_easymotion()}
-    --             use {"guns/vim-sexp", ft = "clojure", config = Setup_sexp()}
-    --             use {"jasilven/redbush", run = "cargo install --path .", ft = "clojure", config = Setup_redbush()}
-    --             use {"jiangmiao/auto-pairs", config = Setup_autopairs()}
-    --             use {"junegunn/fzf", run = "./install --all"}
-    --             use {"junegunn/fzf.vim", config = Setup_fzf()}
-    --             use {"kassio/neoterm", config = Setup_neoterm()}
-    --             use {"liuchengxu/vista.vim", config = Setup_vista()}
-    --             use {"ludovicchabant/vim-gutentags", config = Setup_gutentags()}
-    --             use {"majutsushi/tagbar", config = Setup_tagbar()}
-    --             use {"pechorin/any-jump.vim", config = Setup_anyjump()}
-    --             use {"pseewald/vim-anyfold", config = Setup_anyfold()}
-    --             use {"sbdchd/neoformat", config = Setup_neoformat()}
-    --             use {"mhinz/vim-startify", config = Setup_startify()}
-    --             use {"pacha/vem-tabline", config = Setup_vemtabline()}
-    --             use {"mhinz/vim-signify", config = Setup_signify()}
-    --             -- use {"neoclide/coc.nvim", branch = "release", config = Setup_coc()}
-    --             -- use {"norcalli/nvim-colorizer.lua"}
-    --             -- use {'nvim-treesitter/nvim-treesitter', config = Setup_treesitter() }
-    --             -- use {'neovim/nvim-lsp', requires = {{'nvim-lua/completion-nvim'}, {'nvim-lua/diagnostic-nvim'}}, config = Setup_lsp()}
-    --             use {'neovim/nvim-lsp', requires = {{'nvim-lua/completion-nvim'}, {'nvim-lua/diagnostic-nvim'}}}
-    --         end
-    --     )
 end
 
 function Setup()
@@ -899,9 +747,8 @@ function Setup()
     Setup_cargo()
     Setup_go()
 
-    Setup_theme()
+    vim.cmd("colorscheme myocean")
 
-    print("Setup done!")
 end
 
 Setup()

@@ -29,6 +29,7 @@ font:
   normal:
     # family: FuraCode Nerd Font
     family: FiraCode Nerd Font
+    # family: MesloLGM Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: DejaVuSansMono Nerd Font Mono
     # family: DejaVuSansMono Nerd Font
@@ -434,7 +435,6 @@ schemes:
       white:   '#c5c8c6'
     bright:
       black:   '#1d1f21'
-      # black:   '#303030'
       red:     '#cc6666'
       green:   '#b5bd68'
       yellow:  '#e6c547'
@@ -442,6 +442,32 @@ schemes:
       magenta: '#b294bb'
       cyan:    '#70c0ba'
       white:   '#ffffff'
+
+  myocean: &myocean
+    primary:
+      background: '#1b2b34' 
+      foreground: '#c0c5ce' 
+    cursor:
+      text:       '#000000' 
+      cursor:     '#dddddd' 
+    normal:
+      black:      '#1d1f21' 
+      red:        '#d67162' 
+      green:      '#99c794' 
+      yellow:     '#fac863' 
+      blue:       '#6699cc' 
+      magenta:    '#c594c5' 
+      cyan:       '#62b3b2' 
+      white:      '#c0c5ce' 
+    bright:
+      black:      '#1d1f21' 
+      red:        '#d67162' 
+      green:      '#99c794' 
+      yellow:     '#fac863' 
+      blue:       '#6699cc' 
+      magenta:    '#c594c5' 
+      cyan:       '#62b3b2' 
+      white:      '#c0c5ce' 
 
 # colors: *doom_one
 # colors: *solarized_light
@@ -451,7 +477,8 @@ schemes:
 # colors: *gruvbox_dark
 # colors: *vim_code_dark
 # colors: *pencil_light
-colors: *tomorrow_night
+# colors: *tomorrow_night
+colors: *myocean
 
 bell:
   animation: EaseOutExpo

@@ -12,34 +12,34 @@ endif
 
 let g:colors_name = "myocean"
 
-
 " Colors
 "
 let s:fg            = "#c0c5ce"
 let s:bg            = "#1b2b34"
 let s:cursor_fg     = "#ffffff"
 let s:cursor_bg     = "#000000"
-let s:float         = "#374954"
+let s:float         = "#27363f"
 let s:bg_dimmer     = "#334854"
 let s:tabline       = "#334854"
 let s:constant      = "#62b3b2"
 let s:function      = "#6699cc"
-let s:menu          = "#0099cc"
+let s:menu          = "#6699cc"
 let s:errormsg      = "#d67162"
 let s:warningmsg    = "#d6ab62"
 let s:keyword       = "#c594c5"
 let s:string        = "#99c794"
 let s:comment       = "#65737e"
-let s:linenr        = "#65737e"
+let s:linenr        = "#2b4554"
 let s:incsearch     = "#ef7e04"
 let s:search        = "#fac863"
-let s:cursorline    = "#343d46"
-let s:diff_delete   = "#ff9999"
-let s:diff_add      = "#398c6f"
-let s:diff_change   = "#ffff1a"
-let s:diff_text     = "#F4AF5F"
-let s:statusline_bg = "#cccccc"
-let s:statusline_fg = "#000000"
+let s:cursorline    = "#233743"
+let s:diff_delete   = "#d67162"
+let s:diff_add      = "#99c794"
+let s:diff_change   = "#d6ab62"
+let s:diff_text     = "#90b0f4"
+let s:statusline_bg = "#334854"
+let s:statusline_fg = "#c5cad3"
+let s:statusline_nc = "#27363f"
 let s:visual        = "#90b0f4"
 
 function! s:HL(group, fg, bg, gui) 
@@ -55,6 +55,8 @@ function! s:HL(group, fg, bg, gui)
 
     if strlen(a:gui)
         let histring .= ' gui=' . a:gui
+    else
+        let histring .= ' gui=none'
     endif
 
     execute histring
@@ -65,14 +67,14 @@ call s:HL('NormalFloat' , s:fg      , s:float  , '')
 call s:HL('Folded'      , s:comment , s:float, 'none')
 call s:HL('VertSplit'   , s:linenr  , s:bg     , 'none')
 
-call s:HL('CursorLine'   , ''   , s:cursorline , 'none')
+call s:HL('CursorLine'   , ''   , s:cursorline, 'none')
 call s:HL('CursorLineNr' , s:fg , s:cursorline , 'none')
 call s:HL('CursorColumn' , ''   , s:linenr     , '')
 call s:HL('ColorColumn'  , ''   , s:linenr     , '')
 
 " Tabline
-call s:HL('TabLine'      , s:linenr        , s:tabline       , 'none')
-call s:HL('TabLineFill'  , s:linenr        , s:tabline       , 'none')
+call s:HL('TabLine'      , s:comment, s:tabline       , 'none')
+call s:HL('TabLineFill'  , s:comment, s:tabline       , 'none')
 call s:HL('TabLineSel'   , s:fg            , s:bg            , 'none')
 
 call s:HL('MatchParen'   , s:bg            , s:visual        , '')
@@ -81,15 +83,15 @@ call s:HL('NonText'      , s:linenr        , s:bg            , '')
 call s:HL('SpecialKey'   , s:linenr        , s:bg            , '')
 
 call s:HL('Visual'       , s:bg            , s:visual        , '')
-call s:HL('VisualNOS'    , ''              , s:visual        , '')
+call s:HL('VisualNOS'    , s:bg            , s:visual        , '')
 
-call s:HL('Search'       , s:bg            , s:search        , 'bold')
-call s:HL('IncSearch'    , s:bg            , s:incsearch     , 'bold')
+call s:HL('Search'       , s:bg            , s:search        , 'none')
+call s:HL('IncSearch'    , s:bg            , s:incsearch     , 'none')
 
 call s:HL('Underlined'   , s:fg            , ''              , 'underline')
 
 call s:HL('StatusLine'   , s:statusline_fg , s:statusline_bg , 'none')
-call s:HL('StatusLineNC' , s:comment       , s:bg_dimmer     , 'none')
+call s:HL('StatusLineNC' , s:comment       , s:statusline_nc , 'none')
 
 call s:HL('Directory'    , s:function      , ''              , '')
 call s:HL('Title'        , s:constant      , ''              , '')
@@ -158,10 +160,10 @@ call s:HL('PmenuSbar'  , ''   , s:bg_dimmer , '')
 call s:HL('PmenuThumb' , ''   , s:constant  , '')
 
 " Diffs
-call s:HL('DiffDelete' , '' , s:diff_delete , '')
-call s:HL('DiffAdd'    , '' , s:diff_add    , '')
-call s:HL('DiffChange' , '' , s:diff_change , '')
-call s:HL('DiffText'   , '' , s:diff_text   , '')
+call s:HL('DiffDelete' , s:bg , s:diff_delete , '')
+call s:HL('DiffAdd'    , s:bg , s:diff_add    , '')
+call s:HL('DiffChange' , s:bg , s:diff_change , '')
+call s:HL('DiffText'   , s:bg , s:diff_text   , '')
 
 " Spelling
  if has("spell")
@@ -230,11 +232,31 @@ call s:HL('cssUnitDecorators' , s:errormsg    , '' , '')
 " YAML
 call s:HL('yamlKey', s:keyword,'','')
 
-" LSP
-call s:HL('LspDiagnosticsError '      , s:errormsg   , '' , '')
+" LSP/COC
+call s:HL('LspDiagnosticsError'       , s:errormsg   , '' , '')
 call s:HL('LspDiagnosticsWarning'     , s:warningmsg , '' , '')
 call s:HL('LspDiagnosticsHint'        , s:linenr  , '' , '')
 call s:HL('LspDiagnosticsInformation' , s:linenr  , '' , '')
+call s:HL('CocErrorSign'              , s:errormsg   , '' , '')
+call s:HL('CocWarningSign'            , s:warningmsg   , '' , '')
+call s:HL('CocHintSign'               , s:comment, '' , '')
+call s:HL('CocInfoSign'               , s:comment, '' , '')
+call s:HL('CocUnderline'              , '', '' , 'underline')
+call s:HL('CocCursorTransparent'      , s:linenr, '' , '')
+call s:HL('CocCodeLens'               , s:linenr, '' , '')
+
+" treesitter
+call s:HL('TSVariable' , s:fg, '' , '')
+
+" easymotion
+call s:HL('easymotiontargetdefault' , s:errormsg, '' , '')
+
+" typescript
+call s:HL('typescriptparens' , s:fg, '' , '')
+
+" scala
+call s:HL('scalatypeannotation' , s:fg, '' , '')
+call s:HL('scalaExternal'       , s:keyword, '' , '')
 
 " RUST
 call s:HL('rustquestionmark' , s:keyword, '' , '')

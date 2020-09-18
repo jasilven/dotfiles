@@ -39,6 +39,7 @@ let s:diff_change   = "#ffff1a"
 let s:diff_text     = "#F4AF5F"
 let s:statusline_bg = "#bbbbbb"
 let s:statusline_fg = "#000000"
+let s:statusline_nc = "#27363f"
 let s:visual        = "#90b0f4"
 
 function! s:HL(group, fg, bg,gui) 
@@ -88,7 +89,7 @@ call s:HL('IncSearch'    , s:bg            , s:incsearch     , 'bold')
 call s:HL('Underlined'   , s:fg            , ''              , 'underline')
 
 call s:HL('StatusLine'   , s:statusline_fg , s:statusline_bg , 'none')
-call s:HL('StatusLineNC' , s:comment       , s:bg_dimmer     , 'none')
+call s:HL('StatusLineNC' , s:comment       , s:statusline_nc, 'none')
 
 call s:HL('Directory'    , s:function      , ''              , '')
 call s:HL('Title'        , s:constant      , ''              , '')

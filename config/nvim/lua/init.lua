@@ -46,14 +46,18 @@ function Setup_keymaps()
         {mods = {"n"}, lhs = "<space>w", rhs = ":w<cr>"},
         {mods = {"n"}, lhs = "<space>Q", rhs = ":wqa<cr>"},
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
+        {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
         {mods = {"n"}, lhs = "Q", rhs = ":wqa<cr>"},
         {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
         {mods = {"n"}, lhs = "dh", rhs = "d0"},
         {mods = {"n"}, lhs = "dl", rhs = "d$"},
-        {mods = {"n"}, lhs = "go", rhs = "<C-w>w"},
+        {mods = {"n"}, lhs = "gw", rhs = "<C-w>w"},
+        {mods = {"n"}, lhs = "go", rhs = "<C-o>"},
         {mods = {"n"}, lhs = "yh", rhs = "y0"},
         {mods = {"n"}, lhs = "yl", rhs = "y$"},
+        {mods = {"n"}, lhs = "<Tab>", rhs = ":bnext<cr>"},
+        {mods = {"n"}, lhs = "<S-Tab>", rhs = ":bprev<cr>"},
         {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
         {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
         {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
@@ -132,8 +136,11 @@ function Setup_general()
     au TextYankPost * silent! lua vim.highlight.on_yank()
     vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
     nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
+    nnoremap <F5> "=strftime("%a %d %b %Y")<CR>P
+    inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
     command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z
     command! -nargs=+ Grep execute 'silent grep! <args>' | copen 15
+    command! Bd bp | sp | bn | bd
   ]],
         ""
     )
@@ -155,7 +162,7 @@ function Setup_treesitter()
     require "nvim-treesitter.configs".setup {
         highlight = {
             enable = true,
-            disable = {"rust"},
+            disable = {},
             custom_captures = {}
         },
         incremental_selection = {
@@ -183,7 +190,6 @@ function Setup_treesitter()
         },
         textobjects = {
             enable = true,
-            disable = {},
             keymaps = {
                 ["af"] = "@function.outer",
                 ["if"] = "@function.inner",
@@ -207,53 +213,41 @@ function Setup_treesitter()
 end
 
 function Setup_colorizer()
-    -- require "colorizer".setup(nil, {css = true})
     require "colorizer".setup()
 end
 
--- function Setup_nvimtree()
---     vim.g.lua_tree_bindings = {
---         edit = "<CR>",
---         edit_vsplit = "v",
---         edit_split = "s",
---         edit_tab = "!",
---         toggle_dotfiles = "I",
---         cd = "R"
---     }
---     vim.g.lua_tree_auto_close = 1
---     vim.g.lua_tree_git_hl = 0
---     vim.g.lua_tree_hide_dotfiles = 1
---     vim.g.lua_tree_icons = {default = ""}
---     vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target"}
---     vim.g.lua_tree_follow = 1
---     vim.g.lua_tree_width= 40
+function Setup_nvimtree()
+    vim.g.lua_tree_bindings = {
+        edit = "<CR>",
+        edit_vsplit = "v",
+        edit_split = "s",
+        edit_tab = "!",
+        toggle_dotfiles = "I",
+        refresh = "gr",
+        cd = "R"
+    }
+    vim.g.lua_tree_auto_close = 0
+    vim.g.lua_tree_git_hl = 0
+    vim.g.lua_tree_hide_dotfiles = 1
+    vim.g.lua_tree_icons = {default = ""}
+    vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target", "classes", "tags"}
+    vim.g.lua_tree_follow = 1
+    vim.g.lua_tree_width= 40
 
---     function Tree_toggle()
---         if vim.bo["filetype"] == "LuaTree" then
---             vim.cmd("close")
---         else
---             if (vim.bo["filetype"] == "" or vim.bo["filetype"] == "startify" or vim.bo["filetype"] == "neoterm") then
---                 vim.cmd("LuaTreeOpen")
---             else
---                 vim.cmd("LuaTreeFindFile")
---             end
---         end
---     end
-
---     api.nvim_exec(
---         [[
---         au FileType LuaTree nnoremap <buffer> q :LuaTreeClose<cr>
---         au FileType LuaTree nnoremap <buffer> <C-h> <Nop>
---         au FileType LuaTree nnoremap <buffer> <C-l> <Nop>
---         au FileType LuaTree nnoremap <buffer> <C-o> <Nop>
---         au FileType LuaTree nnoremap <buffer> <C-i> <Nop>
---         command! TreeToggle call v:lua.Tree_toggle()
---         ]],
---         ""
---     )
---     api.nvim_set_keymap("n", "<C-n>", ":TreeToggle<cr>", keyopts)
---     api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:TreeToggle<cr>", keyopts)
--- end
+    api.nvim_exec(
+        [[
+        au FileType LuaTree nnoremap <buffer> q :LuaTreeClose<cr>
+        au FileType LuaTree nnoremap <buffer> <C-h> <Nop>
+        au FileType LuaTree nnoremap <buffer> <C-l> <Nop>
+        au FileType LuaTree nnoremap <buffer> <C-o> <Nop>
+        au FileType LuaTree nnoremap <buffer> <C-i> <Nop>
+        ]],
+        ""
+    )
+    api.nvim_set_keymap("n", "<C-n>", ":LuaTreeToggle<cr>", keyopts)
+    api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
+    api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
+end
 
 function Setup_chadtree()
     api.nvim_exec(
@@ -268,8 +262,8 @@ function Setup_chadtree()
     )
     api.nvim_set_var("chadtree_ignores", { name = {".*", ".git"} })
     api.nvim_set_var("chadtree_settings", { keymap = { change_focus_up = {"h"}, change_focus = {"l"} } })
-    api.nvim_set_keymap("n", "<C-n>", ":CHADopen<cr>", keyopts)
-    api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:CHADopen<cr>", keyopts)
+    -- api.nvim_set_keymap("n", "<C-n>", ":CHADopen<cr>", keyopts)
+    -- api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:CHADopen<cr>", keyopts)
 end
 
 function Setup_vimbuffet()
@@ -331,10 +325,13 @@ function Setup_lsp()
     require "nvim_lsp".sumneko_lua.setup {on_attach = lsp_attach}
     require "nvim_lsp".rust_analyzer.setup {cmd = {"rust-analyzer"}, filetypes = {"rust"}, on_attach = lsp_attach}
     require "nvim_lsp".jsonls.setup {on_attach = lsp_attach}
+    require "nvim_lsp".tsserver.setup {cmd = { "typescript-language-server", "--stdio" }, on_attach = lsp_attach}
     require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
+    require "nvim_lsp".metals.setup {root_dir = require'nvim_lsp'.util.root_pattern("build.sbt"), on_attach = lsp_attach}
 
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
+    api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
     api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
@@ -358,7 +355,8 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
-    api.nvim_set_keymap("n", "<C-s>", ":MyRg .<CR>", keyopts)
+    api.nvim_set_keymap("n", "<C-s>", ":MyRg<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
@@ -368,28 +366,29 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<space><space>", ":Commands<cr>", keyopts)
     api.nvim_set_keymap("n", "<C-f>", ":MyRgHome<cr>", {})
     api.nvim_exec(
-        [[ 
+        [[
         au FileType fzf tnoremap <buffer> jk jk
         au FileType fzf tmap <buffer> <Esc> <c-g>
         au FileType fzf imap <buffer> <Esc> <c-g>
         au FileType fzf tmap <buffer> <C-l> <Down>
         au FileType fzf tmap <buffer> <C-j> <Down>
+        au FileType fzf tmap <buffer> <Tab> <Down>
         au FileType fzf tmap <buffer> <C-h> <Up>
+        au FileType fzf tmap <buffer> <S-Tab> <Up>
         au FileType fzf set laststatus=0 noshowmode
         au FileType fzf set laststatus=0
         au BufEnter term://*fzf* startinsert
         au BufLeave term://*fzf*  set laststatus=2
-        command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never  --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        let g:fzf_colors = { 'fg+':  ['fg', 'warningmsg'], 'bg+':  ['bg', 'warningmsg'], 'hl+':  ['fg', 'warningmsg'], 'pointer': ['fg', 'warningmsg'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'Keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'Ignore'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
+        command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=always --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        let g:fzf_colors = { 'fg+':  ['fg', 'TSStrong'], 'bg+':  ['bg', 'statusline'], 'hl+':  ['fg', 'Keyword'], 'pointer': ['bg', 'warningmsg'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
     ]],
         ""
     )
-
-
 end
-
+-- rg --no-heading -e '^# '|sort -k5 -k4M -k3 -n --reverse
 function Setup_anyjump()
     vim.g.any_jump_window_width_ratio = 0.8
     vim.g.any_jump_window_height_ratio = 0.3
@@ -424,7 +423,7 @@ end
 
 function Setup_vimrooter()
     vim.g.rooter_silent_chdir = 1
-    vim.g.rooter_patterns = {"project.clj", "deps.edn", ".git/", "Cargo.toml", "go.mod"}
+    vim.g.rooter_patterns = {"project.clj", "deps.edn",  "Cargo.toml", "go.mod", "package.json", "src" ,".git",}
 end
 
 function Setup_gutentags()
@@ -452,6 +451,7 @@ function Setup_vista()
     vim.g.vista_executive_for = {rust = "nvim_lsp"}
     vim.g.vista_executive_for = {json = "nvim_lsp"}
     vim.g.vista_executive_for = {lua = "nvim_lsp"}
+    vim.g.vista_executive_for = {scala = "coc"}
     vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
 end
 
@@ -608,13 +608,13 @@ function Setup_redbush()
 end
 
 function Setup_startify()
-    vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
+    vim.g.startify_lists = {{type = "files", header = {"    MRU"}} }
     vim.g.startify_fortune_use_unicode = 1
     vim.g.startify_files_number = 15
 end
 
 function Setup_coc()
-    vim.g.coc_global_extensions = {"coc-rust-analyzer", "coc-json", "coc-lua", "coc-ultisnips", "coc-go", "coc-metals"}
+    vim.g.coc_global_extensions = {"coc-rust-analyzer", "coc-json", "coc-lua", "coc-ultisnips", "coc-go", "coc-metals", "coc-tsserver"}
     api.nvim_set_keymap("n", "gi", "<Plug>(coc-implementation)", keyopts)
     api.nvim_set_keymap("n", "K", ":call CocAction('doHover')<cr>", keyopts)
     api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], keyopts)
@@ -624,6 +624,7 @@ function Setup_coc()
     api.nvim_set_keymap("n", "<space>al", [[<Plug>(coc-codelens-action)]], opts_noremap)
     api.nvim_set_keymap("n", "<space>af", [[<Plug>(coc-fix-current)]], opts_noremap)
     api.nvim_set_keymap("n", "gd", [[<Plug>(coc-definition)]], opts_noremap)
+    api.nvim_set_keymap("n", "gi", [[<Plug>(coc-definition)]], opts_noremap)
     api.nvim_set_keymap("n", "gr", "<Plug>(coc-references)", opts_noremap)
     api.nvim_set_keymap("n", "<f2>", "<Plug>(coc-rename)", opts_noremap)
     api.nvim_set_keymap("n", "<M-n>", "<Plug>(coc-diagnostic-next)", opts_noremap)
@@ -724,15 +725,14 @@ function Setup_plugins()
     Setup_startify()
     Setup_signify()
     Setup_treesitter()
-    Setup_chadtree()
     Setup_vimbuffet()
     Setup_colorizer()
-    -- Setup_nvimtree()
+    Setup_nvimtree()
     -- Setup_bufferline()
     -- Setup_fern()
     -- Setup_lightline()
-    -- Setup_coc()
-    Setup_lsp()
+    Setup_coc()
+    -- Setup_lsp()
 
 end
 

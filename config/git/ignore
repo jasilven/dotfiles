@@ -21,3 +21,5 @@ Cargo.lock
 **/.#*
 .gitignore
 *apikey.txt
+.bloop
+.metals

@@ -32,7 +32,8 @@ alias ll="exa -l"
 # alias clj="clj -J-Dclojure.server.jvm=\"{:port 5555 :accept clojure.core.server/io-prepl}\""
 alias find="fd"
 alias tm="tmux attach || tmux new"
-alias ps="procs --sortd cpu --watch-interval 3"
+alias ps="procs --sortd cpu"
 alias open=xdg-open
+alias node12='export PATH="/usr/local/opt/node@12/bin:$PATH"'
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

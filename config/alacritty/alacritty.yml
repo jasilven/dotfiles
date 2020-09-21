@@ -37,8 +37,8 @@ font:
     # family: Hack Nerd Font
     
     # style: Medium 
-    # style: Retina
-    style: Regular
+    style: Retina
+    # style: Regular
   bold:
     style: Bold
   italic:
@@ -60,7 +60,7 @@ schemes:
       foreground: '#bbc2cf'
     normal:
       black:   '#282c34'
-      red:     '#ff6c6b'
+      red:     '#da7f71'
       green:   '#98be65'
       yellow:  '#ecbe7b'
       blue:    '#51afef'
@@ -69,7 +69,7 @@ schemes:
       white:   '#bbc2cf'
     bright:
       black:   '#282c34'
-      red:     '#ff6c6b'
+      red:     '#da7f71'
       green:   '#98be65'
       yellow:  '#ecbe7b'
       blue:    '#51afef'
@@ -392,11 +392,11 @@ schemes:
 
   paper_light: &paper_light
     primary:
-      background: '#eeeeee'
+      background: '#f6f8fa'
       foreground: '#000000'
     cursor:
-      text: '#eeeeee'
-      cursor: '#878787'
+      text:       '#eeeeee'
+      cursor:     '#878787'
     normal:
       black:   '#eeeeee'
       red:     '#af0000'
@@ -447,9 +447,9 @@ schemes:
     primary:
       background: '#1b2b34' 
       foreground: '#c0c5ce' 
-    cursor:
-      text:       '#000000' 
-      cursor:     '#dddddd' 
+    # cursor:
+    #   text:       '#ffffff' 
+    #   cursor:     '#cc6666' 
     normal:
       black:      '#1d1f21' 
       red:        '#d67162' 
@@ -469,16 +469,16 @@ schemes:
       cyan:       '#70c0ba'
       white:      '#ffffff'
 
-# colors: *doom_one
+colors: *doom_one
 # colors: *solarized_light
 # colors: *pencil_light
 # colors: *one_base16_light
 # colors: *solarized_dark
 # colors: *gruvbox_dark
 # colors: *vim_code_dark
-# colors: *pencil_light
 # colors: *tomorrow_night
-colors: *myocean
+# colors: *paper_light
+# colors: *myocean
 
 bell:
   animation: EaseOutExpo

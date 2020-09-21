@@ -33,7 +33,7 @@ mycolors = {
         statusline_nc = "#606060",
         visual        = "#90b0f4",
         fzf_bg        = "#f2ba40",
-        fzf_fg        = "#000000"
+        fzf_fg        = "#2a2a2a"
     },
     myrust2 = {
         fg            = "#c5c8c6",
@@ -96,8 +96,8 @@ mycolors = {
         statusline_fg = "#000000",
         statusline_nc = "#707070",
         visual        = "#90b0f4",
-        fzf_bg        = "#f2ba40",
-        fzf_fg        = "#000000"
+        fzf_bg        = "#4d4d4d",
+        fzf_fg        = "#ffffff"
     },
     mysolarized = {
         fg            = "#93a1a1",
@@ -299,7 +299,7 @@ groups = {
     {name = "CursorLine", fg = "", bg = "cursorline", gui = "none"},
     {name = "CursorLineNr", fg = "fg", bg = "cursorline", gui = "none"},
     {name = "CursorColumn", fg = "", bg = "linenr", gui = ""},
-    {name = "FZF", fg = "fzf_fg", bg = "fzf_bg", gui = "bold"},
+    {name = "FZF", fg = "fzf_fg", bg = "fzf_bg", gui = "none"},
     {name = "TabLine", fg = "comment", bg = "tabline", gui = "none"},
     {name = "TabLineFill", fg = "comment", bg = "tabline", gui = "none"},
     {name = "TabLineSel", fg = "fg", bg = "bg", gui = "none"},

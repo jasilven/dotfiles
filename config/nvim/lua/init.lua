@@ -136,6 +136,7 @@ function settings.Setup_general()
         " %*%F%{&modified?'*':''}  %{exists('g:loaded_fugitive')?''.fugitive#head():''} %= %l,%.4c  %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
+    let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
     au TermOpen * startinsert
     au Bufenter term://*zsh* startinsert
     au TextYankPost * silent! lua vim.highlight.on_yank()
@@ -253,39 +254,8 @@ function plugins.Setup_nvimtree()
     api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
 end
 
--- function Setup_chadtree()
---     api.nvim_exec(
---         [[
---         au FileType ChadTree nnoremap <buffer> <C-h> <Nop>
---         au FileType ChadTree nnoremap <buffer> <C-l> <Nop>
---         au FileType ChadTree nnoremap <buffer> <C-o> <Nop>
---         au FileType ChadTree nnoremap <buffer> <C-i> <Nop>
---         au FileType ChadTree nmap <buffer> U C
---         ]],
---         ""
---     )
---     api.nvim_set_var("chadtree_ignores", { name = {".*", ".git"} })
---     api.nvim_set_var("chadtree_settings", { keymap = { change_focus_up = {"h"}, change_focus = {"l"} } })
---     -- api.nvim_set_keymap("n", "<C-n>", ":CHADopen<cr>", keyopts)
---     -- api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:CHADopen<cr>", keyopts)
--- end
-
--- function Setup_vimbuffet()
---     vim.g.buffet_tab_icon = ''
---     vim.g.buffet_separator = ''
---     -- api.nvim_exec([[
---     --     function! g:BuffetSetCustomColors()
---     --       hi! link BuffetCurrentBuffer tablinesel
---     --       hi! link BuffetBuffer tablinefill
---     --       hi! link BuffetTab tablinefill
---     --       hi! link BuffetActiveBuffer tablinefill
---     --     endfunction
---     --     ]], "")
--- end
-
-
 function plugins.Setup_lsp()
-    local function setup_diagnostics()
+    local function setup_diagnostics(client, bufnr)
         vim.g.diagnostic_enable_virtual_text = 1
         -- vim.g.diagnostic_virtual_text_prefix = ""
         vim.g.diagnostic_trimmed_virtual_text = "200"
@@ -298,7 +268,7 @@ function plugins.Setup_lsp()
         require "diagnostic".on_attach(client, bufnr)
     end
 
-    local function setup_completion()
+    local function setup_completion(client, bufnr)
         vim.g.completion_enable_auto_paren = 0
         vim.g.completion_confirm_key = "<cr>"
         vim.g.completion_enable_auto_hover = 1
@@ -351,6 +321,7 @@ function plugins.Setup_lsp()
     api.nvim_set_keymap("n", "<space>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f3>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
 
     fn.sign_define("LspDiagnosticsErrorSign", {text = "⛔", texthl = "LspDiagnosticsErrorSign"})
     fn.sign_define("LspDiagnosticsWarningSign", {text = "⚑", texthl = "LspDiagnosticsWarningSign"})
@@ -375,7 +346,6 @@ function plugins.Setup_fzf()
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
     api.nvim_set_keymap("n", "<space><space>", ":Commands<cr>", keyopts)
@@ -397,7 +367,8 @@ function plugins.Setup_fzf()
         command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=never --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        let g:fzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
+        let g:XXfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
+        let g:fzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal']} 
         
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
     ]],
@@ -415,13 +386,6 @@ function plugins.Setup_easymotion()
     vim.g.EasyMotion_keys = "abcdefghijklmnopqrstuvwxy"
     api.nvim_set_keymap("n", "f", "<Plug>(easymotion-bd-f)", {nowait = true, silent = true})
 end
-
--- function M.Setup_tagbar()
---     vim.g.tagbar_left = 1
---     vim.g.tagbar_compact = 1
---     vim.g.tagbar_width = 25
---     vim.g.tagbar_indent = 1
--- end
 
 function plugins.Setup_autopairs()
     vim.g.autoPairsShortcutToggle = ""
@@ -467,7 +431,7 @@ function plugins.Setup_vista()
     vim.g.vista_executive_for = {rust = "nvim_lsp"}
     vim.g.vista_executive_for = {json = "nvim_lsp"}
     vim.g.vista_executive_for = {lua = "nvim_lsp"}
-    vim.g.vista_executive_for = {scala = "coc"}
+    vim.g.vista_executive_for = {scala = "nvim_lsp"}
     vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
 end
 
@@ -510,7 +474,7 @@ function plugins.Setup_cargo()
         vim.cmd("split")
         vim.cmd("enew")
         local jobid = fn.termopen(cmd)
-        local status = fn.jobwait({jobid})[0]
+        local _ = fn.jobwait({jobid})[0]
     end
 
     function Cargo_check()
@@ -677,13 +641,17 @@ function plugins.Setup_lightline()
     vim.g.lightline = {
         active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
         component_function = {gitbranch = "FugitiveHead"},
-        colorscheme = "jellybeans",
+        colorscheme = "wombat",
         mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
     }
 end
 
 function plugins.Setup_fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
+end
+
+function plugins.Setup_vista()
+    vim.g.vista_keep_fzf_colors = 1
 end
 
 function Setup()

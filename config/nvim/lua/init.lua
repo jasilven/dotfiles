@@ -654,6 +654,19 @@ function plugins.Setup_vista()
     vim.g.vista_keep_fzf_colors = 1
 end
 
+function plugins.Setup_dirvish()
+    vim.g.dirvish_mode = 1
+    vim.g.dirvish_relative_paths = 1
+        api.nvim_exec([[
+            au FileType dirvish nmap <buffer> h -
+            au FileType dirvish nmap <buffer> l <CR>
+            au FileType dirvish nmap <buffer> q gq
+            au FileType dirvish nnoremap <buffer> ~ :Dirvish ~<CR>
+            ]],
+            ""
+        )
+end
+
 function Setup()
 
     for _, setup in pairs(settings) do

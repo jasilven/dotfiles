@@ -99,6 +99,38 @@ mycolors = {
         fzf_bg        = "#4d4d4d",
         fzf_fg        = "#ffffff"
     },
+    myrust4 = {
+        fg            = "#c5c8c6",
+        bg            = "#1a1a1a",
+        cursor_fg     = "#000000",
+        cursor_bg     = "#ffffff",
+        float         = "#4d4d4d",
+        bg_dimmer     = "#333333",
+        tabline       = "#4d4d4d",
+        constant      = "#83A300",
+        func          = "#8eabbe",
+        func2          = "#769acb",
+        menu          = "#0099cc",
+        errormsg      = "#e09185",
+        warningmsg    = "#d6ab62",
+        keyword       = "#ab8ab7",
+        string        = "#89b482",
+        comment       = "#8d8d8d",
+        linenr        = "#4b4c4e",
+        incsearch     = "#ef7e04",
+        search        = "#fac863",
+        cursorline    = "#333333",
+        diff_delete   = "#ff9999",
+        diff_add      = "#398c6f",
+        diff_change   = "#ffff1a",
+        diff_text     = "#F4AF5F",
+        statusline_bg = "#c5c8c6",
+        statusline_fg = "#000000",
+        statusline_nc = "#707070",
+        visual        = "#90b0f4",
+        fzf_bg        = "#4d4d4d",
+        fzf_fg        = "#ffffff"
+    },
     mysolarized = {
         fg            = "#93a1a1",
         bg            = "#002b36",
@@ -465,7 +497,7 @@ end
 
 api.nvim_exec([[ command! -nargs=1 MySetColor lua require'colors'.MyColors(<q-args>) ]], "")
 api.nvim_exec(
-    [[ command! -nargs=0 MyColor call fzf#run({"source": ['myrust','myrust2','myrust3','mysolarized','myocean','mygithub', 'mygithub2', 'mygithub3', 'mygithub4'], "options": '--reverse' ,"sink": "MySetColor"}) ]],
+    [[ command! -nargs=0 MyColor call fzf#run({"source": ['myrust','myrust2','myrust3', 'myrust4','mysolarized','myocean','mygithub', 'mygithub2', 'mygithub3', 'mygithub4'], "options": '--reverse' ,"sink": "MySetColor"}) ]],
     "")
 
 return M

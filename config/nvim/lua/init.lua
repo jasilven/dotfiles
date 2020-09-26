@@ -32,8 +32,8 @@ function settings.Setup_keymaps()
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-w>k", rhs = "<C-\\><C-N><C-w>k"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-w>l", rhs = "<C-\\><C-N><C-w>l"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<Esc>", rhs = "<C-\\><C-N>"},
-        {mods = {"n", "v"}, lhs = "gh", rhs = "<C-w>h"},
-        {mods = {"n", "v"}, lhs = "gl", rhs = "<C-w>l"},
+        {mods = {"n", "v"}, lhs = "gh", rhs = "0"},
+        {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
         {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:close<cr>"},
@@ -50,14 +50,17 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "<space>Q", rhs = ":wqa<cr>"},
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
         {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
+        {mods = {"n"}, lhs = "<space>c", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "Q", rhs = ":wqa<cr>"},
         {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
         {mods = {"n"}, lhs = "dh", rhs = "d0"},
         {mods = {"n"}, lhs = "dl", rhs = "d$"},
-        {mods = {"n"}, lhs = "gw", rhs = "<C-w>w"},
-        {mods = {"n"}, lhs = "gj", rhs = "<C-w>j"},
-        {mods = {"n"}, lhs = "gk", rhs = "<C-w>k"},
+        {mods = {"n"}, lhs = "WW", rhs = "<C-w>w"},
+        {mods = {"n"}, lhs = "Wj", rhs = "<C-w>j"},
+        {mods = {"n"}, lhs = "Wk", rhs = "<C-w>k"},
+        {mods = {"n"}, lhs = "Wh", rhs = "<C-w>h"},
+        {mods = {"n"}, lhs = "Wl", rhs = "<C-w>l"},
         {mods = {"n"}, lhs = "go", rhs = "<C-o>"},
         {mods = {"n"}, lhs = "yh", rhs = "y0"},
         {mods = {"n"}, lhs = "yl", rhs = "y$"},
@@ -403,7 +406,7 @@ end
 
 function plugins.Setup_vimrooter()
     vim.g.rooter_silent_chdir = 1
-    vim.g.rooter_patterns = {"project.clj", "deps.edn",  "Cargo.toml", "go.mod", "package.json", "src" ,".git",}
+    vim.g.rooter_patterns = {"project.clj", "deps.edn",  "Cargo.toml", "go.mod", "package.json", "build.sbt", "src" ,".git",}
 end
 
 function plugins.Setup_gutentags()

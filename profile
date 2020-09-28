@@ -1,5 +1,6 @@
 export GO111MODULE=on
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home/"
 export PATH=".:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/go/bin:$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 export EDITOR=nvim
 export PAGER="bat -p"

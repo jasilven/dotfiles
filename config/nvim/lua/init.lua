@@ -107,7 +107,7 @@ function settings.Setup_options()
     vim.o["scrolloff"] = 2
     vim.o["sessionoptions"] = "blank,curdir,help,tabpages,winsize"
     vim.o["shiftwidth"] = 4
-    vim.o["shortmess"] = "Ic"
+    vim.o["shortmess"] = "Ica"
     vim.o["showcmd"] = false
     vim.o["showmatch"] = true
     vim.o["showmode"] = false
@@ -313,7 +313,9 @@ function plugins.Setup_lsp()
     require "nvim_lsp".tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, on_attach = lsp_attach}
     require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
+    require "nvim_lsp".jdtls.setup {filetypes = {"rust"}, init_options = { workspace = "~/workspace"}, on_attach = lsp_attach}
     require "nvim_lsp".metals.setup {
+        filetypes = { "scala" },
         root_dir = require "nvim_lsp".util.root_pattern("build.sbt"),
         on_attach = lsp_attach
     }

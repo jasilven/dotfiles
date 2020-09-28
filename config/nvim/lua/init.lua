@@ -61,6 +61,10 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "Wk", rhs = "<C-w>k"},
         {mods = {"n"}, lhs = "Wh", rhs = "<C-w>h"},
         {mods = {"n"}, lhs = "Wl", rhs = "<C-w>l"},
+        {mods = {"n"}, lhs = "WJ", rhs = "<C-w>j"},
+        {mods = {"n"}, lhs = "WK", rhs = "<C-w>k"},
+        {mods = {"n"}, lhs = "WH", rhs = "<C-w>h"},
+        {mods = {"n"}, lhs = "WL", rhs = "<C-w>l"},
         {mods = {"n"}, lhs = "go", rhs = "<C-o>"},
         {mods = {"n"}, lhs = "yh", rhs = "y0"},
         {mods = {"n"}, lhs = "yl", rhs = "y$"},
@@ -239,7 +243,7 @@ function plugins.Setup_nvimtree()
     vim.g.lua_tree_icons = {default = ""}
     vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target", "classes", "tags"}
     vim.g.lua_tree_follow = 1
-    vim.g.lua_tree_width= 40
+    vim.g.lua_tree_width = 40
 
     api.nvim_exec(
         [[
@@ -306,10 +310,13 @@ function plugins.Setup_lsp()
     require "nvim_lsp".sumneko_lua.setup {on_attach = lsp_attach}
     require "nvim_lsp".rust_analyzer.setup {cmd = {"rust-analyzer"}, filetypes = {"rust"}, on_attach = lsp_attach}
     require "nvim_lsp".jsonls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".tsserver.setup {cmd = { "typescript-language-server", "--stdio" }, on_attach = lsp_attach}
+    require "nvim_lsp".tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, on_attach = lsp_attach}
     require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".metals.setup {root_dir = require'nvim_lsp'.util.root_pattern("build.sbt"), on_attach = lsp_attach}
+    require "nvim_lsp".metals.setup {
+        root_dir = require "nvim_lsp".util.root_pattern("build.sbt"),
+        on_attach = lsp_attach
+    }
 
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
@@ -331,12 +338,12 @@ function plugins.Setup_lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
 
-    api.nvim_exec("autocmd BufWritePre <silent> *.rs  lua vim.lsp.buf.formatting_sync()", "")
+    api.nvim_exec("autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
 end
 
 function plugins.Setup_fzf()
     -- vim.g.fzf_layout = {window = {width = 1, height = 0.5, yoffset = 1}}
-    vim.g.fzf_layout = { window = '30new' }
+    vim.g.fzf_layout = {window = "30new"}
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
@@ -406,7 +413,14 @@ end
 
 function plugins.Setup_vimrooter()
     vim.g.rooter_silent_chdir = 1
-    vim.g.rooter_patterns = {"project.clj", "deps.edn",  "Cargo.toml", "go.mod", "package.json", "build.sbt", "src" ,".git",}
+    vim.g.rooter_patterns = {
+        "project.clj",
+        "deps.edn",
+        "go.mod",
+        "package.json",
+        "build.sbt",
+        ".git"
+    }
 end
 
 function plugins.Setup_gutentags()
@@ -426,7 +440,7 @@ end
 
 function plugins.Setup_neoformat()
     vim.g.neoformat_only_msg_on_error = 1
-    api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
+    -- api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
 end
 
 function plugins.Setup_vista()
@@ -588,13 +602,23 @@ end
 -- end
 
 function plugins.Setup_startify()
-    vim.g.startify_lists = {{type = "files", header = {"    MRU"}} }
+    vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
     vim.g.startify_fortune_use_unicode = 1
     vim.g.startify_files_number = 15
 end
 
 function Setup_coc()
-    vim.g.coc_global_extensions = {"coc-rust-analyzer", "coc-json", "coc-lua", "coc-ultisnips", "coc-go", "coc-metals", "coc-tsserver", "coc-html", "coc-java"}
+    vim.g.coc_global_extensions = {
+        "coc-rust-analyzer",
+        "coc-json",
+        "coc-lua",
+        "coc-ultisnips",
+        "coc-go",
+        "coc-metals",
+        "coc-tsserver",
+        "coc-html",
+        "coc-java"
+    }
     api.nvim_set_keymap("n", "gi", "<Plug>(coc-implementation)", keyopts)
     api.nvim_set_keymap("n", "K", ":call CocAction('doHover')<cr>", keyopts)
     api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], keyopts)
@@ -660,18 +684,18 @@ end
 function plugins.Setup_dirvish()
     vim.g.dirvish_mode = 1
     vim.g.dirvish_relative_paths = 1
-        api.nvim_exec([[
+    api.nvim_exec(
+        [[
             au FileType dirvish nmap <buffer> h -
             au FileType dirvish nmap <buffer> l <CR>
             au FileType dirvish nmap <buffer> q gq
             au FileType dirvish nnoremap <buffer> ~ :Dirvish ~<CR>
             ]],
-            ""
-        )
+        ""
+    )
 end
 
 function Setup()
-
     for _, setup in pairs(settings) do
         setup()
     end
@@ -679,8 +703,7 @@ function Setup()
         setup()
     end
 
-    require'colors'.MyColors("myrust3")
-
+    require "colors".MyColors("myrust3")
 end
 
 Setup()

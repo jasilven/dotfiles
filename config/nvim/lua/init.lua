@@ -666,11 +666,11 @@ function plugins.Setup_anyfold()
     -- vim.cmd("AnyFoldActivate")
 end
 
-function plugins.Setup_lightline()
+function Setup_lightline()
     vim.g.lightline = {
         active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
         component_function = {gitbranch = "FugitiveHead"},
-        colorscheme = "wombat",
+        colorscheme = "nord",
         mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
     }
 end
@@ -698,6 +698,8 @@ function plugins.Setup_dirvish()
 end
 
 function Setup()
+    vim.cmd("set background=light") 
+    require "colors".MyColors("mygithub3")
     for _, setup in pairs(settings) do
         setup()
     end
@@ -705,7 +707,6 @@ function Setup()
         setup()
     end
 
-    require "colors".MyColors("myrust3")
 end
 
 Setup()

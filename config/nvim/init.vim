@@ -30,17 +30,8 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'neovim/nvim-lspconfig' | Plug 'nvim-lua/completion-nvim' | Plug 'nvim-lua/diagnostic-nvim'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
 Plug 'justinmk/vim-dirvish'
-Plug 'bluz71/vim-moonfly-colors' | Plug 'bluz71/vim-nightfly-guicolors'
-" Plug 'bagrat/vim-buffet' 
-" Plug 'lambdalisue/fern.vim'
-" Plug 'tpope/vim-vinegar'
-" Plug 'wincent/ferret'
-" Plug 'diepm/vim-rest-console'
-" Plug 'majutsushi/tagbar'
-" Plug 'wincent/loupe'
-" Plug 'ap/vim-buftabline'
 call plug#end()
 
 lua require("init")

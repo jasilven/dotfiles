@@ -40,7 +40,7 @@ font:
     style: Retina
     # style: Regular
   bold:
-    style: Bold
+    style: Retina
   italic:
     style: Retina
   offset:
@@ -469,7 +469,32 @@ schemes:
       cyan:       '#70c0ba'
       white:      '#ffffff'
 
-colors: *doom_one
+  mylight: &mylight
+    primary:
+      background: '#d4d7d7' 
+      foreground: '#24292e' 
+    # cursor:
+    #   text:       '#ffffff' 
+    #   cursor:     '#cc6666' 
+    normal:
+      black:      '#1d1f21' 
+      red:        '#e8192e' 
+      green:      '#006600' 
+      yellow:     '#ef7e04' 
+      blue:       '#005cc5' 
+      magenta:    '#955095' 
+      cyan:       '#326766' 
+      white:      '#ffffff' 
+    bright:
+      black:      '#1d1f21' 
+      red:        '#e8192e' 
+      green:      '#006600' 
+      yellow:     '#ef7e04' 
+      blue:       '#005cc5' 
+      magenta:    '#955095' 
+      cyan:       '#326766' 
+      white:      '#ffffff' 
+# colors: *doom_one
 # colors: *solarized_light
 # colors: *pencil_light
 # colors: *one_base16_light
@@ -479,6 +504,7 @@ colors: *doom_one
 # colors: *tomorrow_night
 # colors: *paper_light
 # colors: *myocean
+colors: *mylight
 
 bell:
   animation: EaseOutExpo

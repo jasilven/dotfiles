@@ -36,8 +36,8 @@ font:
     # family: Inconsolata Nerd Font
     # family: Hack Nerd Font
     
-    # style: Medium 
-    style: Retina
+    style: Medium 
+    # style: Retina
     # style: Regular
   bold:
     style: Retina
@@ -471,29 +471,31 @@ schemes:
 
   mylight: &mylight
     primary:
-      background: '#d4d7d7' 
-      foreground: '#24292e' 
+      # background: '#d4d7d7' 
+      # foreground: '#24292e' 
+      background: '#D9D9C4' 
+      foreground: '#202429' 
     # cursor:
     #   text:       '#ffffff' 
     #   cursor:     '#cc6666' 
     normal:
       black:      '#1d1f21' 
-      red:        '#e8192e' 
-      green:      '#006600' 
-      yellow:     '#ef7e04' 
+      red:        '#D4162A' 
+      green:      '#007000' 
+      yellow:     '#e27603' 
       blue:       '#005cc5' 
-      magenta:    '#955095' 
-      cyan:       '#326766' 
-      white:      '#ffffff' 
+      magenta:    '#4f3281' 
+      cyan:       '#264F4E' 
+      white:      '#000000' 
     bright:
       black:      '#1d1f21' 
-      red:        '#e8192e' 
-      green:      '#006600' 
-      yellow:     '#ef7e04' 
+      red:        '#D4162A' 
+      green:      '#007000' 
+      yellow:     '#e27603' 
       blue:       '#005cc5' 
-      magenta:    '#955095' 
-      cyan:       '#326766' 
-      white:      '#ffffff' 
+      magenta:    '#4f3281' 
+      cyan:       '#264F4E' 
+      white:      '#000000' 
 # colors: *doom_one
 # colors: *solarized_light
 # colors: *pencil_light

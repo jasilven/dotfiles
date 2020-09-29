@@ -134,13 +134,12 @@ function settings.Setup_options()
     vim.wo["number"] = true
     vim.wo["signcolumn"] = "yes:1"
 end
-
+-- set statusline+=%{getcwd()}
 function settings.Setup_general()
     vim.g.netrw_liststyle = 3
     vim.g.netrw_banner = 0
     vim.g.netrw_hide = 1
-    vim.o["statusline"] =
-        " %*%F%{&modified?'*':''}  %{exists('g:loaded_fugitive')?''.fugitive#head():''} %= %l,%.4c  %y %{&fileencoding?&fileencoding:&encoding} "
+    vim.o["statusline"] = "%* %F%{&modified?'*':''}  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %= %l,%.4c  %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
@@ -308,17 +307,13 @@ function plugins.Setup_lsp()
     end
 
     require "nvim_lsp".sumneko_lua.setup {on_attach = lsp_attach}
-    require "nvim_lsp".rust_analyzer.setup {cmd = {"rust-analyzer"}, filetypes = {"rust"}, on_attach = lsp_attach}
+    require "nvim_lsp".rust_analyzer.setup {on_attach = lsp_attach}
     require "nvim_lsp".jsonls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, on_attach = lsp_attach}
+    require "nvim_lsp".tsserver.setup {on_attach = lsp_attach}
     require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".jdtls.setup {filetypes = {"rust"}, init_options = { workspace = "~/workspace"}, on_attach = lsp_attach}
-    require "nvim_lsp".metals.setup {
-        filetypes = { "scala" },
-        root_dir = require "nvim_lsp".util.root_pattern("build.sbt"),
-        on_attach = lsp_attach
-    }
+    require "nvim_lsp".jdtls.setup {on_attach = lsp_attach}
+    require "nvim_lsp".metals.setup { on_attach = lsp_attach }
 
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
@@ -340,7 +335,7 @@ function plugins.Setup_lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
 
-    api.nvim_exec("autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
+    api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
 end
 
 function plugins.Setup_fzf()
@@ -380,8 +375,7 @@ function plugins.Setup_fzf()
         command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=never --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         let g:XXfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
-        let g:fzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal']} 
-        
+        let g:fzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'keyword'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment']} 
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
     ]],
         ""
@@ -698,8 +692,7 @@ function plugins.Setup_dirvish()
 end
 
 function Setup()
-    vim.cmd("set background=light") 
-    require "colors".MyColors("mygithub3")
+    require "colors".MyColors()
     for _, setup in pairs(settings) do
         setup()
     end

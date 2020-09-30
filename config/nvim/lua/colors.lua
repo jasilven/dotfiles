@@ -253,6 +253,37 @@ local mycolors = {
         fzf_bg        = "#f2ba40",
         fzf_fg        = "#000000"
     },
+    myautumn= {
+        fg            = "#202429",
+        bg            = "#e1e1d0",
+        cursor_fg     = "#ffffff",
+        cursor_bg     = "#000000",
+        float         = "#d8d8c0",
+        bg_dimmer     = "#d9d9d9",
+        tabline       = "#DBDBC6",
+        constant      = "#005cc5",
+        func          = "#4f3281",
+        menu          = "#DBDBC6",
+        errormsg      = "#e8192e",
+        warningmsg    = "#e27603",
+        keyword       = "#BD2636",
+        string        = "#006B00",
+        comment       = "#6A737D",
+        linenr        = "#B8B8A6",
+        incsearch     = "#ff661a",
+        search        = "#f2ba40",
+        cursorline    = "#D1D1BD",
+        diff_delete   = "#e8192e",
+        diff_add      = "#29A146",
+        diff_change   = "#F5F519",
+        diff_text     = "#202429",
+        statusline_bg = "#5f5853",
+        statusline_fg = "#eeeeee",
+        statusline_nc = "#b8b1ad",
+        visual        = "#B0B09F",
+        fzf_bg        = "#f2ba40",
+        fzf_fg        = "#000000"
+    },
     myautumn1= {
         fg            = "#202429",
         bg            = "#D9D9C4",
@@ -315,7 +346,6 @@ local mycolors = {
         fzf_bg        = "#f2ba40",
         fzf_fg        = "#000000"
     }
-
 }
 
 local groups = {
@@ -352,7 +382,7 @@ local groups = {
     {name = "LineNr", fg = "linenr", bg = "bg", gui = ""},
     {name = "SignColumn", fg = "", bg = "bg", gui = ""},
     {name = "FoldColumn", fg = "linenr", bg = "bg", gui = ""},
-    {name = "Cursor", fg = "cursor_fg", bg = "cursor_bg", gui = "reverse"},
+    {name = "Cursor", fg = "cursor_fg", bg = "incsearch", gui = "none"},
     {name = "Special", fg = "fg", bg = "", gui = ""},
     {name = "Comment", fg = "comment", bg = "", gui = ""},
     {name = "String", fg = "string", bg = "", gui = ""},
@@ -465,8 +495,8 @@ local groups = {
 
 function M.MyColors(color_name)
 
-    local name = color_name or "myautumn2"
-    vim.g.colors_name = name
+    local name = color_name or "myautumn"
+    -- vim.g.colors_name = name
     vim.cmd("set background=light")
     vim.cmd("syntax reset")
 
@@ -490,13 +520,14 @@ function M.MyColors(color_name)
         else
             s = s .. " gui=none"
         end
+
         vim.cmd(s)
     end
 end
 
 api.nvim_exec([[ command! -nargs=1 MySetColor lua require'colors'.MyColors(<q-args>) ]], "")
 api.nvim_exec(
-    [[ command! -nargs=0 MyColor call fzf#run({"source": ['myrust','myrust2','myrust3', 'myrust4','mysolarized','myocean','mygithub', 'mygithub2', 'mygithub3', 'mygithub4', 'myautumn1', 'myautumn2'], "options": '--reverse' ,"sink": "MySetColor"}) ]],
+    [[ command! -nargs=0 MyColor call fzf#run({"source": ['myrust','myrust2','myrust3', 'myrust4','mysolarized','myocean','mygithub', 'mygithub2', 'mygithub3', 'mygithub4','myautumn', 'myautumn1', 'myautumn2'], "options": '--reverse' ,"sink": "MySetColor"}) ]],
     "")
 M.MyColors()
 

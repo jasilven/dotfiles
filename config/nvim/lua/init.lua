@@ -4,7 +4,6 @@ local fn = vim.fn
 local keyopts = {nowait = true, noremap = true, silent = true}
 
 local settings = {}
-local plugins = {}
 
 function settings.Setup_keymaps()
     local keymaps = {
@@ -56,15 +55,11 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
         {mods = {"n"}, lhs = "dh", rhs = "d0"},
         {mods = {"n"}, lhs = "dl", rhs = "d$"},
-        {mods = {"n"}, lhs = "WW", rhs = "<C-w>w"},
-        {mods = {"n"}, lhs = "Wj", rhs = "<C-w>j"},
-        {mods = {"n"}, lhs = "Wk", rhs = "<C-w>k"},
-        {mods = {"n"}, lhs = "Wh", rhs = "<C-w>h"},
-        {mods = {"n"}, lhs = "Wl", rhs = "<C-w>l"},
-        {mods = {"n"}, lhs = "WJ", rhs = "<C-w>j"},
-        {mods = {"n"}, lhs = "WK", rhs = "<C-w>k"},
-        {mods = {"n"}, lhs = "WH", rhs = "<C-w>h"},
-        {mods = {"n"}, lhs = "WL", rhs = "<C-w>l"},
+        {mods = {"n"}, lhs = "<space>ww", rhs = "<C-w>w"},
+        {mods = {"n"}, lhs = "<space>wj", rhs = "<C-w>j"},
+        {mods = {"n"}, lhs = "<space>wk", rhs = "<C-w>k"},
+        {mods = {"n"}, lhs = "<space>wh", rhs = "<C-w>h"},
+        {mods = {"n"}, lhs = "<space>wl", rhs = "<C-w>l"},
         {mods = {"n"}, lhs = "go", rhs = "<C-o>"},
         {mods = {"n"}, lhs = "yh", rhs = "y0"},
         {mods = {"n"}, lhs = "yl", rhs = "y$"},
@@ -118,7 +113,7 @@ function settings.Setup_options()
     vim.o["splitbelow"] = true
     vim.o["splitright"] = true
     vim.o["swapfile"] = false
-    vim.o["synmaxcol"] = 140
+    vim.o["synmaxcol"] = 200
     vim.o["tabstop"] = 4
     vim.o["termguicolors"] = true
     vim.o["ttyfast"] = true
@@ -134,7 +129,7 @@ function settings.Setup_options()
     vim.wo["number"] = true
     vim.wo["signcolumn"] = "yes:1"
 end
--- set statusline+=%{getcwd()}
+
 function settings.Setup_general()
     vim.g.netrw_liststyle = 3
     vim.g.netrw_banner = 0
@@ -168,7 +163,7 @@ function settings.Setup_general()
     )
 end
 
-function plugins.Setup_treesitter()
+function Setup_treesitter()
     require "nvim-treesitter.configs".setup {
         highlight = {
             enable = true,
@@ -199,34 +194,17 @@ function plugins.Setup_treesitter()
             }
         },
         textobjects = {
-            enable = true,
-            keymaps = {
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
-                ["aC"] = "@class.outer",
-                ["iC"] = "@class.inner",
-                ["ac"] = "@conditional.outer",
-                ["ic"] = "@conditional.inner",
-                ["ae"] = "@block.outer",
-                ["ie"] = "@block.inner",
-                ["al"] = "@loop.outer",
-                ["il"] = "@loop.inner",
-                ["is"] = "@statement.inner",
-                ["as"] = "@statement.outer",
-                ["ad"] = "@comment.outer",
-                ["am"] = "@call.outer",
-                ["im"] = "@call.inner"
-            }
+            enable = false,
         },
         ensure_installed = {"c", "html", "lua", "rust", "json", "javascript", "go", "typescript", "java", "python"}
     }
 end
 
-function plugins.Setup_colorizer()
+function Setup_colorizer()
     require "colorizer".setup()
 end
 
-function plugins.Setup_nvimtree()
+function Setup_nvimtree()
     vim.g.lua_tree_bindings = {
         edit = "<CR>",
         edit_vsplit = "v",
@@ -260,7 +238,7 @@ function plugins.Setup_nvimtree()
     api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
 end
 
-function plugins.Setup_lsp()
+function Setup_lsp()
     local function setup_diagnostics(client, bufnr)
         vim.g.diagnostic_enable_virtual_text = 1
         -- vim.g.diagnostic_virtual_text_prefix = ""
@@ -338,7 +316,7 @@ function plugins.Setup_lsp()
     api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
 end
 
-function plugins.Setup_fzf()
+function Setup_fzf()
     -- vim.g.fzf_layout = {window = {width = 1, height = 0.5, yoffset = 1}}
     vim.g.fzf_layout = {window = "30new"}
     vim.g.fzf_preview_window = "right:50%"
@@ -375,25 +353,25 @@ function plugins.Setup_fzf()
         command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=never --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         let g:XXfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
-        let g:fzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'keyword'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment']} 
+        let g:fzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'keyword'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
     ]],
         ""
     )
 end
 
-function plugins.Setup_anyjump()
+function Setup_anyjump()
     vim.g.any_jump_window_width_ratio = 0.8
     vim.g.any_jump_window_height_ratio = 0.3
     api.nvim_set_keymap("n", "<space>j", ":AnyJump<cr>", keyopts)
 end
 
-function plugins.Setup_easymotion()
+function Setup_easymotion()
     vim.g.EasyMotion_keys = "abcdefghijklmnopqrstuvwxy"
     api.nvim_set_keymap("n", "f", "<Plug>(easymotion-bd-f)", {nowait = true, silent = true})
 end
 
-function plugins.Setup_autopairs()
+function Setup_autopairs()
     vim.g.autoPairsShortcutToggle = ""
     vim.g.AutoPairsShortcutJump = ""
     vim.g.AutoPairsShortcutBackInsert = ""
@@ -402,12 +380,12 @@ function plugins.Setup_autopairs()
     vim.g.PairsShortcutJump = ""
 end
 
-function plugins.Setup_signify()
+function Setup_signify()
     vim.g.signify_line_highlight = 0
     vim.g.signify_disable_by_default = 1
 end
 
-function plugins.Setup_vimrooter()
+function Setup_vimrooter()
     vim.g.rooter_silent_chdir = 1
     vim.g.rooter_patterns = {
         "project.clj",
@@ -419,7 +397,7 @@ function plugins.Setup_vimrooter()
     }
 end
 
-function plugins.Setup_gutentags()
+function Setup_gutentags()
     vim.g.gutentags_ctags_exclude = {
         "*.min.js",
         "*.min.css",
@@ -434,12 +412,12 @@ function plugins.Setup_gutentags()
     }
 end
 
-function plugins.Setup_neoformat()
+function Setup_neoformat()
     vim.g.neoformat_only_msg_on_error = 1
     -- api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
 end
 
-function plugins.Setup_vista()
+function Setup_vista()
     vim.g.vista_default_executive = "nvim_lsp"
     vim.g.vista_executive_for = {rust = "nvim_lsp"}
     vim.g.vista_executive_for = {json = "nvim_lsp"}
@@ -448,7 +426,7 @@ function plugins.Setup_vista()
     vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
 end
 
-function plugins.Setup_go()
+function Setup_go()
     function Go_run()
         local cmd = "go run " .. fn.expand("%")
 
@@ -469,7 +447,7 @@ function plugins.Setup_go()
     end
 end
 
-function plugins.Setup_cargo()
+function Setup_cargo()
     function Cargo_run()
         local bin = fn.expand("%:t:r")
         local cmd = "cargo run"
@@ -524,47 +502,7 @@ function plugins.Setup_cargo()
     end
 end
 
--- function Setup_sexp()
---     vim.g.sexp_filetypes = ""
---     api.nvim_exec(
---         [[
---     au FileType clojure nmap <silent><buffer> <M-h> <Plug>(sexp_emit_tail_element)
---     au FileType clojure imap <silent><buffer> <M-h> <esc><Plug>(sexp_emit_tail_element)i
---     au FileType clojure nmap <silent><buffer> <M-l> <Plug>(sexp_capture_next_element)
---     au FileType clojure imap <silent><buffer> <M-l> <esc><Plug>(sexp_capture_next_element)i
---     ]],
---         ""
---     )
--- end
-
--- function Setup_conjure()
---     vim.g.conjure_log_blacklist = {"up", "ret", "load-file", "eval"}
---     vim.g.conjure_default_mappings = false
---     vim.g.conjure_log_direction = "vertical"
---     vim.g.conjure_omnifunc = false
---     vim.g.conjure_log_auto_close = false
---     vim.g.conjure_fold_multiline_results = true
---     vim.g.conjure_quick_doc_time = 600
---     vim.g.conjure_quick_doc_insert_mode = false
---     vim.g.conjure_quick_doc_normal_mode = false
---     api.nvim_exec(
---         [[
---     au FileType clojure nnoremap <buffer> <C-c><C-k> :ConjureEvalBuffer<cr>
---     au FileType clojure nnoremap <buffer> <C-c>k :ConjureEvalBuffer<cr>
---     au FileType clojure nnoremap <buffer> <C-c><C-p> :ConjureToggleLog<cr>
---     au FileType clojure nnoremap <buffer> <C-c>p :ConjureToggleLog<cr>
---     au FileType clojure nnoremap <buffer> <space>e :ConjureEvalCurrentForm<cr>
---     au FileType clojure nnoremap <buffer> <space>x :ConjureEvalRootForm<cr>
---     au FileType clojure nnoremap <buffer> <space>r :ConjureEvalCurrentForm<cr>
---     au FileType clojure nnoremap <buffer> <space>t :ConjureRunTests<cr>
---     au BufEnter */conjure.cljc nnoremap <buffer> q :ConjureCloseLog<CR>
---     au BufEnter */conjure.cljc setlocal nonumber
---     ]],
---         ""
---     )
--- end
-
-function plugins.Setup_neoterm()
+function Setup_neoterm()
     vim.g.neoterm_size = 25
     vim.g.neoterm_autoinsert = 1
     vim.g.neoterm_default_mod = "botright"
@@ -589,15 +527,7 @@ function plugins.Setup_neoterm()
     )
 end
 
--- function Setup_redbush()
---     vim.g.redbush_bin = "redbush" -- '~/dev/rust/redbush/target/debug/redbush'
---     vim.g.redbush_filepath = "/tmp/redbush-eval.clj"
---     vim.g.redbush_filesize = 1000
---     vim.g.redbush_is_vertical = true
---     vim.g.redbush_winsize = 40
--- end
-
-function plugins.Setup_startify()
+function Setup_startify()
     vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
     vim.g.startify_fortune_use_unicode = 1
     vim.g.startify_files_number = 15
@@ -652,32 +582,32 @@ function Setup_coc()
     )
 end
 
-function plugins.Setup_ultisnips()
+function Setup_ultisnips()
     vim.g.UltiSnipsExpandTrigger = "<C-.>"
 end
 
-function plugins.Setup_anyfold()
+function Setup_anyfold()
     -- vim.cmd("AnyFoldActivate")
 end
 
-function Setup_lightline()
-    vim.g.lightline = {
-        active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
-        component_function = {gitbranch = "FugitiveHead"},
-        colorscheme = "nord",
-        mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
-    }
-end
+-- function Setup_lightline()
+--     vim.g.lightline = {
+--         active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
+--         component_function = {gitbranch = "FugitiveHead"},
+--         colorscheme = "nord",
+--         mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
+--     }
+-- end
 
-function plugins.Setup_fugitive()
+function Setup_fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-function plugins.Setup_vista()
+function Setup_vista()
     vim.g.vista_keep_fzf_colors = 1
 end
 
-function plugins.Setup_dirvish()
+function Setup_dirvish()
     vim.g.dirvish_mode = 1
     vim.g.dirvish_relative_paths = 1
     api.nvim_exec(
@@ -692,14 +622,9 @@ function plugins.Setup_dirvish()
 end
 
 function Setup()
-    require "colors".MyColors()
     for _, setup in pairs(settings) do
         setup()
     end
-    for _, setup in pairs(plugins) do
-        setup()
-    end
-
 end
 
 Setup()

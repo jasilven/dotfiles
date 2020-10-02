@@ -46,20 +46,20 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
         {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
         {mods = {"n"}, lhs = "<space>w", rhs = ":w<cr>"},
-        {mods = {"n"}, lhs = "<space>Q", rhs = ":wqa<cr>"},
+        {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
         {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
-        {mods = {"n"}, lhs = "<space>c", rhs = ":close<cr>"},
+        {mods = {"n"}, lhs = "<space>x", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "Q", rhs = ":wqa<cr>"},
         {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
         {mods = {"n"}, lhs = "dh", rhs = "d0"},
         {mods = {"n"}, lhs = "dl", rhs = "d$"},
-        {mods = {"n"}, lhs = "<space>ww", rhs = "<C-w>w"},
-        {mods = {"n"}, lhs = "<space>wj", rhs = "<C-w>j"},
-        {mods = {"n"}, lhs = "<space>wk", rhs = "<C-w>k"},
-        {mods = {"n"}, lhs = "<space>wh", rhs = "<C-w>h"},
-        {mods = {"n"}, lhs = "<space>wl", rhs = "<C-w>l"},
+        {mods = {"n"}, lhs = "<space>gw", rhs = "<C-w>w"},
+        {mods = {"n"}, lhs = "<space>gj", rhs = "<C-w>j"},
+        {mods = {"n"}, lhs = "<space>gk", rhs = "<C-w>k"},
+        {mods = {"n"}, lhs = "<space>gh", rhs = "<C-w>h"},
+        {mods = {"n"}, lhs = "<space>gl", rhs = "<C-w>l"},
         {mods = {"n"}, lhs = "go", rhs = "<C-o>"},
         {mods = {"n"}, lhs = "yh", rhs = "y0"},
         {mods = {"n"}, lhs = "yl", rhs = "y$"},
@@ -313,7 +313,7 @@ function Setup_lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
 
-    api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
+    api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
 end
 
 function Setup_fzf()

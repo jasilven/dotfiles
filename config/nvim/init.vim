@@ -54,6 +54,10 @@ lua Setup_nvimtree()
 lua Setup_colorizer()
 lua Setup_treesitter()
 lua Setup_lsp()
+
+lua Setup_cargo()
+lua Setup_go()
+
 "lua Setup_coc()
 
 lua require "colors".MyColors()

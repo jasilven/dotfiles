@@ -107,7 +107,7 @@ function settings.Setup_options()
     vim.o["scrolloff"] = 2
     vim.o["sessionoptions"] = "blank,curdir,help,tabpages,winsize"
     vim.o["shiftwidth"] = 4
-    vim.o["shortmess"] = "Ica"
+    vim.o["shortmess"] = "Icat"
     vim.o["showcmd"] = false
     vim.o["showmatch"] = true
     vim.o["showmode"] = false

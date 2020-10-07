@@ -1,0 +1,58 @@
+font_family      FiraCode Nerd Font Medium
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+font_size 12.0
+font_features none
+adjust_line_height 100% 
+adjust_column_width 100%
+
+map ctrl+shift+equal change_font_size all +0.5
+map ctrl+shift+minus change_font_size all -0.5
+map ctrl+shift+backspace change_font_size all 0
+map ctrl+shift+0 change_font_size all 0
+map ctrl+shift+h previous_tab
+map ctrl+shift+l next_tab
+map ctrl+shift+n set_tab_title
+map ctrl+shift+space next_layout
+
+tab_separator " "
+tab_bar_style separator " "
+active_border_color     #cccccc
+active_tab_foreground   #000000
+active_tab_background   #98971a
+active_tab_font_style   bold-italic
+inactive_tab_foreground #999999
+inactive_tab_background #30302c
+inactive_tab_font_style normal
+remember_window_size  no 
+initial_window_width  900 
+initial_window_height 580
+draw_minimal_borders yes
+window_margin_width 0 
+window_padding_width 0
+single_window_margin_width -1
+enabled_layouts Vertical,Horizontal
+
+
+foreground #202429
+background #e1e1d0
+#cursor #000000
+color0 #282c34
+color1 #e06c75
+color2 #19cb00
+color3 #e5c07b
+color4 #61afef
+color5 #be5046
+color6 #56b6c2
+color7 #979eab
+color8 #393e48
+color9 #d19a66
+color10 #56b6c2
+color11 #e5c07b
+color12 #61afef
+color13 #be5046
+color14 #56b6c2
+color15 #abb2bf
+selection_foreground #282c34
+selection_background #979eab

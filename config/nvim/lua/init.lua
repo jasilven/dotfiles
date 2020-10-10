@@ -139,7 +139,7 @@ function settings.Setup_general()
     vim.g.netrw_liststyle = 3
     vim.g.netrw_banner = 0
     vim.g.netrw_hide = 1
-    vim.o["statusline"] = "%* %F%{&modified?'*':''}  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %= %l,%.4c  %y %{&fileencoding?&fileencoding:&encoding} "
+    vim.o["statusline"] = "%* %f%{&modified?'*':''}  [%{split(getcwd(),'/')[-1]}] %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
@@ -331,7 +331,8 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
-    api.nvim_set_keymap("n", "<C-s>", ":MyRg<CR>", keyopts)
+    api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
+    api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
@@ -339,7 +340,6 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
     api.nvim_set_keymap("n", "<space><space>", ":Commands<cr>", keyopts)
-    api.nvim_set_keymap("n", "<C-f>", ":MyRgHome<cr>", {})
     api.nvim_exec(
         [[
         au FileType fzf tnoremap <buffer> jk jk
@@ -398,6 +398,7 @@ function Setup_vimrooter()
         "go.mod",
         "package.json",
         "build.sbt",
+        "pom.xml",
         ".git"
     }
 end
@@ -536,6 +537,7 @@ function Setup_startify()
     vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
     vim.g.startify_fortune_use_unicode = 1
     vim.g.startify_files_number = 15
+    api.nvim_exec( [[ au FileType startify setlocal nowrap ]], "")
 end
 
 function Setup_coc()

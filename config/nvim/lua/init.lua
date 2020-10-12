@@ -23,7 +23,7 @@ function settings.Setup_keymaps()
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-left>", rhs = "<C-\\><C-N><C-w>h"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-right>", rhs = "<C-\\><C-N><C-w>l"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-t>", rhs = "<C-\\><C-N>:term<cr>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
+        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:wqa<cr>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-w><C-w>", rhs = "<C-\\><C-N><C-w>w"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-w>w", rhs = "<C-\\><C-N><C-w>w"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-w>h", rhs = "<C-\\><C-N><C-w>h"},
@@ -35,7 +35,6 @@ function settings.Setup_keymaps()
         {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
-        {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:close<cr>"},
         {mods = {"n", "i"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:e.<cr>"},
         {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
         {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
@@ -50,8 +49,8 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
         {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
         {mods = {"n"}, lhs = "<space>x", rhs = ":close<cr>"},
-        {mods = {"n"}, lhs = "Q", rhs = ":wqa<cr>"},
         {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
+        {mods = {"n"}, lhs = "Q", rhs = "<Nop>"},
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
         {mods = {"n"}, lhs = "dh", rhs = "d0"},
         {mods = {"n"}, lhs = "dl", rhs = "d$"},
@@ -127,7 +126,7 @@ function settings.Setup_options()
     vim.o["wildignore"] = "*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*/.git/*,*/target/*,*~,tags"
     vim.o["wildmenu"] = true
     vim.o["wildmode"] = "list:longest,full"
-    vim.o["wrap"] = false
+    vim.o["wrap"] = true
     vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
     vim.o["grepformat"] = "%f:%l:%c:%m"
     vim.wo["foldenable"] = false
@@ -318,7 +317,7 @@ function Setup_lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
 
-    api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
+    -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
 end
 
 function Setup_fzf()
@@ -420,7 +419,7 @@ end
 
 function Setup_neoformat()
     vim.g.neoformat_only_msg_on_error = 1
-    -- api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
+    api.nvim_exec([[ autocmd BufWritePre *.rs Neoformat ]], "")
 end
 
 function Setup_vista()

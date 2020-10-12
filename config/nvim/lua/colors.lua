@@ -352,7 +352,7 @@ local groups = {
     {name = "Normal", fg = "fg", bg = "bg", gui = ""},
     {name = "NormalFloat", fg = "fg", bg = "float", gui = ""},
     {name = "Folded", fg = "comment", bg = "float", gui = ""},
-    {name = "VertSplit", fg = "linenr", bg = "bg", gui = "none"},
+    {name = "VertSplit", fg = "statusline_bg", bg = "bg", gui = "none"},
     {name = "CursorLine", fg = "", bg = "cursorline", gui = "none"},
     {name = "CursorLineNr", fg = "fg", bg = "cursorline", gui = "none"},
     {name = "CursorColumn", fg = "", bg = "linenr", gui = ""},

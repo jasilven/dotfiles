@@ -454,6 +454,7 @@ local groups = {
     {name = "htmlH4", fg = "constant", bg = "", gui = ""},
     {name = "htmlH5", fg = "fg", bg = "", gui = ""},
     {name = "htmlH6", fg = "fg", bg = "", gui = ""},
+    {name = "htmltagname", fg = "func", bg = "", gui = ""},
     {name = "markdownH1", fg = "fg", bg = "search", gui = ""},
     {name = "markdownH2", fg = "constant", bg = "", gui = ""},
     {name = "markdownH3", fg = "constant", bg = "", gui = ""},

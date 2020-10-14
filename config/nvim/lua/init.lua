@@ -296,6 +296,7 @@ function Setup_lsp()
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
     require "nvim_lsp".jdtls.setup {on_attach = lsp_attach}
     require "nvim_lsp".metals.setup { on_attach = lsp_attach }
+    require "nvim_lsp".html.setup { on_attach = lsp_attach }
 
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
@@ -317,7 +318,9 @@ function Setup_lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
 
-    -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)", "")
+    api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
+    api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
+
 end
 
 function Setup_fzf()
@@ -419,7 +422,7 @@ end
 
 function Setup_neoformat()
     vim.g.neoformat_only_msg_on_error = 1
-    api.nvim_exec([[ autocmd BufWritePre *.rs Neoformat ]], "")
+    api.nvim_exec([[ autocmd BufWritePre *.html Neoformat ]], "")
 end
 
 function Setup_vista()

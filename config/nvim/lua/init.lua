@@ -225,6 +225,7 @@ function Setup_nvimtree()
     vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target", "classes", "tags"}
     vim.g.lua_tree_follow = 1
     vim.g.lua_tree_width = 40
+    vim.g.lua_tree_width_allow_resize = true
 
     api.nvim_exec(
         [[

@@ -1,3 +1,3 @@
 xset b off
-xset r rate 220 50
+xset r rate 280 35
 setxkbmap -option ctrl:nocaps

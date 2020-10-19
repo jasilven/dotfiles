@@ -254,7 +254,7 @@ local mycolors = {
         fzf_fg        = "#000000"
     },
     myautumn= {
-        fg            = "#202429",
+        fg            = "#000000",
         bg            = "#e1e1d0",
         cursor_fg     = "#ffffff",
         cursor_bg     = "#000000",
@@ -285,7 +285,7 @@ local mycolors = {
         fzf_fg        = "#000000"
     },
     myautumn1= {
-        fg            = "#202429",
+        fg            = "#000000",
         bg            = "#D9D9C4",
         cursor_fg     = "#ffffff",
         cursor_bg     = "#000000",

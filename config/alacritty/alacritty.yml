@@ -475,7 +475,7 @@ schemes:
       # background: '#d4d7d7' 
       # foreground: '#24292e' 
       background: '#D9D9C4' 
-      foreground: '#202429' 
+      foreground: '#000000' 
     # cursor:
     #   text:       '#ffffff' 
     #   cursor:     '#cc6666' 

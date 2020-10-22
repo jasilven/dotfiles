@@ -5,3 +5,4 @@
 --colors=line:fg:magenta
 --colors=path:fg:green
 --type-add=got:*_test.go
+--smart-case

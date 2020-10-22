@@ -141,6 +141,7 @@ function settings.Setup_general()
     vim.o["statusline"] = "%* %f%{&modified?'*':''}  [%{split(getcwd(),'/')[-1]}] %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
+    au FileType markdown set shiftwidth=2
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
     au TermOpen * startinsert
     au Bufenter term://*zsh* startinsert
@@ -325,8 +326,8 @@ function Setup_lsp()
 end
 
 function Setup_fzf()
-    -- vim.g.fzf_layout = {window = {width = 1, height = 0.5, yoffset = 1}}
-    vim.g.fzf_layout = {window = "30new"}
+    vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
+    -- vim.g.fzf_layout = {window = "30new"}
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"

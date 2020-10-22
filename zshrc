@@ -42,10 +42,10 @@ eval "$(starship init zsh)"
 
 alias pbcopy="xclip -selection c"
 alias pbpaste="xclip -selection c -o"
-alias more="bat"
-alias less="bat"
+alias more="less"
 alias cat="bat"
 alias vim="nvim"
+alias v="nvim"
 alias tldr="tldr -p"
 alias nrepl="clj -R:nrepl -m nrepl.cmdline"
 alias ls="exa -t modified --git --sort modified"
@@ -53,5 +53,4 @@ alias ll="exa -l"
 # alias clj="clj -J-Dclojure.server.jvm=\"{:port 5555 :accept clojure.core.server/io-prepl}\""
 alias find="fd"
 alias tm="tmux attach || tmux new"
-alias open=xdg-open
 alias node12='export PATH="/usr/local/opt/node@12/bin:$PATH"'

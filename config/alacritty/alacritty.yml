@@ -25,7 +25,7 @@ cursor:
 
 # Font configuration
 font:
-  size: 11
+  size: 6
   normal:
     # family: FuraCode Nerd Font
     family: FiraCode Nerd Font
@@ -486,7 +486,7 @@ schemes:
       yellow:     '#e27603' 
       blue:       '#005cc5' 
       magenta:    '#4f3281' 
-      cyan:       '#264F4E' 
+      cyan:    '#005f87'
       white:      '#000000' 
     bright:
       black:      '#1d1f21' 
@@ -495,7 +495,7 @@ schemes:
       yellow:     '#e27603' 
       blue:       '#005cc5' 
       magenta:    '#4f3281' 
-      cyan:       '#264F4E' 
+      cyan:    '#005f87'
       white:      '#000000' 
 # colors: *doom_one
 # colors: *solarized_light

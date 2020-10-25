@@ -294,7 +294,7 @@ local mycolors = {
         tabline       = "#DBDBC6",
         constant      = "#005cc5",
         func          = "#4f3281",
-        menu          = "#DBDBC6",
+        menu          = "#C9C9A6",
         errormsg      = "#e8192e",
         warningmsg    = "#e27603",
         keyword       = "#BD2636",
@@ -500,7 +500,7 @@ local groups = {
 
 function M.MyColors(color_name)
 
-    local name = color_name or "myautumn"
+    local name = color_name or "myautumn1"
     -- vim.g.colors_name = name
     vim.cmd("set background=light")
     vim.cmd("syntax reset")

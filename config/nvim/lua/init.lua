@@ -67,8 +67,6 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "go", rhs = "<C-o>"},
         {mods = {"n"}, lhs = "yh", rhs = "y0"},
         {mods = {"n"}, lhs = "yl", rhs = "y$"},
-        {mods = {"n"}, lhs = "<Tab>", rhs = ":Buffers<cr>"},
-        {mods = {"n"}, lhs = "<S-Tab>", rhs = ":bprev<cr>"},
         {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
         {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
         {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
@@ -326,8 +324,9 @@ function Setup_lsp()
 end
 
 function Setup_fzf()
-    vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
+    -- vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
     -- vim.g.fzf_layout = {window = "30new"}
+    vim.g.fzf_layout = { down = "30%" }
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
@@ -537,12 +536,12 @@ function Setup_neoterm()
     )
 end
 
-function Setup_startify()
-    vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
-    vim.g.startify_fortune_use_unicode = 1
-    vim.g.startify_files_number = 15
-    api.nvim_exec( [[ au FileType startify setlocal nowrap ]], "")
-end
+-- function Setup_startify()
+--     vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
+--     vim.g.startify_fortune_use_unicode = 1
+--     vim.g.startify_files_number = 15
+--     api.nvim_exec( [[ au FileType startify setlocal nowrap ]], "")
+-- end
 
 function Setup_coc()
     vim.g.coc_global_extensions = {

@@ -1,5 +1,3 @@
-pcall(require, "luarocks.loader")
-local gears = require("gears")
 local awful = require("awful")
 
 require("awful.autofocus")
@@ -14,9 +12,7 @@ require("awful.hotkeys_popup.keys")
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
+-- Error handling
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
@@ -37,22 +33,14 @@ do
         in_error = false
     end)
 end
--- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+-- Variable definitions: Themes define colours, icons, font and wallpapers.
+beautiful.init(gears.filesystem.get_themes_dir() .. "mytheme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
-editor = os.getenv("EDITOR") or "editor"
+terminal = "alacritty"
+editor = "nvim"
 editor_cmd = terminal .. " -e " .. editor
-
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -74,10 +62,8 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
 }
--- }}}
 
--- {{{ Menu
--- Create a launcher widget and a main menu
+-- Menu: Create a launcher widget and a main menu
 myawesomemenu = {
    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
    { "manual", terminal .. " -e man awesome" },
@@ -110,12 +96,11 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
 
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
--- {{{ Wibar
+-- Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
@@ -227,17 +212,15 @@ awful.screen.connect_for_each_screen(function(s)
         },
     }
 end)
--- }}}
 
--- {{{ Mouse bindings
+-- Mouse bindings
 root.buttons(gears.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
--- }}}
 
--- {{{ Key bindings
+-- Key bindings
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
@@ -449,10 +432,8 @@ clientbuttons = gears.table.join(
 
 -- Set keys
 root.keys(globalkeys)
--- }}}
 
--- {{{ Rules
--- Rules to apply to new clients (through the "manage" signal).
+--  Rules: Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
@@ -507,10 +488,8 @@ awful.rules.rules = {
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
 }
--- }}}
 
--- {{{ Signals
--- Signal function to execute when a new client appears.
+-- Signals
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
@@ -569,6 +548,6 @@ client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
+
+-- client.connect_signal("focus", function(c) c.border_color = beautiful.border_color_active end)
+-- client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_color_normal end)

@@ -1,8 +1,7 @@
 [bar/top]
 enable-ipc = false 
 bottom = false  
-; monitor = eDP-1
-monitor = DP-2
+monitor = ${env:MONITOR:eDP-1}
 width = 100%
 height = 24
 dpi = 192
@@ -25,15 +24,17 @@ modules-center = title
 modules-right = cpu pulseaudio temperature wireless-network wired-network battery date        
 tray-position = right 
 tray-scale = 1.0
-; tray-transparent = true
-tray-background = ${self.background}
-tray-maxsize = 64
+tray-transparent = false 
+; tray-background = ${self.background}
+; tray-background = #333333
+tray-maxsize = 16
 tray-offset-y = 0
 tray-padding = 4 
 overline-size = 10
 overline-color = ${self.background}
-underline-size = 2
-underline-color = ${self.background}
+underline-size = 3
+;underline-color = ${self.background}
+underline-color = #aaff77
 
 [module/temperature]
 type = internal/temperature
@@ -48,8 +49,8 @@ full-at = 98
 format-charging = <animation-charging> <label-charging>
 format-discharging = <ramp-capacity> <label-discharging>
 format-full = <ramp-capacity> <label-full>
-label-charging = %percentage%% %time%h
-label-discharging = %percentage%% %time%h 
+label-charging = %percentage%%
+label-discharging = %percentage%%
 ramp-capacity-0 = 
 ramp-capacity-0-foreground = #f53c3c
 ramp-capacity-1 = 
@@ -169,8 +170,8 @@ ramp-coreload-7-foreground = #ff5555
 
 [module/date]
 type = internal/date
-date-alt =    %%{F#99}%Y-%m-%d%%{F-}  %%{F#fff}%H:%M%%{F-}
-date =   %%{F#fff}%A, %d %B %Y  %%{F#fff}%H:%M%%{F#666}:%%{F#fba922}%%{F-}
+date-alt =    %%{F#99}%Y-%m-%d%%{F-} %%{F#fff}%H:%M  %%{F-}
+date =   %%{F#fff}%A, %d %B %Y  %%{F#fff}%H:%M%%{F#666}  %%{F#fba922}%%{F-}
 interval = 10
 
 [module/wireless-network]
@@ -204,7 +205,7 @@ use-ui-max = true
 interval = 5
 label-muted = muted
 label-muted-foreground = #666
-label-volume = Volume ♫  %percentage% % 
+label-volume = Volume  ♫  %percentage% % 
 ; Right and Middle click (unreleased)
 click-right = pavucontrol &
 

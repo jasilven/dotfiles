@@ -1,5 +1,8 @@
-bind \eh prevd-or-backward-word
-bind \el nextd-or-forward-word
-bind \ej history-search-backward
-bind \ek history-search-forward
-
+starship init fish | source
+function cd
+    if count $argv > /dev/null
+        builtin cd "$argv"; and ls
+    else
+        builtin cd ~; and ls
+    end
+end

@@ -1,3 +1,9 @@
+xset b off
+xset r rate 280 45
+# setxkbmap us intl -option ctrl:nocaps:nodeadkeys
+#setxkbmap -layout us -variant altgr-intl -option nodeadkeys
+setxkbmap -layout us -variant altgr-intl -option nodeadkeys -option ctrl:nocaps
+
 export NVM_DIR="$HOME/.nvm"
 export GO111MODULE=on
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
@@ -13,3 +19,4 @@ export FZF_DEFAULT_OPTS="--layout=reverse"
 export BAT_THEME="GitHub"
 export TERM=xterm-256color
 export CARGO_TARGET_DIR=$HOME/.cargo/target_dir
+

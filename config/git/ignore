@@ -19,7 +19,9 @@ Cargo.lock
 **/*~
 **/#*#
 **/.#*
+**/*.backup
 .gitignore
 *apikey.txt
 .bloop
 .metals
+.terraform

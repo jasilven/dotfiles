@@ -291,7 +291,7 @@ local mycolors = {
         cursor_bg     = "#000000",
         float         = "#C9C9A6",
         bg_dimmer     = "#d9d9d9",
-        tabline       = "#DBDBC6",
+        tabline       = "#CACAB5",
         constant      = "#005cc5",
         func          = "#4f3281",
         menu          = "#C9C9A6",
@@ -320,7 +320,7 @@ local mycolors = {
         bg            = "#CCCCB8",
         cursor_fg     = "#ffffff",
         cursor_bg     = "#000000",
-        float         = "#C9C9A6",
+        float         = "#DBDBC6",
         bg_dimmer     = "#d9d9d9",
         tabline       = "#DBDBC6",
         constant      = "#005cc5",
@@ -331,7 +331,7 @@ local mycolors = {
         keyword       = "#BD2636",
         string        = "#006B00",
         comment       = "#808073",
-        linenr        = "#B3B3A1",
+        linenr        = "#A2A290",
         incsearch     = "#ff661a",
         search        = "#f2ba40",
         cursorline    = "#C4C4B1",
@@ -500,7 +500,7 @@ local groups = {
 
 function M.MyColors(color_name)
 
-    local name = color_name or "myautumn1"
+    local name = color_name or "myautumn"
     -- vim.g.colors_name = name
     vim.cmd("set background=light")
     vim.cmd("syntax reset")

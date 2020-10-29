@@ -8,9 +8,9 @@ window:
     lines: 28
   padding:
     x: 0
-    y: 0
+    y: 0 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: true 
+  dynamic_padding: false 
   decorations: full
  
 scrolling:
@@ -25,10 +25,14 @@ cursor:
 
 # Font configuration
 font:
-  size: 6
+  size: 5.5
   normal:
     # family: FuraCode Nerd Font
-    family: FiraCode Nerd Font
+    # family: FiraCode Nerd Font
+    # family: NotoMono Nerd Font
+    family: RobotoMono Nerd Font
+    # family: Roboto Mono
+    # family: NotoMono Nerd Font
     # family: Menlo
     # family: MesloLGM Nerd Font
     # family: CodeNewRoman Nerd Font
@@ -37,9 +41,9 @@ font:
     # family: Inconsolata Nerd Font
     # family: Hack Nerd Font
     
-    style: Retina 
+    # style: Retina 
     # style: Retina
-    # style: Regular
+    style: Regular 
   bold:
     style: Retina
   italic:
@@ -487,7 +491,7 @@ schemes:
       blue:       '#005cc5' 
       magenta:    '#4f3281' 
       cyan:    '#005f87'
-      white:      '#000000' 
+      white:      '#ffffff' 
     bright:
       black:      '#1d1f21' 
       red:        '#D4162A' 
@@ -496,7 +500,7 @@ schemes:
       blue:       '#005cc5' 
       magenta:    '#4f3281' 
       cyan:    '#005f87'
-      white:      '#000000' 
+      white:      '#ffffff' 
 # colors: *doom_one
 # colors: *solarized_light
 # colors: *pencil_light

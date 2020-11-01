@@ -20,34 +20,30 @@ scrolling:
 # tabspaces: 4
 cursor:
   style: Block 
-  unfocused_hollow: true            
+  unfocused_hollow: true
   thickness: 0.26
 
 # Font configuration
 font:
-  size: 5.5
+  size: 11
   normal:
     # family: FuraCode Nerd Font
     # family: FiraCode Nerd Font
-    # family: NotoMono Nerd Font
-    family: RobotoMono Nerd Font
-    # family: Roboto Mono
-    # family: NotoMono Nerd Font
+    family: NotoSansMono Nerd Font
+    # family: RobotoMono Nerd Font
     # family: Menlo
     # family: MesloLGM Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: DejaVuSansMono Nerd Font Mono
     # family: DejaVuSansMono Nerd Font
-    # family: Inconsolata Nerd Font
     # family: Hack Nerd Font
     
-    # style: Retina 
     # style: Retina
     style: Regular 
   bold:
-    style: Retina
+    style: Regular 
   italic:
-    style: Retina
+    style: Regular 
   offset:
     x: 0
     y: 0
@@ -59,425 +55,8 @@ font:
 draw_bold_text_with_bright_colors: false
 
 schemes:
-  doom_one: &doom_one
-    primary:
-      background: '#282c34'
-      foreground: '#bbc2cf'
-    normal:
-      black:   '#282c34'
-      red:     '#da7f71'
-      green:   '#98be65'
-      yellow:  '#ecbe7b'
-      blue:    '#51afef'
-      magenta: '#c678dd'
-      cyan:    '#46d9ff'
-      white:   '#bbc2cf'
-    bright:
-      black:   '#282c34'
-      red:     '#da7f71'
-      green:   '#98be65'
-      yellow:  '#ecbe7b'
-      blue:    '#51afef'
-      magenta: '#c678dd'
-      cyan:    '#46d9ff'
-      white:   '#bbc2cf'
-
-  solarized_light: &solarized_light
-    primary:
-      background: '#fdf6e3' # base3
-      foreground: '#657b83' # base00
-    cursor:
-      text:   '#fdf6e3' # base3
-      cursor: '#657b83' # base00
-    normal:
-      black:   '#073642' # base02
-      red:     '#dc322f' # red
-      green:   '#859900' # green
-      yellow:  '#b58900' # yellow
-      blue:    '#268bd2' # blue
-      magenta: '#d33682' # magenta
-      cyan:    '#2aa198' # cyan
-      white:   '#eee8d5' # base2
-    bright:
-      black:   '#002b36' # base03
-      red:     '#cb4b16' # orange
-      green:   '#586e75' # base01
-      yellow:  '#657b83' # base00
-      blue:    '#839496' # base0
-      magenta: '#6c71c4' # violet
-      cyan:    '#93a1a1' # base1
-      white:   '#fdf6e3' # base3
-
-  solarized_dark: &solarized_dark
-    primary:
-      background: '#002b36' # base03
-      foreground: '#839496' # base0
-    cursor:
-      text:   '#002b36' # base03
-      cursor: '#839496' # base0
-    normal:
-      black:     '#073642'
-      red:       '#dc322f'
-      green:     '#859900'
-      yellow:    '#b58900'
-      blue:      '#268bd2'
-      magenta:   '#d33682'
-      cyan:      '#2aa198'
-      white:     '#eee8d5'
-    bright:
-      black:   '#002b36'
-      red:     '#cb4b16'
-      green:   '#586e75'
-      yellow:  '#657b83'
-      blue:    '#839496'
-      magenta: '#6c71c4'
-      cyan:    '#93a1a1'
-      white:   '#fdf6e3'
-
-  gruvbox_dark: &gruvbox_dark
-    primary:
-      # hard contrast: background = '#1d2021'
-      # soft contrast: background = '#32302f'
-      background: '#1d2021'
-      # background: '#32302f'
-      foreground: '#ebdbb2'
-    normal:
-      black:   '#282828'
-      red:     '#cc241d'
-      green:   '#98971a'
-      yellow:  '#d79921'
-      blue:    '#7daea3'
-      # blue:    '#458588'
-      magenta: '#b16286'
-      cyan:    '#689d6a'
-      white:   '#a89984'
-    bright:
-      black:   '#928374'
-      red:     '#fb4934'
-      green:   '#b8bb26'
-      yellow:  '#fabd2f'
-      blue:    '#7daea3'
-      # blue:    '#83a598'
-      magenta: '#d3869b'
-      cyan:    '#8ec07c'
-      white:   '#ebdbb2'
-
-  gruvbox_light: &gruvbox_light
-    primary:
-    # hard contrast: background = '#f9f5d7'
-      background: '#fbf1c7'
-    # soft contrast: background = '#f2e5bc'
-      foreground: '#3c3836'
-    normal:
-      black:   '#fbf1c7'
-      red:     '#cc241d'
-      green:   '#98971a'
-      yellow:  '#d79921'
-      blue:    '#458588'
-      magenta: '#b16286'
-      cyan:    '#689d6a'
-      white:   '#7c6f64'
-    bright:
-      black:   '#928374'
-      red:     '#9d0006'
-      green:   '#79740e'
-      yellow:  '#b57614'
-      blue:    '#076678'
-      magenta: '#8f3f71'
-      cyan:    '#427b58'
-      white:   '#3c3836'
-
-  gruvbox_material: &gruvbox_material
-    primary:
-      background: '#1d2021'
-      foreground: '#dfbf8e'
-      foreground: '#d5c4a1'
-    normal:
-      black:   '#665c54'
-      red:     '#ea6962'
-      green:   '#a9b665'
-      yellow:  '#e78a4e'
-      blue:    '#7daea3'
-      magenta: '#d3869b'
-      cyan:    '#89b482'
-      white:   '#dfbf8e'
-    bright:
-      black:   '#928374'
-      red:     '#ea6962'
-      green:   '#a9b665'
-      yellow:  '#e3a84e'
-      blue:    '#7daea3'
-      magenta: '#d3869b'
-      cyan:    '#89b482'
-      white:   '#dfbf8e'
-
-  gruvbox_base16_dark: &gruvbox_base16_dark
-    primary:
-      background: '#1d2021'
-      foreground: '#d5c4a1'
-    cursor:
-      text: '#1d2021'
-      cursor: '#d5c4a1'
-    normal:
-      black:   '#1d2021'
-      red:     '#fb4934'
-      # red:     '#b04934'
-      green:   '#b8bb26'
-      yellow:  '#fabd2f'
-      blue:    '#83a598'
-      magenta: '#d3869b'
-      cyan:    '#8ec07c'
-      white:   '#d5c4a1'
-    bright:
-      black:   '#665c54'
-      red:     '#fe8019'
-      green:   '#3c3836'
-      yellow:  '#504945'
-      blue:    '#bdae93'
-      magenta: '#ebdbb2'
-      cyan:    '#d65d0e'
-      white:   '#fbf1c7'
-
-  material_dark: &material_dark
-    primary:
-      background: '#263238'
-      foreground: '#eeffff'
-    cursor:
-      text: '#263238'
-      cursor: '#eeffff'
-    normal:
-      black:   '#263238'
-      red:     '#f07178'
-      green:   '#c3e88d'
-      yellow:  '#ffcb6b'
-      blue:    '#82aaff'
-      magenta: '#c792ea'
-      cyan:    '#89ddff'
-      white:   '#eeffff'
-    bright:
-      black:   '#546e7a'
-      red:     '#f07178'
-      green:   '#c3e88d'
-      yellow:  '#ffcb6b'
-      blue:    '#82aaff'
-      magenta: '#c792ea'
-      cyan:    '#89ddff'
-      white:   '#ffffff'
-    indexed_colors:
-      - { index: 16, color: '#f78c6c' }
-      - { index: 17, color: '#ff5370' }
-      - { index: 18, color: '#2e3c43' }
-      - { index: 19, color: '#314549' }
-      - { index: 20, color: '#b2ccd6' }
-      - { index: 21, color: '#eeffff' }
-
-  one_base16_light: &one_base16_light
-    primary:
-      background: '#fafafa'
-      foreground: '#383a42'
-    cursor:
-      text: '#fafafa'
-      cursor: '#383a42'
-    normal:
-      black:   '#fafafa'
-      red:     '#ca1243'
-      green:   '#50a14f'
-      yellow:  '#c18401'
-      blue:    '#4078f2'
-      magenta: '#a626a4'
-      cyan:    '#0184bc'
-      white:   '#383a42'
-    bright:
-      black:   '#a0a1a7'
-      red:     '#d75f00'
-      green:   '#f0f0f1'
-      yellow:  '#e5e5e6'
-      blue:    '#696c77'
-      magenta: '#202227'
-      cyan:    '#986801'
-      white:   '#090a0b'
-
-  gruvbox_base16_light: &gruvbox_base16_light
-    primary:
-      background: '#f9f5d7'
-      foreground: '#504945'
-    cursor:
-      text: '#f9f5d7'
-      cursor: '#504945'
-    normal:
-      black:   '#f9f5d7'
-      red:     '#9d0006'
-      green:   '#79740e'
-      yellow:  '#b57614'
-      blue:    '#076678'
-      magenta: '#8f3f71'
-      cyan:    '#427b58'
-      white:   '#504945'
-    bright:
-      black:   '#bdae93'
-      red:     '#af3a03'
-      green:   '#ebdbb2'
-      yellow:  '#d5c4a1'
-      blue:    '#665c54'
-      magenta: '#3c3836'
-      cyan:    '#d65d0e'
-      white:   '#282828'
-  
-  vim_code_dark: &vim_code_dark
-    primary:
-      background: '#1e1e1e'
-      foreground: '#d4d4d4'
-    cursor:
-      text: '#504945'
-      cursor: '#f9f5d7'
-    normal:
-      black:   '#1e1e1e'
-      red:     '#d16969'
-      green:   '#608b4e'
-      yellow:  '#dcdcaa'
-      blue:    '#569cd6'
-      magenta: '#8f3f71'
-      cyan:    '#9cdcfe'
-      white:   '#d4d4d4'
-    bright:
-      black:   '#1e1e1e'
-      red:     '#d16969'
-      green:   '#608b4e'
-      yellow:  '#dcdcaa'
-      blue:    '#569cd6'
-      magenta: '#8f3f71'
-      cyan:    '#9cdcfe'
-      white:   '#d4d4d4'
-
-  one_dark: &one_dark
-    primary:
-      background: '#1e2127'
-      foreground: '#abb2bf'
-    normal:
-      black:   '#1e2127'
-      red:     '#b55871'
-      green:   '#98c379'
-      yellow:  '#d19a66'
-      blue:    '#61afef'
-      magenta: '#c678dd'
-      cyan:    '#56b6c2'
-      white:   '#abb2bf'
-    bright:
-      black:   '#1e2127'
-      red:     '#e9969d'
-      green:   '#98c379'
-      yellow:  '#d19a66'
-      blue:    '#61afef'
-      magenta: '#c678dd'
-      cyan:    '#56b6c2'
-      white:   '#abb2bf'
-
-  pencil_light: &pencil_light
-    primary:
-      background: '#f1f1f1'
-      foreground: '#424242'
-    normal:
-      black:   '#212121'
-      red:     '#c30771'
-      green:   '#10a778'
-      yellow:  '#a89c14'
-      blue:    '#008ec4'
-      magenta: '#523c79'
-      cyan:    '#20a5ba'
-      white:   '#e0e0e0'
-    bright:
-      black:   '#212121'
-      red:     '#fb007a'
-      green:   '#5fd7af'
-      yellow:  '#f3e430'
-      blue:    '#20bbfc'
-      magenta: '#6855de'
-      cyan:    '#4fb8cc'
-      white:   '#f1f1f1'
-
-  paper_light: &paper_light
-    primary:
-      background: '#f6f8fa'
-      foreground: '#000000'
-    cursor:
-      text:       '#eeeeee'
-      cursor:     '#878787'
-    normal:
-      black:   '#eeeeee'
-      red:     '#af0000'
-      green:   '#008700'
-      yellow:  '#5f8700'
-      blue:    '#0087af'
-      magenta: '#878787'
-      cyan:    '#005f87'
-      white:   '#444444'
-    bright:
-      black:   '#bcbcbc'
-      red:     '#d70000'
-      green:   '#d70087'
-      yellow:  '#8700af'
-      blue:    '#d75f00'
-      magenta: '#d75f00'
-      cyan:    '#005faf'
-      white:   '#005f87'
-
-  tomorrow_night: &tomorrow_night
-    primary:
-      background: '#232323'
-      foreground: '#c5c8c6'
-    cursor:
-      text: '#000000'
-      cursor: '#cccccc'
-    normal:
-      black:   '#1d1f21'
-      # black:   '#303030'
-      red:     '#cc6666'
-      green:   '#b5bd68'
-      yellow:  '#e6c547'
-      blue:    '#81a2be'
-      magenta: '#b294bb'
-      cyan:    '#70c0ba'
-      white:   '#c5c8c6'
-    bright:
-      black:   '#1d1f21'
-      red:     '#cc6666'
-      green:   '#b5bd68'
-      yellow:  '#e6c547'
-      blue:    '#81a2be'
-      magenta: '#b294bb'
-      cyan:    '#70c0ba'
-      white:   '#ffffff'
-
-  myocean: &myocean
-    primary:
-      background: '#1b2b34' 
-      foreground: '#c0c5ce' 
-    # cursor:
-    #   text:       '#ffffff' 
-    #   cursor:     '#cc6666' 
-    normal:
-      black:      '#1d1f21' 
-      red:        '#d67162' 
-      green:      '#99c794' 
-      yellow:     '#fac863' 
-      blue:       '#6699cc' 
-      magenta:    '#c594c5' 
-      cyan:       '#62b3b2' 
-      white:      '#c0c5ce' 
-    bright:
-      black:      '#1d1f21' 
-      red:        '#d67162' 
-      green:      '#b5bd68'
-      yellow:     '#fac863' 
-      blue:       '#6699cc' 
-      magenta:    '#c594c5' 
-      cyan:       '#70c0ba'
-      white:      '#ffffff'
-
   mylight: &mylight
     primary:
-      # background: '#d4d7d7' 
-      # foreground: '#24292e' 
       background: '#D9D9C4' 
       foreground: '#000000' 
     # cursor:
@@ -486,7 +65,7 @@ schemes:
     normal:
       black:      '#1d1f21' 
       red:        '#D4162A' 
-      green:      '#007000' 
+      green:      '#006600' 
       yellow:     '#e27603' 
       blue:       '#005cc5' 
       magenta:    '#4f3281' 
@@ -495,25 +74,54 @@ schemes:
     bright:
       black:      '#1d1f21' 
       red:        '#D4162A' 
-      green:      '#007000' 
+      green:      '#006600' 
       yellow:     '#e27603' 
       blue:       '#005cc5' 
       magenta:    '#4f3281' 
       cyan:    '#005f87'
       white:      '#ffffff' 
-# colors: *doom_one
-# colors: *solarized_light
-# colors: *pencil_light
-# colors: *one_base16_light
-# colors: *solarized_dark
-# colors: *gruvbox_dark
-# colors: *vim_code_dark
-# colors: *tomorrow_night
-# colors: *paper_light
-# colors: *myocean
-colors: *mylight
+# colors: *mylight
 
-bell:
+colors:
+  primary:
+    background: '#1d2021'
+    foreground: '#a0a0a0'
+    # foreground: '#d5c4a1'
+
+  # Colors the cursor will use if `custom_cursor_colors` is true
+  cursor:
+    text: '#1d2021'
+    cursor: '#d5c4a1'
+
+  # Normal colors
+  normal:
+    black:   '#1d2021'
+    # red:     '#ff8566'
+    red:     '#ff9f80'
+    green:   '#b8bb26'
+    yellow:  '#fabd2f'
+    blue:    '#83a598'
+    magenta: '#d3869b'
+    cyan:    '#8ec07c'
+    # white:   '#d5c4a1'
+    white:   '#a0a0a0'
+
+  # Bright colors
+  bright:
+    black:   '#665c54'
+    # red:     '#fe8019'
+    # red:     '#ff8566'
+    red:     '#ff9f80'
+    green:   '#3c3836'
+    yellow:  '#504945'
+    blue:    '#bdae93'
+    magenta: '#ebdbb2'
+    cyan:    '#005f87'
+    white:   '#fbf1c7'
+
+
+
+    bell:
   animation: EaseOutExpo
   duration: 0
   color: '#ffffff'
@@ -547,18 +155,12 @@ enable_experimental_conpty_backend: false
 # alt_send_esc: false 
 
 key_bindings:
-  # (Windows/Linux only)
   - { key: V,        mods: Control|Shift, action: Paste       }
   - { key: C,        mods: Control|Shift, action: Copy        }
+  - { key: V,        mods: Control, action: Paste       }
   - { key: F,        mods: Control|Shift, action: ReceiveChar }
   - { key: PageUp,   mods: Shift,   action: ScrollPageUp      }
   - { key: PageDown, mods: Shift,   action: ScrollPageDown    }
   - { key: End,      mods: Shift,   action: ScrollToBottom    }
   - { key: Home,     mods: Shift,   action: ScrollToTop       }
-  # - { key: J,        mods: Alt,     chars: "\x1bj"                       }
-  # - { key: K,        mods: Alt,     chars: "\x1bk"                       }
-  # - { key: H,        mods: Alt,     chars: "\x1bh"                       }
-  # - { key: L,        mods: Alt,     chars: "\x1bl"                       }
-  # - { key: N,        mods: Alt,     chars: "\x1bn"                       }
-  # - { key: P,        mods: Alt,     chars: "\x1bp"                       }
-  # - { key: X,        mods: Alt,     chars: "\x1bx"                       }
+  - { key: Tab,     mods: Control,   chars: "\e[27;5;9~" }

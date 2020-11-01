@@ -136,10 +136,12 @@ function settings.Setup_general()
     vim.g.netrw_liststyle = 3
     vim.g.netrw_banner = 0
     vim.g.netrw_hide = 1
-    vim.o["statusline"] = "%* %f%{&modified?'*':''}  [%{split(getcwd(),'/')[-1]}] %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+    vim.o["statusline"] =
+        "%* %f%{&modified?'*':''}  [%{split(getcwd(),'/')[-1]}] %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
     au FileType markdown set shiftwidth=2
+    autocmd Filetype lua setlocal ts=4 sts=4 sw=4
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
     au TermOpen * startinsert
     au Bufenter term://*zsh* startinsert
@@ -184,7 +186,7 @@ function Setup_treesitter()
                 enable = false
             },
             smart_rename = {
-                enable = false,
+                enable = true,
                 keymaps = {
                     smart_rename = "<f3>"
                 }
@@ -197,7 +199,26 @@ function Setup_treesitter()
             }
         },
         textobjects = {
-            enable = false,
+            select = {
+                enable = true,
+                keymaps = {
+                    -- You can use the capture groups defined in textobjects.scm
+                    ["af"] = "@function.outer",
+                    ["if"] = "@function.inner",
+                    ["ac"] = "@class.outer",
+                    ["ic"] = "@class.inner",
+                    -- Or you can define your own textobjects like this
+                    ["iF"] = {
+                        python = "(function_definition) @function",
+                        cpp = "(function_definition) @function",
+                        c = "(function_definition) @function",
+                        java = "(method_declaration) @function"
+                    }
+                }
+            }
+        },
+        indent = {
+            enable = true
         },
         ensure_installed = {"c", "html", "lua", "rust", "json", "javascript", "go", "typescript", "java", "python"}
     }
@@ -295,8 +316,8 @@ function Setup_lsp()
     require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
     require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
     require "nvim_lsp".jdtls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".metals.setup { on_attach = lsp_attach }
-    require "nvim_lsp".html.setup { on_attach = lsp_attach }
+    require "nvim_lsp".metals.setup {on_attach = lsp_attach}
+    require "nvim_lsp".html.setup {on_attach = lsp_attach}
 
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
@@ -309,24 +330,23 @@ function Setup_lsp()
     api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<f3>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<f5>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
 
-    fn.sign_define("LspDiagnosticsErrorSign", {text = "⛔", texthl = "LspDiagnosticsErrorSign"})
-    fn.sign_define("LspDiagnosticsWarningSign", {text = "⚑", texthl = "LspDiagnosticsWarningSign"})
-    fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "LspDiagnosticsInformationSign"})
-    fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "LspDiagnosticsHintSign"})
+    fn.sign_define("LspDiagnosticsErrorSign", {text = "⛔", texthl = "LspDiagnosticsError"})
+    fn.sign_define("LspDiagnosticsWarningSign", {text = "⚑", texthl = "LspDiagnostics"})
+    fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "Comment"})
+    fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "Comment"})
 
     -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 1000)", "")
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
-
 end
 
 function Setup_fzf()
     -- vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
     -- vim.g.fzf_layout = {window = "30new"}
-    vim.g.fzf_layout = { down = "30%" }
+    vim.g.fzf_layout = {down = "30%"}
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
@@ -361,7 +381,7 @@ function Setup_fzf()
         command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=never --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
         let g:XXfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
-        let g:fzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'keyword'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
+        let g:XYfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'keyword'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
     ]],
         ""
@@ -466,7 +486,7 @@ function Setup_cargo()
 
         vim.cmd("split term://" .. cmd)
         api.nvim_buf_set_keymap(0, "n", "q", "<C-\\><C-N>:bd!<cr>", keyopts)
-        vim.cmd("stopinsert")
+        -- vim.cmd("stopinsert")
         vim.cmd("normal G")
     end
 
@@ -481,11 +501,14 @@ function Setup_cargo()
         run_and_wait("cargo check")
         local line = fn.search("^error")
         if line == 0 then
-            vim.cmd("echo 'No errors found!'")
-            vim.cmd("normal G")
+            -- vim.cmd("echo 'No errors found!'")
+            -- vim.cmd("normal G")
+            -- vim.cmd("q")
+            vim.cmd("echo 'OK!'")
+        else
+            vim.cmd("stopinsert")
+            api.nvim_buf_set_keymap(0, "n", "q", "<C-\\><C-N>:bd!<cr>", keyopts)
         end
-        vim.cmd("stopinsert")
-        api.nvim_buf_set_keymap(0, "n", "q", "<C-\\><C-N>:bd!<cr>", keyopts)
     end
 
     function Cargo_test()
@@ -495,7 +518,7 @@ function Setup_cargo()
             vim.cmd("echo 'No errors found!'")
             vim.cmd("normal G")
         end
-        vim.cmd("stopinsert")
+        -- vim.cmd("stopinsert")
         vim.cmd("nohl")
         api.nvim_buf_set_keymap(0, "n", "q", "<C-\\><C-N>:bd!<cr>", keyopts)
     end
@@ -631,10 +654,61 @@ function Setup_dirvish()
     )
 end
 
+function Mydark()
+    api.nvim_exec(
+        [[
+    hi clear
+    syntax reset
+	let g:gruvbox_contrast_dark = 'hard'
+    let g:gruvbox_colors = {'bg0_h':'#1d2021','bg2':'#282828' ,'fg1': '#a0a0a0','red': '#ff9f80', 'green': '#92941e', 'purple': '#c96983', 'blue': '#4d9599', 'orange': '#cb5c01', 'aqua': '#689d6a'}
+    colorscheme gruvbox
+    hi! statusline guibg='#2e2e2e' guifg='#a0a0a0' gui=none
+	hi! cursorline guibg='#282828'
+	hi! cursorlinenr guibg='#282828'
+	hi! comment guifg='#665c54'
+    hi! link helpexample gruvboxgray 
+	hi! linenr guifg='#504945'
+	hi! visual guibg='#3c3836' gui='none'
+
+	hi! link LspDiagnosticsError GruvboxRed
+	hi! link LspDiagnosticsWarning GruvboxYellow
+    hi! signcolumn guibg=none
+    hi! link Boolean GruvBoxBlue
+    hi! link TSKeyword GruvBoxBlue
+    hi! link TSKeywordFunction GruvBoxBlue
+    hi! link TSNumber GruvBoxBlue
+    hi! link TSFunction GruvBoxAqua
+    hi! link TSMacro GruvBoxBlue
+    hi! link TSConditional GruvBoxBlue
+    hi! link TSRepeat GruvBoxBlue
+    hi! link TSTag GruvBoxBlue
+    hi! TSTagDelimiter guifg=none 
+    hi! TSNamespace guifg=none
+    hi! TSField guifg=none
+    hi! TSParameter guifg=none
+    hi! TSParameterReference guifg=none
+    hi! TSProperty guifg=none
+    hi! TSType guifg=none
+    hi! Type guifg=none
+    hi! TSPunctDelimiter guifg=none
+    hi! TSPunctSpecial guifg=none
+    hi! TSPunctBracket guifg=none
+    hi! TSVariable guifg=none
+    hi! TSVariableBuiltin guifg=none
+    hi! TSConstant guifg=none
+    hi! TSOperator guifg=none
+        ]],
+        ""
+    )
+
+    api.nvim_exec([[ command! -nargs=0 Mydark lua Mydark() ]], "")
+end
+
 function Setup()
     for _, setup in pairs(settings) do
         setup()
     end
+    Mydark()
 end
 
 Setup()

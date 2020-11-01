@@ -1,4 +1,3 @@
-lua require("init")
 
 call plug#begin('~/.vim/plugged')
 Plug 'cespare/vim-toml'
@@ -11,7 +10,7 @@ Plug 'mbbill/undotree'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'guns/vim-sexp', { 'for': 'clojure' } 
 Plug 'jasilven/redbush', { 'for': 'clojure' }
-Plug 'flazz/vim-colorschemes' 
+Plug 'gruvbox-community/gruvbox' 
 Plug 'vim-scripts/Align'
 Plug 'airblade/vim-rooter'
 Plug 'tpope/vim-fugitive'
@@ -29,11 +28,12 @@ Plug 'mhinz/vim-signify'
 Plug 'justinmk/vim-dirvish'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter' | Plug 'nvim-treesitter/nvim-treesitter-refactor' | Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'neovim/nvim-lspconfig' | Plug 'nvim-lua/completion-nvim' | Plug 'nvim-lua/diagnostic-nvim'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
+lua require("init")
 lua Setup_vimrooter()
 lua Setup_fugitive()
 lua Setup_easymotion()
@@ -51,10 +51,7 @@ lua Setup_nvimtree()
 lua Setup_colorizer()
 lua Setup_treesitter()
 lua Setup_lsp()
-
 lua Setup_cargo()
 lua Setup_go()
-
 "lua Setup_coc()
 
-lua require "colors".MyColors()

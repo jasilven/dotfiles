@@ -3,9 +3,7 @@
 #### AUTOSTART ####
 xset b off
 xset r rate 280 45
-# setxkbmap us intl -option ctrl:nocaps
-setxkbmap -layout us -variant altgr-intl -option nodeadkeys -option ctrl:nocaps
- 
+# setxkbmap -layout us -variant altgr-intl -option nodeadkeys -option ctrl:nocaps
 
 #### BSPWM configuration ####
 # bspc config border_radius                8
@@ -56,18 +54,19 @@ bspc rule -a "cinnamon-settings" state=floating follow=on
 
 bspc monitor -d 1 2
 
+# shutdown laptop monitor
+xrandr --output eDP-1 --off
 
+# restart polybar
 killall -q polybar
-MONITOR=$(xrandr --query | grep " connected" | cut -d" " -f1| head -1) polybar -r top &
+# MONITOR=$(xrandr --query | grep " connected" | cut -d" " -f1| head -1) polybar -r top &
+MONITOR=DP-1 polybar -r top &
 
+
+# start sxhkd
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-killall -q redshift-gtk
-redshift-gtk &
-
-killall -q blueberry-tray 
-blueberry-tray &
-
+# background
 feh --bg-center /usr/share/backgrounds/linuxmint-tina/acaproni_maldives.jpg &
 
 pgrep alacritty || alacritty &

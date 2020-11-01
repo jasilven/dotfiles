@@ -45,4 +45,4 @@ super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
 super + Pause
-    i3lock -c 000000
+    systemctl suspend & 

@@ -6,7 +6,7 @@ width = 100%
 height = 24
 dpi = 192
 background = #1f1f1f
-foreground = #eee
+foreground = #aaa
 line-color = ${self.background}
 line-size = 1
 padding-left = 0
@@ -21,7 +21,7 @@ font-3 = Siji:pixelsize=6;1
 font-4 = FontAwesome:size=6;0
 modules-left = bspwm
 modules-center = title
-modules-right = cpu pulseaudio temperature wireless-network wired-network battery date        
+modules-right = cpu pulseaudio temperature wireless-network wired-network backlight battery date        
 tray-position = right 
 tray-scale = 1.0
 tray-transparent = false 
@@ -170,8 +170,8 @@ ramp-coreload-7-foreground = #ff5555
 
 [module/date]
 type = internal/date
-date-alt =    %%{F#99}%Y-%m-%d%%{F-} %%{F#fff}%H:%M  %%{F-}
-date =   %%{F#fff}%A, %d %B %Y  %%{F#fff}%H:%M%%{F#666}  %%{F#fba922}%%{F-}
+date-alt =    %%{F#ddd}%Y-%m-%d%%{F-} %%{F#aaff77}%H:%M  %%{F-}
+date =   %%{F#ddd}%A, %d %B %Y  %%{F#aaff77}%H:%M%%{F#666}  %%{F#ddd}%%{F-}
 interval = 10
 
 [module/wireless-network]

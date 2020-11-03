@@ -1,5 +1,5 @@
-# env:
-#    TERM: xterm-256color
+env:
+  TERM: xterm-256color
 
 window:
   # If both are `0`, this setting is ignored.
@@ -25,14 +25,11 @@ cursor:
 
 # Font configuration
 font:
-  size: 11
+  size: 15
   normal:
-    # family: FuraCode Nerd Font
     # family: FiraCode Nerd Font
     family: NotoSansMono Nerd Font
     # family: RobotoMono Nerd Font
-    # family: Menlo
-    # family: MesloLGM Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: DejaVuSansMono Nerd Font Mono
     # family: DejaVuSansMono Nerd Font
@@ -80,51 +77,98 @@ schemes:
       magenta:    '#4f3281' 
       cyan:    '#005f87'
       white:      '#ffffff' 
-# colors: *mylight
 
-colors:
+solarized: &solarized
   primary:
-    background: '#1d2021'
-    foreground: '#a0a0a0'
-    # foreground: '#d5c4a1'
-
-  # Colors the cursor will use if `custom_cursor_colors` is true
+    background: '0x002b36'
+    foreground: '0x93a1a1'
   cursor:
-    text: '#1d2021'
-    cursor: '#d5c4a1'
-
-  # Normal colors
+    text: '0x002b36'
+    cursor: '0x93a1a1'
   normal:
-    black:   '#1d2021'
-    # red:     '#ff8566'
-    red:     '#ff9f80'
-    green:   '#b8bb26'
-    yellow:  '#fabd2f'
-    blue:    '#83a598'
-    magenta: '#d3869b'
-    cyan:    '#8ec07c'
-    # white:   '#d5c4a1'
-    white:   '#a0a0a0'
-
-  # Bright colors
+    black:   '0x002b36'
+    red:     '0xdc322f'
+    green:   '0x859900'
+    yellow:  '0xb58900'
+    blue:    '0x268bd2'
+    magenta: '0x6c71c4'
+    cyan:    '0x2aa198'
+    white:   '0x93a1a1'
   bright:
-    black:   '#665c54'
-    # red:     '#fe8019'
-    # red:     '#ff8566'
-    red:     '#ff9f80'
-    green:   '#3c3836'
-    yellow:  '#504945'
-    blue:    '#bdae93'
-    magenta: '#ebdbb2'
-    cyan:    '#005f87'
-    white:   '#fbf1c7'
+    black:   '0x657b83'
+    red:     '0xcb4b16'
+    green:   '0x073642'
+    yellow:  '0x586e75'
+    blue:    '0x839496'
+    magenta: '0xeee8d5'
+    cyan:    '0xd33682'
+    white:   '0xfdf6e3'
+colors: *solarized
 
+# colors:
+#   primary:
+#     background: '#1d2021'
+#     foreground: '#a0a0a0'
+#     # foreground: '#d5c4a1'
 
+#   # Colors the cursor will use if `custom_cursor_colors` is true
+#   cursor:
+#     text: '#1d2021'
+#     cursor: '#d5c4a1'
 
-    bell:
-  animation: EaseOutExpo
-  duration: 0
-  color: '#ffffff'
+#   # Normal colors
+#   normal:
+#     black:   '#1d2021'
+#     # red:     '#ff8566'
+#     red:     '#ff9f80'
+#     green:   '#b8bb26'
+#     yellow:  '#fabd2f'
+#     blue:    '#83a598'
+#     magenta: '#d3869b'
+#     cyan:    '#8ec07c'
+#     # white:   '#d5c4a1'
+#     white:   '#a0a0a0'
+
+#   # Bright colors
+#   bright:
+#     black:   '#665c54'
+#     # red:     '#fe8019'
+#     # red:     '#ff8566'
+#     red:     '#ff9f80'
+#     green:   '#3c3836'
+#     yellow:  '#504945'
+#     blue:    '#bdae93'
+#     magenta: '#ebdbb2'
+#     cyan:    '#005f87'
+#     white:   '#fbf1c7'
+
+# colors:
+#   # Default colors
+#   primary:
+#     background: '#161821'
+#     foreground: '#d2d4de'
+
+#   # Normal colors
+#   normal:
+#     black:   '#161821'
+#     red:     '#e27878'
+#     green:   '#b4be82'
+#     yellow:  '#e2a478'
+#     blue:    '#84a0c6'
+#     magenta: '#a093c7'
+#     cyan:    '#89b8c2'
+#     white:   '#c6c8d1'
+
+#   # Bright colors
+#   bright:
+#     black:   '#6b7089'
+#     red:     '#e98989'
+#     green:   '#c0ca8e'
+#     yellow:  '#e9b189'
+#     blue:    '#91acd1'
+#     magenta: '#ada0d3'
+#     cyan:    '#95c4ce'
+#     white:   '#d2d4de'
 
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
@@ -148,7 +192,7 @@ live_config_reload: true
 background_opacity: 1.0
 
 shell:
-  program: zsh
+  program: fish
 enable_experimental_conpty_backend: false
 
 # Send ESC (\x1b) before characters when alt is pressed.
@@ -157,7 +201,6 @@ enable_experimental_conpty_backend: false
 key_bindings:
   - { key: V,        mods: Control|Shift, action: Paste       }
   - { key: C,        mods: Control|Shift, action: Copy        }
-  - { key: V,        mods: Control, action: Paste       }
   - { key: F,        mods: Control|Shift, action: ReceiveChar }
   - { key: PageUp,   mods: Shift,   action: ScrollPageUp      }
   - { key: PageDown, mods: Shift,   action: ScrollPageDown    }

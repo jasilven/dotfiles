@@ -1,10 +1,11 @@
 format = """
-$shlvl\
+$username\
+$hostname\
 $directory\
+$shlvl\
 $git_branch\
 $git_commit\
 $git_state\
-$git_status\
 $env_var\
 $cmd_duration\
 $line_break\
@@ -18,3 +19,20 @@ $character"""
 truncation_length = 8
 truncate_to_repo = false
 use_logical_path = false
+
+[hostname]
+ssh_only = false
+format =  "@[$hostname](blue) "
+trim_at = ".companyname.com"
+disabled = false
+
+[username]
+style_user = "white bold"
+style_root = "black bold"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "

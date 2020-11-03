@@ -14,14 +14,10 @@ function settings.Setup_keymaps()
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-Left>", rhs = "<C-\\><C-N>:bprev<cr>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-l>", rhs = "<C-\\><C-N>:bnext<cr>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-h>", rhs = "<C-\\><C-N>:bprev<cr>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-k>", rhs = "<C-\\><C-N><C-w>k"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-j>", rhs = "<C-\\><C-N><C-w>j"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-h>", rhs = "<C-\\><C-N><C-w>h"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-l>", rhs = "<C-\\><C-N><C-w>l"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-up>", rhs = "<C-\\><C-N><C-w>k"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-down>", rhs = "<C-\\><C-N><C-w>j"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-left>", rhs = "<C-\\><C-N><C-w>h"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-right>", rhs = "<C-\\><C-N><C-w>l"},
+        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-k>", rhs = "<C-\\><C-N><C-w>k"},
+        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-j>", rhs = "<C-\\><C-N><C-w>j"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-t>", rhs = "<C-\\><C-N>:term<cr>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:wqa<cr>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-w><C-w>", rhs = "<C-\\><C-N><C-w>w"},
@@ -36,6 +32,8 @@ function settings.Setup_keymaps()
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
         {mods = {"n", "i"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:e.<cr>"},
+        {mods = {"n"}, lhs = "<M-k>", rhs = "{"},
+        {mods = {"n"}, lhs = "<M-j>", rhs = "}"},
         {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
         {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
         {mods = {"v"}, lhs = "<C-S-up>", rhs = ":m '<-2<CR>gv=gv"},
@@ -123,7 +121,7 @@ function settings.Setup_options()
     vim.o["updatetime"] = 300
     vim.o["wildignore"] = "*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*/.git/*,*/target/*,*~,tags"
     vim.o["wildmenu"] = true
-    vim.o["wildmode"] = "list:longest,full"
+    vim.o["wildmode"] = "longest:full"
     vim.o["wrap"] = true
     vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
     vim.o["grepformat"] = "%f:%l:%c:%m"
@@ -325,7 +323,7 @@ function Setup_lsp()
     api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
     api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
     api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
@@ -334,8 +332,8 @@ function Setup_lsp()
     api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
 
-    fn.sign_define("LspDiagnosticsErrorSign", {text = "⛔", texthl = "LspDiagnosticsError"})
-    fn.sign_define("LspDiagnosticsWarningSign", {text = "⚑", texthl = "LspDiagnostics"})
+    fn.sign_define("LspDiagnosticsErrorSign", {text = "⛔", texthl = "LspDiagnosticsErrorSign"})
+    fn.sign_define("LspDiagnosticsWarningSign", {text = "⚑", texthl = "LspDiagnosticsWarningSign"})
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "Comment"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "Comment"})
 
@@ -434,7 +432,6 @@ function Setup_gutentags()
         "vendor",
         ".git",
         "node_modules",
-        "*.vim/bundle/*",
         "target",
         "classes",
         ".cache"
@@ -654,61 +651,73 @@ function Setup_dirvish()
     )
 end
 
-function Mydark()
+local function colors()
     api.nvim_exec(
         [[
-    hi clear
-    syntax reset
-	let g:gruvbox_contrast_dark = 'hard'
-    let g:gruvbox_colors = {'bg0_h':'#1d2021','bg2':'#282828' ,'fg1': '#a0a0a0','red': '#ff9f80', 'green': '#92941e', 'purple': '#c96983', 'blue': '#4d9599', 'orange': '#cb5c01', 'aqua': '#689d6a'}
-    colorscheme gruvbox
-    hi! statusline guibg='#2e2e2e' guifg='#a0a0a0' gui=none
-	hi! cursorline guibg='#282828'
-	hi! cursorlinenr guibg='#282828'
-	hi! comment guifg='#665c54'
-    hi! link helpexample gruvboxgray 
-	hi! linenr guifg='#504945'
-	hi! visual guibg='#3c3836' gui='none'
-
-	hi! link LspDiagnosticsError GruvboxRed
-	hi! link LspDiagnosticsWarning GruvboxYellow
-    hi! signcolumn guibg=none
-    hi! link Boolean GruvBoxBlue
-    hi! link TSKeyword GruvBoxBlue
-    hi! link TSKeywordFunction GruvBoxBlue
-    hi! link TSNumber GruvBoxBlue
-    hi! link TSFunction GruvBoxAqua
-    hi! link TSMacro GruvBoxBlue
-    hi! link TSConditional GruvBoxBlue
-    hi! link TSRepeat GruvBoxBlue
-    hi! link TSTag GruvBoxBlue
-    hi! TSTagDelimiter guifg=none 
-    hi! TSNamespace guifg=none
-    hi! TSField guifg=none
-    hi! TSParameter guifg=none
-    hi! TSParameterReference guifg=none
-    hi! TSProperty guifg=none
-    hi! TSType guifg=none
-    hi! Type guifg=none
-    hi! TSPunctDelimiter guifg=none
-    hi! TSPunctSpecial guifg=none
-    hi! TSPunctBracket guifg=none
-    hi! TSVariable guifg=none
-    hi! TSVariableBuiltin guifg=none
-    hi! TSConstant guifg=none
-    hi! TSOperator guifg=none
+    set background=dark
+    colorscheme solar
         ]],
         ""
     )
-
-    api.nvim_exec([[ command! -nargs=0 Mydark lua Mydark() ]], "")
 end
 
 function Setup()
     for _, setup in pairs(settings) do
         setup()
     end
-    Mydark()
+
+    colors()
 end
 
 Setup()
+
+
+	-- let g:gruvbox_contrast_dark = 'hard'
+    -- let g:gruvbox_colors = {'red': '#cc8800', 'fg1': '#a0a0a0'}
+
+    -- colorscheme gruvbox
+    -- hi! Special guifg=none
+    -- let g:gruvbox_colors = {'bg0_h':'#1d2021','bg2':'#282828' ,'fg1': '#a0a0a0','red': '#ff9f80', 'green': '#92941e', 'purple': '#c96983', 'blue': '#4d9599', 'orange': '#7f3901', 'aqua': '#689d6a'}
+    -- hi! statusline guibg='#2e2e2e' guifg='#a0a0a0' gui=none
+	-- hi! cursorline guibg='#282828'
+	-- hi! cursorlinenr guibg='#282828'
+	-- hi! comment guifg='#665c54'
+    -- hi! link helpexample gruvboxgray 
+	-- hi! linenr guifg='#504945'
+	-- hi! visual guibg='#3c3836' gui='none'
+	-- hi! link LspDiagnosticsError GruvboxRed
+	-- hi! link LspDiagnosticsWarning GruvboxYellow
+    -- hi! signcolumn guibg=none
+    -- hi! link Keyword GruvBoxBlue
+    -- hi! link Conditional GruvBoxBlue
+    -- hi! link Repeat GruvBoxBlue
+    -- hi! link Boolean GruvBoxBlue
+    -- hi! link TSKeyword GruvBoxBlue
+    -- hi! link TSKeywordFunction GruvBoxBlue
+    -- hi! link TSNumber GruvBoxBlue
+    -- hi! link TSFunction GruvBoxAqua
+    -- hi! link TSMacro GruvBoxBlue
+    -- hi! link TSConditional GruvBoxBlue
+    -- hi! link TSRepeat GruvBoxBlue
+    -- hi! link TSTag GruvBoxBlue
+    -- hi! TSTagDelimiter guifg=none 
+    -- hi! TSNamespace guifg=none
+    -- hi! TSField guifg=none
+    -- hi! TSParameter guifg=none
+    -- hi! TSParameterReference guifg=none
+    -- hi! TSProperty guifg=none
+    -- hi! TSType guifg=none
+    -- hi! TSPunctDelimiter guifg=none
+    -- hi! TSPunctSpecial guifg=none
+    -- hi! TSPunctBracket guifg=none
+    -- hi! TSVariable guifg=none
+    -- hi! TSVariableBuiltin guifg=none
+    -- hi! TSConstant guifg=none
+    -- hi! TSOperator guifg=none
+    -- hi! RustEnum guifg=none
+    -- hi! RustEnumVariant guifg=none
+    -- hi! RustModPath guifg=none
+    -- hi! Type guifg=none
+    -- hi! link Macro Function 
+    -- hi! link Number Keyword
+    -- api.nvim_exec([[ command! -nargs=0 Mydark lua Mydark() 

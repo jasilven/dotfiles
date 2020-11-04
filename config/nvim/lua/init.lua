@@ -1,8 +1,12 @@
 local vim = vim
 local api = vim.api
 local fn = vim.fn
-local keyopts = {nowait = true, noremap = true, silent = true}
 
+vim.cmd 'packadd paq-nvim'
+local paq = require'paq-nvim'.paq
+paq{'savq/paq-nvim', opt=true}
+
+local keyopts = {nowait = true, noremap = true, silent = true}
 local settings = {}
 
 function settings.Setup_keymaps()
@@ -31,9 +35,10 @@ function settings.Setup_keymaps()
         {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
-        {mods = {"n", "i"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:e.<cr>"},
-        {mods = {"n"}, lhs = "<M-k>", rhs = "{"},
-        {mods = {"n"}, lhs = "<M-j>", rhs = "}"},
+        {mods = {"n", "i"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
+        {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:close<cr>"},
+        {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
+        {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
         {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
         {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
         {mods = {"v"}, lhs = "<C-S-up>", rhs = ":m '<-2<CR>gv=gv"},
@@ -47,6 +52,7 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
         {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
         {mods = {"n"}, lhs = "<space>x", rhs = ":close<cr>"},
+        {mods = {"n"}, lhs = "<space>n", rhs = "<C-\\><C-N>:e.<cr>"},
         {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "Q", rhs = "<Nop>"},
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
@@ -62,7 +68,6 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "Wk", rhs = "<C-w>k"},
         {mods = {"n"}, lhs = "Wh", rhs = "<C-w>h"},
         {mods = {"n"}, lhs = "Wl", rhs = "<C-w>l"},
-        {mods = {"n"}, lhs = "go", rhs = "<C-o>"},
         {mods = {"n"}, lhs = "yh", rhs = "y0"},
         {mods = {"n"}, lhs = "yl", rhs = "y$"},
         {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
@@ -121,10 +126,11 @@ function settings.Setup_options()
     vim.o["updatetime"] = 300
     vim.o["wildignore"] = "*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*/.git/*,*/target/*,*~,tags"
     vim.o["wildmenu"] = true
-    vim.o["wildmode"] = "longest:full"
-    vim.o["wrap"] = true
+    vim.o["wildmode"] = "list:longest,full"
+    vim.o["wrap"] = false
     vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
     vim.o["grepformat"] = "%f:%l:%c:%m"
+    vim.wo["wrap"] = false
     vim.wo["foldenable"] = false
     vim.wo["number"] = true
     vim.wo["signcolumn"] = "yes:1"
@@ -135,7 +141,7 @@ function settings.Setup_general()
     vim.g.netrw_banner = 0
     vim.g.netrw_hide = 1
     vim.o["statusline"] =
-        "%* %f%{&modified?'*':''}  [%{split(getcwd(),'/')[-1]}] %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+        "%*  [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''}  %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
     au FileType markdown set shiftwidth=2
@@ -143,10 +149,10 @@ function settings.Setup_general()
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
     au TermOpen * startinsert
     au Bufenter term://*zsh* startinsert
+    au Bufenter term://*fish* startinsert
     au TextYankPost * silent! lua vim.highlight.on_yank()
     vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
     nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
-    nnoremap <F5> "=strftime("%a %d %b %Y")<CR>P
     inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
     command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z
     command! -nargs=+ Grep execute 'silent grep! <args>' | copen 15
@@ -166,7 +172,10 @@ function settings.Setup_general()
     )
 end
 
-function Setup_treesitter()
+local function treesitter()
+    paq 'nvim-treesitter/nvim-treesitter'
+    paq 'nvim-treesitter/nvim-treesitter-refactor'
+    paq 'nvim-treesitter/nvim-treesitter-textobjects'
     require "nvim-treesitter.configs".setup {
         highlight = {
             enable = true,
@@ -218,11 +227,12 @@ function Setup_treesitter()
         indent = {
             enable = true
         },
-        ensure_installed = {"c", "html", "lua", "rust", "json", "javascript", "go", "typescript", "java", "python"}
+        ensure_installed = "maintained",
     }
 end
 
-function Setup_colorizer()
+local function colorizer()
+    paq 'norcalli/nvim-colorizer.lua'
     require "colorizer".setup()
 end
 
@@ -257,11 +267,14 @@ function Setup_nvimtree()
         ""
     )
     api.nvim_set_keymap("n", "<C-n>", ":LuaTreeToggle<cr>", keyopts)
-    api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
     api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
 end
 
-function Setup_lsp()
+local function lsp()
+    paq 'neovim/nvim-lspconfig'
+    paq 'nvim-lua/completion-nvim'
+    paq 'nvim-lua/diagnostic-nvim'
     local function setup_diagnostics(client, bufnr)
         vim.g.diagnostic_enable_virtual_text = 1
         -- vim.g.diagnostic_virtual_text_prefix = ""
@@ -341,7 +354,10 @@ function Setup_lsp()
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
-function Setup_fzf()
+local function fzf()
+    paq 'junegunn/fzf'
+    paq 'junegunn/fzf.vim'
+
     -- vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
     -- vim.g.fzf_layout = {window = "30new"}
     vim.g.fzf_layout = {down = "30%"}
@@ -355,6 +371,7 @@ function Setup_fzf()
     api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
@@ -386,18 +403,21 @@ function Setup_fzf()
     )
 end
 
-function Setup_anyjump()
+local function anyjump()
+    paq 'pechorin/any-jump.vim'
     vim.g.any_jump_window_width_ratio = 0.8
     vim.g.any_jump_window_height_ratio = 0.3
     api.nvim_set_keymap("n", "<space>j", ":AnyJump<cr>", keyopts)
 end
 
-function Setup_easymotion()
+local function easymotion()
+    paq 'easymotion/vim-easymotion'
     vim.g.EasyMotion_keys = "abcdefghijklmnopqrstuvwxy"
     api.nvim_set_keymap("n", "f", "<Plug>(easymotion-bd-f)", {nowait = true, silent = true})
 end
 
-function Setup_autopairs()
+local function autopairs()
+    paq 'jiangmiao/auto-pairs'
     vim.g.autoPairsShortcutToggle = ""
     vim.g.AutoPairsShortcutJump = ""
     vim.g.AutoPairsShortcutBackInsert = ""
@@ -406,12 +426,15 @@ function Setup_autopairs()
     vim.g.PairsShortcutJump = ""
 end
 
-function Setup_signify()
+local function signify()
+    paq 'mhinz/vim-signify'
     vim.g.signify_line_highlight = 0
     vim.g.signify_disable_by_default = 1
 end
 
-function Setup_vimrooter()
+local function vimrooter()
+    paq 'airblade/vim-rooter'
+    vim.g.rooter_change_directory_for_non_project_files = 'current'
     vim.g.rooter_silent_chdir = 1
     vim.g.rooter_patterns = {
         "project.clj",
@@ -424,7 +447,8 @@ function Setup_vimrooter()
     }
 end
 
-function Setup_gutentags()
+local function gutentags()
+    paq 'ludovicchabant/vim-gutentags'
     vim.g.gutentags_ctags_exclude = {
         "*.min.js",
         "*.min.css",
@@ -438,21 +462,25 @@ function Setup_gutentags()
     }
 end
 
-function Setup_neoformat()
+local function neoformat()
+    paq 'sbdchd/neoformat'
     vim.g.neoformat_only_msg_on_error = 1
     api.nvim_exec([[ autocmd BufWritePre *.html,*.rs Neoformat ]], "")
 end
 
-function Setup_vista()
+local function vista()
+    paq 'liuchengxu/vista.vim'
     vim.g.vista_default_executive = "nvim_lsp"
     vim.g.vista_executive_for = {rust = "nvim_lsp"}
     vim.g.vista_executive_for = {json = "nvim_lsp"}
     vim.g.vista_executive_for = {lua = "nvim_lsp"}
     vim.g.vista_executive_for = {scala = "nvim_lsp"}
     vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
+    vim.g.vista_fzf_preview = {right = '50%'}
+    vim.g.vista_keep_fzf_colors = 1
 end
 
-function Setup_go()
+local function go()
     function Go_run()
         local cmd = "go run " .. fn.expand("%")
 
@@ -473,7 +501,7 @@ function Setup_go()
     end
 end
 
-function Setup_cargo()
+local function cargo()
     function Cargo_run()
         local bin = fn.expand("%:t:r")
         local cmd = "cargo run"
@@ -531,7 +559,8 @@ function Setup_cargo()
     end
 end
 
-function Setup_neoterm()
+local function neoterm()
+    paq 'kassio/neoterm'
     vim.g.neoterm_size = 25
     vim.g.neoterm_autoinsert = 1
     vim.g.neoterm_default_mod = "botright"
@@ -542,7 +571,6 @@ function Setup_neoterm()
     api.nvim_exec(
         [[
     au TermOpen * setlocal nonumber 
-    au FileType neoterm nnoremap <silent> <buffer> go <C-w>p
     au FileType neoterm nnoremap <silent> <buffer> <C-j> <C-\><C-N><C-w><C-p>:Tclose<cr>
     au FileType neoterm nnoremap <silent> <buffer> q <C-\><C-N><C-w><C-p>:Tclose<cr>
     au FileType neoterm nnoremap <silent> <buffer> <C-q> <C-\><C-N><C-w><C-p>:Tclose<cr>
@@ -556,6 +584,7 @@ function Setup_neoterm()
     )
 end
 
+    -- au FileType neoterm nnoremap <silent> <buffer> go <C-w>p
 -- function Setup_startify()
 --     vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
 --     vim.g.startify_fortune_use_unicode = 1
@@ -563,7 +592,8 @@ end
 --     api.nvim_exec( [[ au FileType startify setlocal nowrap ]], "")
 -- end
 
-function Setup_coc()
+local function coc()
+    paq {'neoclide/coc.nvim', branch= 'release'}
     vim.g.coc_global_extensions = {
         "coc-rust-analyzer",
         "coc-json",
@@ -612,32 +642,30 @@ function Setup_coc()
     )
 end
 
-function Setup_ultisnips()
+local function ultisnips()
     vim.g.UltiSnipsExpandTrigger = "<C-.>"
 end
 
-function Setup_anyfold()
+local function anyfold()
+    paq 'pseewald/vim-anyfold'
     -- vim.cmd("AnyFoldActivate")
 end
 
--- function Setup_lightline()
---     vim.g.lightline = {
---         active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
---         component_function = {gitbranch = "FugitiveHead"},
---         colorscheme = "nord",
---         mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
---     }
--- end
+local function lightline()
+    vim.g.lightline = {
+        active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
+        component_function = {gitbranch = "FugitiveHead"},
+        colorscheme = "nord",
+        mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
+    }
+end
 
-function Setup_fugitive()
+local function fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-function Setup_vista()
-    vim.g.vista_keep_fzf_colors = 1
-end
-
-function Setup_dirvish()
+local function dirvish()
+    paq 'justinmk/vim-dirvish'
     vim.g.dirvish_mode = 1
     vim.g.dirvish_relative_paths = 1
     api.nvim_exec(
@@ -666,58 +694,40 @@ function Setup()
         setup()
     end
 
+    -- Plugins
+    paq 'tpope/vim-vinegar'
+    paq 'vim-scripts/Align'
+    -- paq {'neoclide/coc.nvim', branch='release'}
+    paq 'mbbill/undotree'
+    paq 'cespare/vim-toml'
+    paq 'farmergreg/vim-lastplace'
+    paq 'tpope/vim-commentary'
+    paq 'tpope/vim-surround'
+    paq 'kyazdani42/nvim-web-devicons'
+    paq 'ryanoasis/vim-devicons'
+    -- paq{'jasilven/redbush', branch='clojure'}
+    -- paq 'guns/vim-sexp'
+    vimrooter()
+    fugitive()
+    easymotion()
+    autopairs()
+    fzf()
+    neoterm()
+    vista()
+    gutentags()
+    anyjump()
+    anyfold()
+    neoformat()
+    signify()
+    dirvish()
     colors()
+    lsp()
+    treesitter()
+    colorizer()
+
+    -- misc config
+    cargo()
+    go()
 end
 
 Setup()
-
-
-	-- let g:gruvbox_contrast_dark = 'hard'
-    -- let g:gruvbox_colors = {'red': '#cc8800', 'fg1': '#a0a0a0'}
-
-    -- colorscheme gruvbox
-    -- hi! Special guifg=none
-    -- let g:gruvbox_colors = {'bg0_h':'#1d2021','bg2':'#282828' ,'fg1': '#a0a0a0','red': '#ff9f80', 'green': '#92941e', 'purple': '#c96983', 'blue': '#4d9599', 'orange': '#7f3901', 'aqua': '#689d6a'}
-    -- hi! statusline guibg='#2e2e2e' guifg='#a0a0a0' gui=none
-	-- hi! cursorline guibg='#282828'
-	-- hi! cursorlinenr guibg='#282828'
-	-- hi! comment guifg='#665c54'
-    -- hi! link helpexample gruvboxgray 
-	-- hi! linenr guifg='#504945'
-	-- hi! visual guibg='#3c3836' gui='none'
-	-- hi! link LspDiagnosticsError GruvboxRed
-	-- hi! link LspDiagnosticsWarning GruvboxYellow
-    -- hi! signcolumn guibg=none
-    -- hi! link Keyword GruvBoxBlue
-    -- hi! link Conditional GruvBoxBlue
-    -- hi! link Repeat GruvBoxBlue
-    -- hi! link Boolean GruvBoxBlue
-    -- hi! link TSKeyword GruvBoxBlue
-    -- hi! link TSKeywordFunction GruvBoxBlue
-    -- hi! link TSNumber GruvBoxBlue
-    -- hi! link TSFunction GruvBoxAqua
-    -- hi! link TSMacro GruvBoxBlue
-    -- hi! link TSConditional GruvBoxBlue
-    -- hi! link TSRepeat GruvBoxBlue
-    -- hi! link TSTag GruvBoxBlue
-    -- hi! TSTagDelimiter guifg=none 
-    -- hi! TSNamespace guifg=none
-    -- hi! TSField guifg=none
-    -- hi! TSParameter guifg=none
-    -- hi! TSParameterReference guifg=none
-    -- hi! TSProperty guifg=none
-    -- hi! TSType guifg=none
-    -- hi! TSPunctDelimiter guifg=none
-    -- hi! TSPunctSpecial guifg=none
-    -- hi! TSPunctBracket guifg=none
-    -- hi! TSVariable guifg=none
-    -- hi! TSVariableBuiltin guifg=none
-    -- hi! TSConstant guifg=none
-    -- hi! TSOperator guifg=none
-    -- hi! RustEnum guifg=none
-    -- hi! RustEnumVariant guifg=none
-    -- hi! RustModPath guifg=none
-    -- hi! Type guifg=none
-    -- hi! link Macro Function 
-    -- hi! link Number Keyword
-    -- api.nvim_exec([[ command! -nargs=0 Mydark lua Mydark() 

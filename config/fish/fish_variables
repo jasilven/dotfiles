@@ -1,12 +1,28 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR BAT_THEME:Solarized\x20\x28dark\x29
+SETUVAR CARGO_TARGET_DIR:/home/jari/\x2ecargo/target_dir
+SETUVAR --export EDITOR:nvim
+SETUVAR FZF_DEFAULT_COMMAND:fd\x1e\x2d\x2dtype\x1ef
+SETUVAR FZF_DEFAULT_OPTS:\x2d\x2dlayout\x3dreverse\x20\x2d\x2dcolor\x20dark\x2chl\x3a4\x2chl\x2b\x3a3\x2cbg\x2b\x3a\x23424d00\x2cfg\x2b\x3a254\x20\x2d\x2dcolor\x20info\x3a7\x2cprompt\x3a7\x2cspinner\x3a7\x2cpointer\x3a254\x2cmarker\x3a254
+SETUVAR GO111MODULE:on
+SETUVAR JAVA_HOME:/Library/Java/JavaVirtualMachines/openjdk\x2d11\x2e0\x2e2\x2ejdk/Contents/Home
+SETUVAR LC_TIME:en_US\x2eUTF\x2d8
+SETUVAR MOZ_ENABLE_WAYLAND:1
+SETUVAR MOZ_USE_XINPUT2:1
+SETUVAR NVM_DIR:/home/jari/\x2envm
+SETUVAR PAGER:bat\x1e\x2dp
+SETUVAR --path PATH:\x2e\x1e/home/jari/\x2elocal/bin\x1e/home/jari/\x2ecargo/bin\x1e/home/jari/go/bin\x1e/Library/Java/JavaVirtualMachines/openjdk\x2d11\x2e0\x2e2\x2ejdk/Contents/Home/bin\x1e/home/jari/\x2elocal/bin\x1e/home/jari/\x2ecargo/bin\x1e/home/jari/go/bin\x1e/usr/local/bin\x1e/usr/local/sbin\x1e/usr/bin\x1e/usr/bin/site_perl\x1e/usr/bin/vendor_perl\x1e/usr/bin/core_perl
+SETUVAR SKIM_DEFAULT_COMMAND:fd\x1e\x2d\x2dtype\x1ef
+SETUVAR TERM:xterm\x2d256color
 SETUVAR __fish_initialized:3100
 SETUVAR _fish_abbr_ll:exa\x20\x2dl
 SETUVAR _fish_abbr_lla:exa\x20\x2dla
 SETUVAR _fish_abbr_ls:exa
 SETUVAR _fish_abbr_tm:tmux\x20attach\x20\x7c\x7c\x20tmux\x20new
 SETUVAR _fish_abbr_vim:nvim
-SETUVAR fish_color_autosuggestion:969896
+SETUVAR editor:nvim
+SETUVAR fish_color_autosuggestion:#535f5f
 SETUVAR fish_color_cancel:normal
 SETUVAR fish_color_command:b294bb
 SETUVAR fish_color_comment:f0c674
@@ -35,3 +51,4 @@ SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
+SETUVAR starship:init\x1efish

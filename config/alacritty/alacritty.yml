@@ -1,6 +1,7 @@
 env:
   TERM: xterm-256color
 
+
 window:
   # If both are `0`, this setting is ignored.
   dimensions:
@@ -11,7 +12,8 @@ window:
     y: 0 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false 
-  decorations: full
+  decorations: none
+  # startup_mode: Fullscreen
  
 scrolling:
   history: 10000
@@ -80,29 +82,29 @@ schemes:
 
 solarized: &solarized
   primary:
-    background: '0x002b36'
-    foreground: '0x93a1a1'
+    background: '#002b36'
+    foreground: '#93a1a1'
   cursor:
-    text: '0x002b36'
-    cursor: '0x93a1a1'
+    text: '#002b36'
+    cursor: '#93a1a1'
   normal:
-    black:   '0x002b36'
-    red:     '0xdc322f'
-    green:   '0x859900'
-    yellow:  '0xb58900'
-    blue:    '0x268bd2'
-    magenta: '0x6c71c4'
-    cyan:    '0x2aa198'
-    white:   '0x93a1a1'
+    black:   '#002b36'
+    red:     '#cb4b16'
+    green:   '#859900'
+    yellow:  '#b58900'
+    blue:    '#268bd2'
+    magenta: '#6c71c4'
+    cyan:    '#2aa198'
+    white:   '#93a1a1'
   bright:
-    black:   '0x657b83'
-    red:     '0xcb4b16'
-    green:   '0x073642'
-    yellow:  '0x586e75'
-    blue:    '0x839496'
-    magenta: '0xeee8d5'
-    cyan:    '0xd33682'
-    white:   '0xfdf6e3'
+    black:   '#657b83'
+    red:     '#cb4b16'
+    green:   '#073642'
+    yellow:  '#586e75'
+    blue:    '#839496'
+    magenta: '#eee8d5'
+    cyan:    '#d33682'
+    white:   '#fdf6e3'
 colors: *solarized
 
 # colors:
@@ -193,6 +195,8 @@ background_opacity: 1.0
 
 shell:
   program: fish
+  args:
+    - -c tmux attach || tmux new
 enable_experimental_conpty_backend: false
 
 # Send ESC (\x1b) before characters when alt is pressed.

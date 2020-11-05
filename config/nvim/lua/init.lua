@@ -36,7 +36,7 @@ function settings.Setup_keymaps()
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
         {mods = {"n", "i"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
-        {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:close<cr>"},
+        {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:Bd<cr>"},
         {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
         {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
         {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
@@ -58,11 +58,6 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
         {mods = {"n"}, lhs = "dh", rhs = "d0"},
         {mods = {"n"}, lhs = "dl", rhs = "d$"},
-        {mods = {"n"}, lhs = "<space>gw", rhs = "<C-w>w"},
-        {mods = {"n"}, lhs = "<space>gj", rhs = "<C-w>j"},
-        {mods = {"n"}, lhs = "<space>gk", rhs = "<C-w>k"},
-        {mods = {"n"}, lhs = "<space>gh", rhs = "<C-w>h"},
-        {mods = {"n"}, lhs = "<space>gl", rhs = "<C-w>l"},
         {mods = {"n"}, lhs = "WW", rhs = "<C-w>w"},
         {mods = {"n"}, lhs = "Wj", rhs = "<C-w>j"},
         {mods = {"n"}, lhs = "Wk", rhs = "<C-w>k"},
@@ -88,7 +83,6 @@ function settings.Setup_options()
     vim.o["clipboard"] = "unnamedplus"
     vim.o["completeopt"] = "menuone,noinsert,noselect"
     vim.o["confirm"] = true
-    vim.o["cursorline"] = true
     vim.o["encoding"] = "utf-8"
     vim.o["expandtab"] = true
     vim.o["fileencoding"] = "utf-8"
@@ -134,6 +128,7 @@ function settings.Setup_options()
     vim.wo["foldenable"] = false
     vim.wo["number"] = true
     vim.wo["signcolumn"] = "yes:1"
+    vim.wo["cursorline"] = true
 end
 
 function settings.Setup_general()
@@ -179,8 +174,6 @@ local function treesitter()
     require "nvim-treesitter.configs".setup {
         highlight = {
             enable = true,
-            disable = {},
-            custom_captures = {}
         },
         incremental_selection = {
             enable = false
@@ -200,9 +193,6 @@ local function treesitter()
             },
             navigation = {
                 enable = false,
-                keymaps = {
-                    goto_definition = "gnd"
-                }
             }
         },
         textobjects = {
@@ -343,14 +333,14 @@ local function lsp()
     api.nvim_set_keymap("n", "<space>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f5>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
 
     fn.sign_define("LspDiagnosticsErrorSign", {text = "⛔", texthl = "LspDiagnosticsErrorSign"})
     fn.sign_define("LspDiagnosticsWarningSign", {text = "⚑", texthl = "LspDiagnosticsWarningSign"})
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "Comment"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "Comment"})
 
-    -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 1000)", "")
+    -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({},1000)", "")
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
@@ -375,6 +365,7 @@ local function fzf()
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
     api.nvim_set_keymap("n", "<space><space>", ":Commands<cr>", keyopts)
@@ -465,7 +456,7 @@ end
 local function neoformat()
     paq 'sbdchd/neoformat'
     vim.g.neoformat_only_msg_on_error = 1
-    api.nvim_exec([[ autocmd BufWritePre *.html,*.rs Neoformat ]], "")
+    api.nvim_exec([[ autocmd BufWritePre *.rs Neoformat ]], "")
 end
 
 local function vista()
@@ -661,22 +652,33 @@ local function lightline()
 end
 
 local function fugitive()
+    paq 'tpope/vim-fugitive'
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-local function dirvish()
-    paq 'justinmk/vim-dirvish'
-    vim.g.dirvish_mode = 1
-    vim.g.dirvish_relative_paths = 1
-    api.nvim_exec(
-        [[
-            au FileType dirvish nmap <buffer> h -
-            au FileType dirvish nmap <buffer> l <CR>
-            au FileType dirvish nmap <buffer> q gq
-            au FileType dirvish nnoremap <buffer> ~ :Dirvish ~<CR>
-            ]],
-        ""
-    )
+-- local function dirvish()
+--     paq 'justinmk/vim-dirvish'
+--     vim.g.dirvish_mode = 1
+--     vim.g.dirvish_relative_paths = 1
+--     api.nvim_exec(
+--         [[
+--             au FileType dirvish nmap <buffer> h -
+--             au FileType dirvish nmap <buffer> l <CR>
+--             au FileType dirvish nmap <buffer> q gq
+--             au FileType dirvish nnoremap <buffer> ~ :Dirvish ~<CR>
+--             ]],
+--         ""
+--     )
+-- end
+
+local function vinegar()
+    paq 'tpope/vim-vinegar'
+    vim.g.netrw_keepdir = 0
+end
+
+local function nvimtree()
+    paq 'kyazdani42/nvim-tree.lua'
+    vim.g.lua_tree_allow_resize = 1
 end
 
 local function colors()
@@ -695,7 +697,6 @@ function Setup()
     end
 
     -- Plugins
-    paq 'tpope/vim-vinegar'
     paq 'vim-scripts/Align'
     -- paq {'neoclide/coc.nvim', branch='release'}
     paq 'mbbill/undotree'
@@ -707,6 +708,8 @@ function Setup()
     paq 'ryanoasis/vim-devicons'
     -- paq{'jasilven/redbush', branch='clojure'}
     -- paq 'guns/vim-sexp'
+    -- nvimtree()
+    vinegar()
     vimrooter()
     fugitive()
     easymotion()
@@ -719,13 +722,13 @@ function Setup()
     anyfold()
     neoformat()
     signify()
-    dirvish()
+    -- dirvish()
     colors()
     lsp()
     treesitter()
     colorizer()
 
-    -- misc config
+    -- Misc config
     cargo()
     go()
 end

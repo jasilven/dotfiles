@@ -1,7 +1,7 @@
 " Setup
 hi clear
 syntax reset
-let g:colors_name = "solar"
+let g:colors_name = "solar2"
 
 " Colors
 let s:color1  = "#002b36"
@@ -34,10 +34,10 @@ exe "hi Constant guifg=" . s:cyan
 exe "hi Define  guifg=" . s:violet . " gui=" . s:none
 exe "hi Delimiter guifg=" . s:none
 exe "hi Float guifg=" . s:cyan
-exe "hi Function guifg=" . s:none
+exe "hi Function guifg=" . s:blue
 exe "hi Identifier guifg=" . s:none . " gui=" . s:none
 exe "hi Include guifg=" . s:none
-exe "hi Keyword guifg=" . s:blue
+exe "hi Keyword guifg=" . s:none
 exe "hi Label guifg=" . s:yellow
 exe "hi Number guifg=" . s:cyan
 exe "hi Macro guifg=" . s:blue

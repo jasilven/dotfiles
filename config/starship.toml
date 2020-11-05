@@ -18,7 +18,7 @@ $character"""
 [directory]
 truncation_length = 8
 truncate_to_repo = false
-use_logical_path = false
+# use_logical_path = false
 
 [hostname]
 ssh_only = false

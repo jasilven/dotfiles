@@ -1,6 +1,6 @@
 env:
   TERM: xterm-256color
-
+  LC_ALL: "en_US.UTF-8"
 
 window:
   # If both are `0`, this setting is ignored.
@@ -12,8 +12,8 @@ window:
     y: 0 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false 
-  decorations: none
-  # startup_mode: Fullscreen
+  decorations: full
+  startup_mode: Fullscreen
  
 scrolling:
   history: 10000
@@ -23,11 +23,11 @@ scrolling:
 cursor:
   style: Block 
   unfocused_hollow: true
-  thickness: 0.26
+  thickness: 0.20
 
 # Font configuration
 font:
-  size: 15
+  size: 13
   normal:
     # family: FiraCode Nerd Font
     family: NotoSansMono Nerd Font
@@ -196,7 +196,7 @@ background_opacity: 1.0
 shell:
   program: fish
   args:
-    - -c tmux attach || tmux new
+    - -c tmux -u attach || tmux -u new
 enable_experimental_conpty_backend: false
 
 # Send ESC (\x1b) before characters when alt is pressed.

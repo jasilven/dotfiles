@@ -12,12 +12,13 @@ local settings = {}
 function settings.Setup_keymaps()
     local keymaps = {
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-S-Right>", rhs = "<C-\\><C-N>:bnext<cr>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-S-Left>", rhs = "<C-\\><C-N>:bprev<cr>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-Right>", rhs = "<C-\\><C-N>:bnext<cr>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-Left>", rhs = "<C-\\><C-N>:bprev<cr>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-l>", rhs = "<C-\\><C-N>:bnext<cr>"},
-        {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-h>", rhs = "<C-\\><C-N>:bprev<cr>"},
+        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-S-Right>", rhs = "<C-\\><C-N>:bnext<cr>"},
+        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-S-Left>", rhs = "<C-\\><C-N>:bprev<cr>"},
+        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-Right>", rhs = "<C-\\><C-N>:bnext<cr>"},
+        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-Left>", rhs = "<C-\\><C-N>:bprev<cr>"},
+        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-l>", rhs = "<C-\\><C-N>:bnext<cr>"},
+        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-h>", rhs = "<C-\\><C-N>:bprev<cr>"},
+        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-h>", rhs = "<C-\\><C-N>:bprev<cr>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-h>", rhs = "<C-\\><C-N><C-w>h"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-l>", rhs = "<C-\\><C-N><C-w>l"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-k>", rhs = "<C-\\><C-N><C-w>k"},
@@ -124,6 +125,7 @@ function settings.Setup_options()
     vim.o["wrap"] = false
     vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
     vim.o["grepformat"] = "%f:%l:%c:%m"
+    vim.o["formatoptions"] = "tcrqnb"
     vim.wo["wrap"] = false
     vim.wo["foldenable"] = false
     vim.wo["number"] = true
@@ -146,6 +148,7 @@ function settings.Setup_general()
     au Bufenter term://*zsh* startinsert
     au Bufenter term://*fish* startinsert
     au TextYankPost * silent! lua vim.highlight.on_yank()
+    vmap <LeftRelease> "+ygv
     vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
     nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
     inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
@@ -261,9 +264,36 @@ function Setup_nvimtree()
     api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
 end
 
+local function completion()
+    paq 'nvim-lua/completion-nvim'
+    paq 'steelsojka/completion-buffers'
+
+    vim.g.completion_enable_auto_paren = 0
+    vim.g.completion_confirm_key = "<cr>"
+    vim.g.completion_enable_auto_hover = 1
+    vim.g.completion_enable_auto_signature = 1
+    vim.g.completion_enable_snippet = "UltiSnips"
+    api.nvim_exec(
+        [[
+    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+      ]],
+        ""
+    )
+    vim.g.completion_chain_complete_list = {
+        default = {
+            {complete_items = {"lsp", "snippet", "buffer"}},
+            {mode = "<c-p>"},
+            {mode = "<c-n>"}
+        }
+    }
+
+    api.nvim_exec("au BufEnter * lua require'completion'.on_attach()", "")
+end
+
 local function lsp()
     paq 'neovim/nvim-lspconfig'
-    paq 'nvim-lua/completion-nvim'
+    -- paq 'nvim-lua/completion-nvim'
     paq 'nvim-lua/diagnostic-nvim'
     local function setup_diagnostics(client, bufnr)
         vim.g.diagnostic_enable_virtual_text = 1
@@ -272,41 +302,15 @@ local function lsp()
         vim.g.diagnostic_enable_underline = 1
         vim.g.diagnostic_insert_delay = 0
         vim.g.diagnostic_auto_popup_while_jump = 1
-        api.nvim_set_keymap("n", "<M-n>", ":NextDiagnosticCycle<CR>", keyopts)
-        api.nvim_set_keymap("n", "<M-p>", ":PrevDiagnosticCycle<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>en", ":NextDiagnosticCycle<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>ee", ":NextDiagnosticCycle<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>ep", ":PrevDiagnosticCycle<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>el", ":OpenDiagnostic<CR>", keyopts)
 
         require "diagnostic".on_attach(client, bufnr)
     end
 
-    local function setup_completion(client, bufnr)
-        vim.g.completion_enable_auto_paren = 0
-        vim.g.completion_confirm_key = "<cr>"
-        vim.g.completion_enable_auto_hover = 1
-        vim.g.completion_enable_auto_signature = 1
-        vim.g.completion_enable_snippet = "UltiSnips"
-        api.nvim_exec(
-            [[
-        inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-        inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-          ]],
-            ""
-        )
-        vim.g.completion_chain_complete_list = {
-            default = {
-                {complete_items = {"lsp", "snippet"}},
-                {complete_items = {"buffers"}},
-                {mode = "<c-p>"},
-                {mode = "<c-n>"}
-            }
-        }
-        require "completion".on_attach(client, bufnr)
-    end
-
     local function lsp_attach(client, bufnr)
-        -- require "completion".on_attach(client, bufnr)
-        setup_completion(client, bufnr)
-
-        -- require "diagnostic".on_attach(client, bufnr)
         setup_diagnostics(client, bufnr)
     end
 
@@ -340,7 +344,7 @@ local function lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "Comment"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "Comment"})
 
-    -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({},1000)", "")
+      api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({},1000)", "")
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
@@ -363,12 +367,12 @@ local function fzf()
     api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>;", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
-    api.nvim_set_keymap("n", "<space><space>", ":Commands<cr>", keyopts)
     api.nvim_exec(
         [[
         au FileType fzf tnoremap <buffer> jk jk
@@ -456,7 +460,7 @@ end
 local function neoformat()
     paq 'sbdchd/neoformat'
     vim.g.neoformat_only_msg_on_error = 1
-    api.nvim_exec([[ autocmd BufWritePre *.rs Neoformat ]], "")
+  api.nvim_exec([[ autocmd BufWritePre *.lua Neoformat ]], "")
 end
 
 local function vista()
@@ -583,73 +587,73 @@ end
 --     api.nvim_exec( [[ au FileType startify setlocal nowrap ]], "")
 -- end
 
-local function coc()
-    paq {'neoclide/coc.nvim', branch= 'release'}
-    vim.g.coc_global_extensions = {
-        "coc-rust-analyzer",
-        "coc-json",
-        "coc-lua",
-        "coc-ultisnips",
-        "coc-go",
-        "coc-metals",
-        "coc-tsserver",
-        "coc-html",
-        "coc-java"
-    }
-    api.nvim_set_keymap("n", "gi", "<Plug>(coc-implementation)", keyopts)
-    api.nvim_set_keymap("n", "K", ":call CocAction('doHover')<cr>", keyopts)
-    api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], keyopts)
+-- local function coc()
+--     paq {'neoclide/coc.nvim', branch= 'release'}
+--     vim.g.coc_global_extensions = {
+--         "coc-rust-analyzer",
+--         "coc-json",
+--         "coc-lua",
+--         "coc-ultisnips",
+--         "coc-go",
+--         "coc-metals",
+--         "coc-tsserver",
+--         "coc-html",
+--         "coc-java"
+--     }
+--     api.nvim_set_keymap("n", "gi", "<Plug>(coc-implementation)", keyopts)
+--     api.nvim_set_keymap("n", "K", ":call CocAction('doHover')<cr>", keyopts)
+--     api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], keyopts)
 
-    local opts_noremap = {nowait = true, noremap = false, silent = true}
-    api.nvim_set_keymap("n", "<space>ac", [[<Plug>(coc-codeaction)]], opts_noremap)
-    api.nvim_set_keymap("n", "<space>al", [[<Plug>(coc-codelens-action)]], opts_noremap)
-    api.nvim_set_keymap("n", "<space>af", [[<Plug>(coc-fix-current)]], opts_noremap)
-    api.nvim_set_keymap("n", "gd", [[<Plug>(coc-definition)]], opts_noremap)
-    api.nvim_set_keymap("n", "gi", [[<Plug>(coc-definition)]], opts_noremap)
-    api.nvim_set_keymap("n", "gr", "<Plug>(coc-references)", opts_noremap)
-    api.nvim_set_keymap("n", "<f2>", "<Plug>(coc-rename)", opts_noremap)
-    api.nvim_set_keymap("n", "<M-n>", "<Plug>(coc-diagnostic-next)", opts_noremap)
-    api.nvim_set_keymap("n", "<M-p>", "<Plug>(coc-diagnostic-prev)", opts_noremap)
-    api.nvim_set_keymap("n", "<space>F", "<Plug>(coc-format)", opts_noremap)
-    api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], keyopts)
-    api.nvim_set_keymap("i", "<expr><cr>", [[pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"]], keyopts)
+--     local opts_noremap = {nowait = true, noremap = false, silent = true}
+--     api.nvim_set_keymap("n", "<space>ac", [[<Plug>(coc-codeaction)]], opts_noremap)
+--     api.nvim_set_keymap("n", "<space>al", [[<Plug>(coc-codelens-action)]], opts_noremap)
+--     api.nvim_set_keymap("n", "<space>af", [[<Plug>(coc-fix-current)]], opts_noremap)
+--     api.nvim_set_keymap("n", "gd", [[<Plug>(coc-definition)]], opts_noremap)
+--     api.nvim_set_keymap("n", "gi", [[<Plug>(coc-definition)]], opts_noremap)
+--     api.nvim_set_keymap("n", "gr", "<Plug>(coc-references)", opts_noremap)
+--     api.nvim_set_keymap("n", "<f2>", "<Plug>(coc-rename)", opts_noremap)
+--     api.nvim_set_keymap("n", "<M-n>", "<Plug>(coc-diagnostic-next)", opts_noremap)
+--     api.nvim_set_keymap("n", "<M-p>", "<Plug>(coc-diagnostic-prev)", opts_noremap)
+--     api.nvim_set_keymap("n", "<space>F", "<Plug>(coc-format)", opts_noremap)
+--     api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], keyopts)
+--     api.nvim_set_keymap("i", "<expr><cr>", [[pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"]], keyopts)
 
-    api.nvim_exec(
-        [[
-    function! Check_back_space() abort
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-    inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : Check_back_space() ? "\<Tab>" : coc#refresh()
-    inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-    augroup mygroup
-      autocmd!
-      autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-    augroup end
-      ]],
-        ""
-    )
-end
+--     api.nvim_exec(
+--         [[
+--     function! Check_back_space() abort
+--       let col = col('.') - 1
+--       return !col || getline('.')[col - 1]  =~# '\s'
+--     endfunction
+--     inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : Check_back_space() ? "\<Tab>" : coc#refresh()
+--     inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
+--     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+--     augroup mygroup
+--       autocmd!
+--       autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+--       autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+--     augroup end
+--       ]],
+--         ""
+--     )
+-- end
 
-local function ultisnips()
-    vim.g.UltiSnipsExpandTrigger = "<C-.>"
-end
+-- local function ultisnips()
+--     vim.g.UltiSnipsExpandTrigger = "<C-.>"
+-- end
 
 local function anyfold()
     paq 'pseewald/vim-anyfold'
     -- vim.cmd("AnyFoldActivate")
 end
 
-local function lightline()
-    vim.g.lightline = {
-        active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
-        component_function = {gitbranch = "FugitiveHead"},
-        colorscheme = "nord",
-        mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
-    }
-end
+-- local function lightline()
+--     vim.g.lightline = {
+--         active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
+--         component_function = {gitbranch = "FugitiveHead"},
+--         colorscheme = "nord",
+--         mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
+--     }
+-- end
 
 local function fugitive()
     paq 'tpope/vim-fugitive'
@@ -676,9 +680,14 @@ local function vinegar()
     vim.g.netrw_keepdir = 0
 end
 
-local function nvimtree()
-    paq 'kyazdani42/nvim-tree.lua'
-    vim.g.lua_tree_allow_resize = 1
+-- local function nvimtree()
+--     paq 'kyazdani42/nvim-tree.lua'
+--     vim.g.lua_tree_allow_resize = 1
+-- end
+
+local function rust()
+    paq 'rust-lang/rust.vim'
+    -- vim.g.rustfmt_autosave = 1
 end
 
 local function colors()
@@ -697,7 +706,7 @@ function Setup()
     end
 
     -- Plugins
-    paq 'vim-scripts/Align'
+  paq 'vim-scripts/Align'
     -- paq {'neoclide/coc.nvim', branch='release'}
     paq 'mbbill/undotree'
     paq 'cespare/vim-toml'
@@ -706,6 +715,7 @@ function Setup()
     paq 'tpope/vim-surround'
     paq 'kyazdani42/nvim-web-devicons'
     paq 'ryanoasis/vim-devicons'
+    paq 'christoomey/vim-tmux-navigator'
     -- paq{'jasilven/redbush', branch='clojure'}
     -- paq 'guns/vim-sexp'
     -- nvimtree()
@@ -715,18 +725,19 @@ function Setup()
     easymotion()
     autopairs()
     fzf()
-    neoterm()
+    -- neoterm()
     vista()
     gutentags()
     anyjump()
     anyfold()
-    neoformat()
+    -- neoformat()
     signify()
-    -- dirvish()
     colors()
-    lsp()
     treesitter()
     colorizer()
+    rust()
+    completion()
+    lsp()
 
     -- Misc config
     cargo()

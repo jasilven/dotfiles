@@ -24,6 +24,7 @@ let s:green   = "#859900"
 "
 let s:visual  = "#005266"
 let s:none    = "NONE"
+let s:linenr  ="#005266"
 
 " Syntax
 exe "hi Boolean guifg=" . s:cyan
@@ -109,7 +110,7 @@ exe "hi Title guifg=" . s:blue . " gui=" . s:none
 exe "hi Conceal guifg=" . s:blue . " guibg=" . s:color1
 exe "hi Cursor guifg=" . s:color1 . " guibg=LightGreen"
 exe "hi NonText guifg=" . s:color4
-exe "hi LineNr guifg=" . s:color2 . " guibg=" . s:none
+exe "hi LineNr guifg=" . s:linenr. " guibg=" . s:none
 exe "hi SignColumn guifg=" . s:color4 . " guibg=" . s:none
 exe "hi StatusLine guifg=" . s:color1 . " guibg=" . s:color5 . " gui=" . s:none
 exe "hi StatusLineNC guifg=" . s:color4 . " guibg=" . s:color2 . " gui=" . s:none

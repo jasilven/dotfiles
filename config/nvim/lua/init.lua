@@ -323,6 +323,7 @@ local function lsp()
     require "nvim_lsp".jdtls.setup {on_attach = lsp_attach}
     require "nvim_lsp".metals.setup {on_attach = lsp_attach}
     require "nvim_lsp".html.setup {on_attach = lsp_attach}
+    require'nvim_lsp'.jedi_language_server.setup {on_attach = lsp_attach}
 
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
@@ -344,7 +345,7 @@ local function lsp()
     fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "Comment"})
     fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "Comment"})
 
-      api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({},1000)", "")
+      api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
@@ -570,13 +571,14 @@ local function neoterm()
     au FileType neoterm nnoremap <silent> <buffer> q <C-\><C-N><C-w><C-p>:Tclose<cr>
     au FileType neoterm nnoremap <silent> <buffer> <C-q> <C-\><C-N><C-w><C-p>:Tclose<cr>
     au FileType neoterm inoremap <silent> <buffer> <C-q> <C-\><C-N><C-w><C-p>:Tclose<cr>
-    au FileType neoterm tnoremap <silent> <buffer> <C-w><C-w> <C-\><C-N><C-w><C-w>
     au FileType neoterm tnoremap <silent> <buffer> <C-q> <C-\><C-N><C-w><C-p>:Tclose<cr>
     au FileType neoterm tnoremap <Esc> <c-\><c-n>
     au FileType neoterm tnoremap jk <c-\><c-n>
     ]],
         ""
     )
+
+    -- au FileType neoterm tnoremap <silent> <buffer> <C-w><C-w> <C-\><C-N><C-w><C-w>
 end
 
     -- au FileType neoterm nnoremap <silent> <buffer> go <C-w>p
@@ -715,7 +717,6 @@ function Setup()
     paq 'tpope/vim-surround'
     paq 'kyazdani42/nvim-web-devicons'
     paq 'ryanoasis/vim-devicons'
-    paq 'christoomey/vim-tmux-navigator'
     -- paq{'jasilven/redbush', branch='clojure'}
     -- paq 'guns/vim-sexp'
     -- nvimtree()
@@ -725,7 +726,7 @@ function Setup()
     easymotion()
     autopairs()
     fzf()
-    -- neoterm()
+    neoterm()
     vista()
     gutentags()
     anyjump()

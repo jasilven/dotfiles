@@ -10,7 +10,7 @@ set -gx MOZ_ENABLE_WAYLAND 1
 set -gx LC_TIME en_US.UTF-8
 set -gx SKIM_DEFAULT_COMMAND fd --type f
 set -gx FZF_DEFAULT_COMMAND fd --type f
-set -gx FZF_DEFAULT_OPTS '--layout=reverse --color dark,hl:4,hl+:3,bg+:#424d00,fg+:254 --color info:7,prompt:7,spinner:7,pointer:254,marker:254'
+set -gx FZF_DEFAULT_OPTS '--layout=reverse --color dark,hl:4,hl+:#000000,bg+:#859900,fg+:#000000 --color info:7,prompt:7,spinner:7,pointer:#000000,marker:254'
 set -gx BAT_THEME 'Solarized (dark)'
 set -gx TERM xterm-256color
 set -gx CARGO_TARGET_DIR $HOME/.cargo/target_dir

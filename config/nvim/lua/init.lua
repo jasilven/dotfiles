@@ -12,13 +12,6 @@ local settings = {}
 function settings.Setup_keymaps()
     local keymaps = {
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
-        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-S-Right>", rhs = "<C-\\><C-N>:bnext<cr>"},
-        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-S-Left>", rhs = "<C-\\><C-N>:bprev<cr>"},
-        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-Right>", rhs = "<C-\\><C-N>:bnext<cr>"},
-        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-Left>", rhs = "<C-\\><C-N>:bprev<cr>"},
-        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-l>", rhs = "<C-\\><C-N>:bnext<cr>"},
-        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-h>", rhs = "<C-\\><C-N>:bprev<cr>"},
-        -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-h>", rhs = "<C-\\><C-N>:bprev<cr>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-h>", rhs = "<C-\\><C-N><C-w>h"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-l>", rhs = "<C-\\><C-N><C-w>l"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-k>", rhs = "<C-\\><C-N><C-w>k"},
@@ -36,7 +29,7 @@ function settings.Setup_keymaps()
         {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
-        {mods = {"n", "i"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
+        {mods = {"n"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
         {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:Bd<cr>"},
         {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
         {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
@@ -48,7 +41,7 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "<MiddleMouse>", rhs = "<C-o>", {noremap = false}},
         {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
         {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
-        {mods = {"n"}, lhs = "<space>w", rhs = ":w<cr>"},
+        {mods = {"n"}, lhs = "<space>w", rhs = ":w!<cr>"},
         {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
         {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
@@ -102,7 +95,7 @@ function settings.Setup_options()
     vim.o["scrolloff"] = 2
     vim.o["sessionoptions"] = "blank,curdir,help,tabpages,winsize"
     vim.o["shiftwidth"] = 4
-    vim.o["shortmess"] = "Icat"
+    vim.o["shortmess"] = "IcatFo"
     vim.o["showcmd"] = false
     vim.o["showmatch"] = true
     vim.o["showmode"] = false
@@ -171,9 +164,9 @@ function settings.Setup_general()
 end
 
 local function treesitter()
-    paq 'nvim-treesitter/nvim-treesitter'
     paq 'nvim-treesitter/nvim-treesitter-refactor'
     paq 'nvim-treesitter/nvim-treesitter-textobjects'
+    paq 'nvim-treesitter/nvim-treesitter'
     require "nvim-treesitter.configs".setup {
         highlight = {
             enable = true,
@@ -282,7 +275,8 @@ local function completion()
     )
     vim.g.completion_chain_complete_list = {
         default = {
-            {complete_items = {"lsp", "snippet", "buffer"}},
+            {complete_items = {"lsp", "snippet"}},
+            {complete_items = { "buffer"}},
             {mode = "<c-p>"},
             {mode = "<c-n>"}
         }
@@ -293,37 +287,30 @@ end
 
 local function lsp()
     paq 'neovim/nvim-lspconfig'
-    -- paq 'nvim-lua/completion-nvim'
     paq 'nvim-lua/diagnostic-nvim'
-    local function setup_diagnostics(client, bufnr)
-        vim.g.diagnostic_enable_virtual_text = 1
-        -- vim.g.diagnostic_virtual_text_prefix = ""
-        vim.g.diagnostic_trimmed_virtual_text = "200"
-        vim.g.diagnostic_enable_underline = 1
-        vim.g.diagnostic_insert_delay = 0
-        vim.g.diagnostic_auto_popup_while_jump = 1
-        api.nvim_set_keymap("n", "<space>en", ":NextDiagnosticCycle<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>ee", ":NextDiagnosticCycle<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>ep", ":PrevDiagnosticCycle<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>el", ":OpenDiagnostic<CR>", keyopts)
-
-        require "diagnostic".on_attach(client, bufnr)
-    end
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = true,
+        signs = true,
+        update_in_insert = false,
+        underline = true,
+      }
+    )
 
     local function lsp_attach(client, bufnr)
-        setup_diagnostics(client, bufnr)
+        -- setup_diagnostics(client, bufnr)
     end
 
-    require "nvim_lsp".sumneko_lua.setup {on_attach = lsp_attach}
-    require "nvim_lsp".rust_analyzer.setup {on_attach = lsp_attach}
-    require "nvim_lsp".jsonls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".tsserver.setup {on_attach = lsp_attach}
-    require "nvim_lsp".gopls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".vimls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".jdtls.setup {on_attach = lsp_attach}
-    require "nvim_lsp".metals.setup {on_attach = lsp_attach}
-    require "nvim_lsp".html.setup {on_attach = lsp_attach}
-    require'nvim_lsp'.jedi_language_server.setup {on_attach = lsp_attach}
+    require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
+    require "lspconfig".rust_analyzer.setup {on_attach = lsp_attach}
+    require "lspconfig".jsonls.setup {on_attach = lsp_attach}
+    require "lspconfig".tsserver.setup {on_attach = lsp_attach}
+    require "lspconfig".gopls.setup {on_attach = lsp_attach}
+    require "lspconfig".vimls.setup {on_attach = lsp_attach}
+    -- require "lspconfig".jdtls.setup {on_attach = lsp_attach}
+    -- require "lspconfig".metals.setup {on_attach = lsp_attach}
+    require "lspconfig".html.setup {on_attach = lsp_attach}
+    -- require "lspconfig".jedi_language_server.setup {on_attach = lsp_attach}
 
     api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
     api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
@@ -335,15 +322,19 @@ local function lsp()
     api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>aa", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f5>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
     api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
     -- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
 
-    fn.sign_define("LspDiagnosticsErrorSign", {text = "⛔", texthl = "LspDiagnosticsErrorSign"})
-    fn.sign_define("LspDiagnosticsWarningSign", {text = "⚑", texthl = "LspDiagnosticsWarningSign"})
-    fn.sign_define("LspDiagnosticInformationSign", {text = "", texthl = "Comment"})
-    fn.sign_define("LspDiagnosticHintSign", {text = "ﯦ", texthl = "Comment"})
+    fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
+    fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
+    fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "LspDiagnosticsSignInformation"})
+    fn.sign_define("LspDiagnosticsSignHint", {text = "ﯦ", texthl = "LspDiagnosticsSignInformation"})
 
       api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
@@ -695,11 +686,15 @@ end
 local function colors()
     api.nvim_exec(
         [[
-    set background=dark
+    set background=light
     colorscheme solar
         ]],
         ""
     )
+end
+
+local function align()
+    paq 'junegunn/vim-easy-align'
 end
 
 function Setup()
@@ -720,6 +715,7 @@ function Setup()
     -- paq{'jasilven/redbush', branch='clojure'}
     -- paq 'guns/vim-sexp'
     -- nvimtree()
+    align()
     vinegar()
     vimrooter()
     fugitive()

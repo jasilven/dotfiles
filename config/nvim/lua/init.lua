@@ -145,9 +145,12 @@ function settings.Setup_general()
     vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
     nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
     inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
+    nnoremap <space>/ *:%s/<c-r><c-w>//g<left><left>
     command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z
     command! -nargs=+ Grep execute 'silent grep! <args>' | copen 15
     command! Bd bp | sp | bn | bd
+    cnoreabbrev hon nohl 
+    cnoreabbrev hoh nohl 
   ]],
         ""
     )
@@ -297,46 +300,42 @@ local function lsp()
       }
     )
 
-    local function lsp_attach(client, bufnr)
+    local function lsp_attach()
         -- setup_diagnostics(client, bufnr)
+        api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
+        api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
+        api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
+        api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
+        api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", keyopts)
+        api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
+        api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>aa", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<f5>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
+        -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
+        -- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
     end
 
-    require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
     require "lspconfig".rust_analyzer.setup {on_attach = lsp_attach}
+    -- require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
     require "lspconfig".jsonls.setup {on_attach = lsp_attach}
     require "lspconfig".tsserver.setup {on_attach = lsp_attach}
     require "lspconfig".gopls.setup {on_attach = lsp_attach}
     require "lspconfig".vimls.setup {on_attach = lsp_attach}
-    -- require "lspconfig".jdtls.setup {on_attach = lsp_attach}
-    -- require "lspconfig".metals.setup {on_attach = lsp_attach}
     require "lspconfig".html.setup {on_attach = lsp_attach}
-    -- require "lspconfig".jedi_language_server.setup {on_attach = lsp_attach}
-
-    api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
-    api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
-    api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
-    api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
-    api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", keyopts)
-    api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
-    api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>aa", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<f5>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
-    api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
 
     fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
     fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
     fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "LspDiagnosticsSignInformation"})
     fn.sign_define("LspDiagnosticsSignHint", {text = "ﯦ", texthl = "LspDiagnosticsSignInformation"})
 
-      api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
@@ -452,7 +451,8 @@ end
 local function neoformat()
     paq 'sbdchd/neoformat'
     vim.g.neoformat_only_msg_on_error = 1
-  api.nvim_exec([[ autocmd BufWritePre *.lua Neoformat ]], "")
+    api.nvim_exec([[ autocmd BufWritePre *.lua undojoin | Neoformat ]], "")
+    -- api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
 end
 
 local function vista()
@@ -572,64 +572,6 @@ local function neoterm()
     -- au FileType neoterm tnoremap <silent> <buffer> <C-w><C-w> <C-\><C-N><C-w><C-w>
 end
 
-    -- au FileType neoterm nnoremap <silent> <buffer> go <C-w>p
--- function Setup_startify()
---     vim.g.startify_lists = {{type = "files", header = {"    MRU"}}}
---     vim.g.startify_fortune_use_unicode = 1
---     vim.g.startify_files_number = 15
---     api.nvim_exec( [[ au FileType startify setlocal nowrap ]], "")
--- end
-
--- local function coc()
---     paq {'neoclide/coc.nvim', branch= 'release'}
---     vim.g.coc_global_extensions = {
---         "coc-rust-analyzer",
---         "coc-json",
---         "coc-lua",
---         "coc-ultisnips",
---         "coc-go",
---         "coc-metals",
---         "coc-tsserver",
---         "coc-html",
---         "coc-java"
---     }
---     api.nvim_set_keymap("n", "gi", "<Plug>(coc-implementation)", keyopts)
---     api.nvim_set_keymap("n", "K", ":call CocAction('doHover')<cr>", keyopts)
---     api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], keyopts)
-
---     local opts_noremap = {nowait = true, noremap = false, silent = true}
---     api.nvim_set_keymap("n", "<space>ac", [[<Plug>(coc-codeaction)]], opts_noremap)
---     api.nvim_set_keymap("n", "<space>al", [[<Plug>(coc-codelens-action)]], opts_noremap)
---     api.nvim_set_keymap("n", "<space>af", [[<Plug>(coc-fix-current)]], opts_noremap)
---     api.nvim_set_keymap("n", "gd", [[<Plug>(coc-definition)]], opts_noremap)
---     api.nvim_set_keymap("n", "gi", [[<Plug>(coc-definition)]], opts_noremap)
---     api.nvim_set_keymap("n", "gr", "<Plug>(coc-references)", opts_noremap)
---     api.nvim_set_keymap("n", "<f2>", "<Plug>(coc-rename)", opts_noremap)
---     api.nvim_set_keymap("n", "<M-n>", "<Plug>(coc-diagnostic-next)", opts_noremap)
---     api.nvim_set_keymap("n", "<M-p>", "<Plug>(coc-diagnostic-prev)", opts_noremap)
---     api.nvim_set_keymap("n", "<space>F", "<Plug>(coc-format)", opts_noremap)
---     api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], keyopts)
---     api.nvim_set_keymap("i", "<expr><cr>", [[pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"]], keyopts)
-
---     api.nvim_exec(
---         [[
---     function! Check_back_space() abort
---       let col = col('.') - 1
---       return !col || getline('.')[col - 1]  =~# '\s'
---     endfunction
---     inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : Check_back_space() ? "\<Tab>" : coc#refresh()
---     inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
---     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
---     augroup mygroup
---       autocmd!
---       autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
---       autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
---     augroup end
---       ]],
---         ""
---     )
--- end
-
 -- local function ultisnips()
 --     vim.g.UltiSnipsExpandTrigger = "<C-.>"
 -- end
@@ -727,7 +669,7 @@ function Setup()
     gutentags()
     anyjump()
     anyfold()
-    -- neoformat()
+    neoformat()
     signify()
     colors()
     treesitter()

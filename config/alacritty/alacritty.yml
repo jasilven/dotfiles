@@ -13,7 +13,7 @@ window:
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false 
   decorations: full
-  startup_mode: Fullscreen
+  startup_mode: Maximized 
  
 scrolling:
   history: 10000
@@ -59,8 +59,8 @@ schemes:
       background: '#D9D9C4' 
       foreground: '#000000' 
     # cursor:
-    #   text:       '#ffffff' 
-    #   cursor:     '#cc6666' 
+      text:       '#ffffff' 
+      cursor:     '#cc6666' 
     normal:
       black:      '#1d1f21' 
       red:        '#D4162A' 

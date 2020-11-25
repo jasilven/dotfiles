@@ -19,6 +19,7 @@ if &background == "light"
     let s:fg           = "#073642"
     let s:bg           = "#eee8d5"
     let s:cursorline   = "#e9e1c9"
+    let s:pmenu        = "#e1d7b7"
     let s:comment      = "#8ba1a7"
     let s:nontext      = "#657b83"
     let s:statusline   = "#586e75"
@@ -43,6 +44,7 @@ else
     let s:fg           = "#93a1a1"
     let s:bg           = "#002b36"
     let s:cursorline   = "#073642"
+    let s:pmenu        = "#003d4d"
     let s:comment      = "#586e75"
     let s:nontext      = "#657b83"
     let s:statusline   = "#839496"
@@ -124,8 +126,8 @@ exe "hi CursorColumn guibg=" . s:cursorline . " gui=" . s:none
 exe "hi CursorLine guibg=" . s:cursorline . " gui=" . s:none
 exe "hi CursorLineNr guifg=" s:yellow . " guibg=" . s:cursorline
 exe "hi QuickFixLine guibg=" . s:cursorline . " gui=" . s:none
-exe "hi PMenu guifg=" . s:fg . " guibg=" . s:cursorline . " gui=" . s:none
-exe "hi PMenuSel guifg=" . s:cursorline . " guibg=" . s:fg
+exe "hi PMenu guifg=" . s:fg . " guibg=" . s:pmenu. " gui=" . s:none
+exe "hi PMenuSel guifg=" . s:pmenu. " guibg=" . s:fg
 exe "hi TabLine guifg=" . s:nontext . " guibg=" . s:cursorline . " gui=" . s:none
 exe "hi TabLineFill guifg=" . s:nontext . " guibg=" . s:cursorline . " gui=" . s:none
 exe "hi TabLineSel guifg=" . s:green . " guibg=" . s:cursorline . " gui=" . s:none

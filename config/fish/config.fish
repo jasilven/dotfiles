@@ -8,10 +8,9 @@ set -gx PAGER bat -p
 set -gx MOZ_USE_XINPUT2 1
 set -gx MOZ_ENABLE_WAYLAND 1
 set -gx LC_TIME en_US.UTF-8
-set -gx SKIM_DEFAULT_COMMAND fd --type f
 set -gx FZF_DEFAULT_COMMAND fd --type f
-set -gx FZF_DEFAULT_OPTS '--layout=reverse --color dark,hl:4,hl+:#000000,bg+:#859900,fg+:#000000 --color info:7,prompt:7,spinner:7,pointer:#000000,marker:254'
-set -gx BAT_THEME 'Solarized (dark)'
+set -gx FZF_DEFAULT_OPTS --color dark,hl:3,hl+:3,bg+:0,fg+:3,info:#7d889b,prompt:7,spinner:7,pointer:3,marker:254
+set -gx BAT_THEME 'TwoDark'
 set -gx TERM xterm-256color
 set -gx CARGO_TARGET_DIR $HOME/.cargo/target_dir
 

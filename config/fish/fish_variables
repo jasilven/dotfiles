@@ -1,6 +1,5 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR BAT_THEME:Solarized\x20\x28dark\x29
 SETUVAR CARGO_TARGET_DIR:/home/jari/\x2ecargo/target_dir
 SETUVAR --export EDITOR:nvim
 SETUVAR FZF_DEFAULT_COMMAND:fd\x1e\x2d\x2dtype\x1ef

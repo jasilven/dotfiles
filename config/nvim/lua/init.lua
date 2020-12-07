@@ -10,7 +10,7 @@ local keyopts = {nowait = true, noremap = true, silent = true}
 local settings = {}
 
 function settings.Setup_keymaps()
-    local keymaps = {
+   local keymaps = {
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-h>", rhs = "<C-\\><C-N><C-w>h"},
         {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<M-l>", rhs = "<C-\\><C-N><C-w>l"},
@@ -38,7 +38,6 @@ function settings.Setup_keymaps()
         {mods = {"v"}, lhs = "<C-S-up>", rhs = ":m '<-2<CR>gv=gv"},
         {mods = {"v"}, lhs = "<C-S-Down>", rhs = ":m '>+1<CR>gv=gv"},
         {mods = {"n"}, lhs = "<RightMouse>", rhs = "<LeftMouse>gdzz"},
-        {mods = {"n"}, lhs = "<MiddleMouse>", rhs = "<C-o>", {noremap = false}},
         {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
         {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
         {mods = {"n"}, lhs = "<space>w", rhs = ":w!<cr>"},
@@ -126,12 +125,13 @@ function settings.Setup_options()
     vim.wo["cursorline"] = true
 end
 
+
 function settings.Setup_general()
     vim.g.netrw_liststyle = 3
     vim.g.netrw_banner = 0
     vim.g.netrw_hide = 1
     vim.o["statusline"] =
-        "%*  [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''}  %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+        "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
     au FileType markdown set shiftwidth=2
@@ -225,7 +225,7 @@ local function colorizer()
     require "colorizer".setup()
 end
 
-function Setup_nvimtree()
+local function luatree()
     vim.g.lua_tree_bindings = {
         edit = "<CR>",
         edit_vsplit = "v",
@@ -251,13 +251,13 @@ function Setup_nvimtree()
         au FileType LuaTree nnoremap <buffer> <C-l> <Nop>
         au FileType LuaTree nnoremap <buffer> <C-o> <Nop>
         au FileType LuaTree nnoremap <buffer> <C-i> <Nop>
-        au FileType LuaTree nnoremap <buffer> go <Nop>
+        au FileType LuaTree nnoremap <buffer> go <C-w>l
         ]],
         ""
     )
-    api.nvim_set_keymap("n", "<C-n>", ":LuaTreeToggle<cr>", keyopts)
+    api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
     -- api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
-    api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
+    api.nvim_set_keymap("t", "<space>n", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
 end
 
 local function completion()
@@ -291,6 +291,8 @@ end
 local function lsp()
     paq 'neovim/nvim-lspconfig'
     paq 'nvim-lua/diagnostic-nvim'
+    paq 'nvim-lua/lsp-status.nvim'
+
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = true,
@@ -300,36 +302,47 @@ local function lsp()
       }
     )
 
-    local function lsp_attach()
-        -- setup_diagnostics(client, bufnr)
-        api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
-        api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
-        api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
-        api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
-        api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", keyopts)
-        api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
-        api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>aa", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<f5>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
-        api.nvim_set_keymap("n", "<f4>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
-        -- api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync()", "")
-        -- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
+    local lsp_status = require('lsp-status')
+    lsp_status.config({
+      status_symbol = '',
+      indicator_errors = '⛔',
+      indicator_warnings = '⚑',
+      indicator_info = '',
+      indicator_hint = 'ﯦ',
+      indicator_ok = '✔️',
+      spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+    })
+    lsp_status.register_progress()
+
+	local function lsp_attach(client, bufnr)
+		lsp_status.on_attach(client, bufnr)
+		api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
+		api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
+		api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
+		api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
+		api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
+		api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>aa", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<f7>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<f8>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
+		api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 300)", "")
+		-- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
     end
 
     require "lspconfig".rust_analyzer.setup {on_attach = lsp_attach}
-    -- require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
     require "lspconfig".jsonls.setup {on_attach = lsp_attach}
     require "lspconfig".tsserver.setup {on_attach = lsp_attach}
     require "lspconfig".gopls.setup {on_attach = lsp_attach}
-    require "lspconfig".vimls.setup {on_attach = lsp_attach}
     require "lspconfig".html.setup {on_attach = lsp_attach}
+    require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
+    -- require "lspconfig".vimls.setup {on_attach = lsp_attach}
 
     fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
     fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
@@ -339,31 +352,86 @@ local function lsp()
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
+local function telescope()
+    paq 'nvim-lua/popup.nvim'
+    paq 'nvim-lua/plenary.nvim'
+    paq 'nvim-telescope/telescope.nvim'
+
+    api.nvim_set_keymap("n", "<space>f", ":Telescope find_files<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>b", ":Telescope buffers<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>h", ":Telescope oldfiles<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>i", ":Telescope treesitter<CR>[function] ", keyopts)
+    api.nvim_set_keymap("n", "<space>G", ":Telescope grep_string<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>g", ":Telescope live_grep<CR>", keyopts)
+
+    local actions = require('telescope.actions')
+    require('telescope').setup{
+      defaults = {
+        mappings = {
+          i = {
+            ["<esc>"] = actions.close
+          },
+        },
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case'
+        },
+        prompt_position = "bottom",
+        prompt_prefix = "🔍",
+        selection_strategy = "reset",
+        sorting_strategy = "descending",
+        layout_strategy = "horizontal",
+        layout_defaults = {
+          -- TODO add builtin options.
+        },
+        file_sorter =  require'telescope.sorters'.get_fuzzy_file ,
+        file_ignore_patterns = {},
+        generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
+        shorten_path = true,
+        winblend = 0,
+        width = 0.75,
+        preview_cutoff = 120,
+        results_height = 1,
+        results_width = 0.8,
+        border = {},
+        borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+        color_devicons = true,
+        use_less = false,
+        set_env = { ['COLORTERM'] = 'truecolor', },
+      }
+    }
+end
+
 local function fzf()
     paq 'junegunn/fzf'
     paq 'junegunn/fzf.vim'
 
     -- vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
     -- vim.g.fzf_layout = {window = "30new"}
-    vim.g.fzf_layout = {down = "30%"}
+    vim.g.fzf_layout = {down = "35%"}
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-    api.nvim_set_keymap("n", "<F12>", ":Colors<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
-    api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
-    api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
-    api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<F12>", ":Colors<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>;", ":Buffers<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>;", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
-    api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
     api.nvim_exec(
         [[
         au FileType fzf tnoremap <buffer> jk jk
@@ -378,9 +446,9 @@ local function fzf()
         au FileType fzf set laststatus=0
         au BufEnter term://*fzf* startinsert
         au BufLeave term://*fzf*  set laststatus=2
-        command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
-        command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=never --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--layout=reverse', '--preview-window=right:50%']}), <bang>0)
+        command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
+        command! -bang -nargs=* MyRg call fzf#vim#grep('rg --line-number --no-heading --color=never --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
+        command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=never --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
         let g:XXfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
         let g:XYfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'keyword'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
         let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
@@ -451,7 +519,7 @@ end
 local function neoformat()
     paq 'sbdchd/neoformat'
     vim.g.neoformat_only_msg_on_error = 1
-    api.nvim_exec([[ autocmd BufWritePre *.lua undojoin | Neoformat ]], "")
+    -- api.nvim_exec([[ autocmd BufWritePre *.lua undojoin | Neoformat ]], "")
     -- api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
 end
 
@@ -595,30 +663,30 @@ local function fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
--- local function dirvish()
---     paq 'justinmk/vim-dirvish'
---     vim.g.dirvish_mode = 1
---     vim.g.dirvish_relative_paths = 1
---     api.nvim_exec(
---         [[
---             au FileType dirvish nmap <buffer> h -
---             au FileType dirvish nmap <buffer> l <CR>
---             au FileType dirvish nmap <buffer> q gq
---             au FileType dirvish nnoremap <buffer> ~ :Dirvish ~<CR>
---             ]],
---         ""
---     )
--- end
-
-local function vinegar()
-    paq 'tpope/vim-vinegar'
-    vim.g.netrw_keepdir = 0
+local function dirvish()
+    paq 'justinmk/vim-dirvish'
+    vim.g.dirvish_mode = 1
+    vim.g.dirvish_relative_paths = 1
+    api.nvim_exec(
+        [[
+            au FileType dirvish nmap <buffer> h -
+            au FileType dirvish nmap <buffer> l <CR>
+            au FileType dirvish nmap <buffer> q gq
+            au FileType dirvish nnoremap <buffer> ~ :Dirvish ~<CR>
+            ]],
+        ""
+    )
 end
 
--- local function nvimtree()
---     paq 'kyazdani42/nvim-tree.lua'
---     vim.g.lua_tree_allow_resize = 1
+-- local function vinegar()
+--     paq 'tpope/vim-vinegar'
+--     vim.g.netrw_keepdir = 0
 -- end
+
+local function nvimtree()
+    paq 'kyazdani42/nvim-tree.lua'
+    vim.g.lua_tree_allow_resize = 1
+end
 
 local function rust()
     paq 'rust-lang/rust.vim'
@@ -628,8 +696,8 @@ end
 local function colors()
     api.nvim_exec(
         [[
-    set background=light
-    colorscheme solar
+    set background=dark
+    colorscheme one
         ]],
         ""
     )
@@ -656,14 +724,16 @@ function Setup()
     paq 'ryanoasis/vim-devicons'
     -- paq{'jasilven/redbush', branch='clojure'}
     -- paq 'guns/vim-sexp'
-    -- nvimtree()
+    -- luatree()
     align()
-    vinegar()
+    -- vinegar()
+    dirvish()
     vimrooter()
     fugitive()
     easymotion()
     autopairs()
     fzf()
+    telescope()
     neoterm()
     vista()
     gutentags()
@@ -671,7 +741,6 @@ function Setup()
     anyfold()
     neoformat()
     signify()
-    colors()
     treesitter()
     colorizer()
     rust()
@@ -679,6 +748,7 @@ function Setup()
     lsp()
 
     -- Misc config
+    colors()
     cargo()
     go()
 end

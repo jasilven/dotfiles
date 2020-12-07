@@ -26,7 +26,7 @@ if &background == "light"
     let s:statuslinenc = "#e1d7b7"
     let s:visual       = "#e1d7b7"
     let s:linenr       = "#d3c492"
-    let s:keyword      = s:orange
+    let s:keyword      = s:blue
     let s:none         = "NONE"
     "
 else
@@ -71,12 +71,12 @@ exe "hi Include guifg=" . s:none
 exe "hi Keyword guifg=" . s:keyword
 exe "hi Label guifg=" . s:yellow
 exe "hi Number guifg=" . s:cyan
-exe "hi Macro guifg=" . s:violet
+exe "hi Macro guifg=" . s:fg
 exe "hi Operator guifg=" . s:fg . " gui=" . s:none
 exe "hi PreProc guifg=" . s:blue
 exe "hi Repeat guifg=" . s:blue
 exe "hi Special guifg=" . s:cyan
-exe "hi SpecialChar guifg=" . s:magenta
+exe "hi SpecialChar guifg=" . s:cyan
 exe "hi Statement guifg=" . s:none
 exe "hi StorageClass guifg=" . s:yellow
 exe "hi String guifg=" . s:green
@@ -98,7 +98,7 @@ exe "hi FoldColumn guifg=" . s:cyan . " guibg=" . s:cursorline
 exe "hi Folded guifg=" . s:nontext . " guibg=" . s:cursorline
 exe "hi IncSearch guifg=" . s:cursorline . " guibg=" . s:orange . " gui=" . s:none
 exe "hi Italic gui=" . s:none 
-exe "hi MatchParen guibg=" . s:yellow . " guifg=none"
+exe "hi MatchParen guibg=" . s:orange . " guifg=none"
 exe "hi ModeMsg guifg=" . s:green
 exe "hi MoreMsg guifg=" . s:green
 exe "hi Question guifg=" . s:blue
@@ -113,8 +113,8 @@ exe "hi WarningMsg guifg=" . s:red
 exe "hi WildMenu guifg=" . s:bg . " guibg=" . s:yellow
 exe "hi Title guifg=" . s:blue . " gui=" . s:none
 exe "hi Conceal guifg=" . s:blue . " guibg=" . s:bg
-exe "hi Cursor guifg=" . "#ffffff" . " guibg=" . s:red. " gui=inverse"
-exe "hi lCursor guifg=" . "#ffffff" . " guibg=" . s:yellow. " gui=inverse"
+exe "hi Cursor guifg=" . s:blue . " guibg=" . s:red. " gui=inverse"
+exe "hi lCursor guifg=" . s:blue  . " guibg=" . s:yellow. " gui=inverse"
 exe "hi NonText guifg=" . s:nontext
 exe "hi LineNr guifg=" . s:linenr. " guibg=" . s:none
 exe "hi SignColumn guifg=" . s:nontext . " guibg=" . s:none
@@ -166,6 +166,18 @@ exe "hi SpellBad gui=undercurl guisp=" . s:red
 exe "hi SpellLocal gui=undercurl guisp=" . s:cyan
 exe "hi SpellCap gui=undercurl guisp=" . s:blue
 exe "hi SpellRare gui=undercurl guisp=" . s:violet
+
+" Telescope
+exe "hi TelescopeSelection guibg="  . s:fg . " guifg=" . "#ffffff"
+exe "hi TelescopeSelectionCaret guifg=" . s:pmenu
+exe "hi TelescopeMultiSelection guifg=" . s:orange
+exe "hi TelescopeNormal guifg=" . s:fg . " guibg=" . s:pmenu
+exe "hi TelescopeBorder guifg=" . s:fg . " guibg=" . s:pmenu
+exe "hi TelescopePromptBorder guifg=" . s:fg . " guibg=" . s:pmenu
+exe "hi TelescopeResultsBorder guifg=" . s:fg . " guibg=" . s:pmenu
+exe "hi TelescopePreviewBorder guifg=" . s:fg . " guibg=" . s:pmenu
+exe "hi TelescopeMatching guifg=" . s:none
+exe "hi TelescopePromptPrefix guifg=" . s:comment
 
 " Neovim terminal colours
 let g:terminal_color_0 =  s:bg

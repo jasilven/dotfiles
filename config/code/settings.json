@@ -1,0 +1,48 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "telemetry.enableTelemetry": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "editor.renderIndentGuides": false,
+    "vim.handleKeys": {
+      "<C-a>": false,
+      "<C-f>": false
+    },
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+          "before": ["<leader>", "w"],
+          "commands": [":w"]
+        },
+      ],
+    "vim.normalModeKeyBindings": [
+        {
+          "before": ["g", "h"],
+          "after": ["0"]
+        },
+        {
+          "before": ["g", "l"],
+          "after": ["$"]
+        }
+      ],
+    "vim.insertModeKeyBindings": [
+        {
+          "before": ["j", "k"],
+          "after": ["<Esc>"]
+        }
+      ],
+      "files.watcherExclude": {
+        "**/.bloop": true,
+        "**/.metals": true,
+        "**/.ammonite": true
+      },
+      "metals.javaHome": "/Users/e103270/.jabba/jdk/adopt@1.11.0-7/Contents/Home",
+      "editor.fontSize": 13,
+      "workbench.colorTheme": "Visual Studio Dark",
+      "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+}

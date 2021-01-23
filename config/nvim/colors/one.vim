@@ -149,6 +149,9 @@ exe "hi lspdiagnosticsUnderlineHint gui=underline" . " guifg=" . s:none
 exe "hi lspdiagnosticsUnderlineInformation gui=underline" . " guifg=" . s:none 
 exe "hi lspdiagnosticsUnderlineWarning gui=underline" . " guifg=" . s:none 
 
+" COC
+exe "hi CocHintSign gui=underline" . " guifg=" . s:none 
+
 " Diff
 exe "hi DiffAdd" . " guifg=" . s:green . " guibg=" . s:cursorline
 exe "hi DiffChange" . " guifg=" . s:nontext . " guibg=" . s:cursorline

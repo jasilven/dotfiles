@@ -40,12 +40,11 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "<RightMouse>", rhs = "<LeftMouse>gdzz"},
         {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
         {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
-        {mods = {"n"}, lhs = "<space>w", rhs = ":w!<cr>"},
+        {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
         {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
         {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
         {mods = {"n"}, lhs = "<space>x", rhs = ":close<cr>"},
-        {mods = {"n"}, lhs = "<space>n", rhs = "<C-\\><C-N>:e.<cr>"},
         {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "Q", rhs = "<Nop>"},
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
@@ -73,6 +72,7 @@ end
 function settings.Setup_options()
     vim.o["autoread"] = true
     vim.o["backup"] = false
+    vim.o["writebackup"] = false
     vim.o["clipboard"] = "unnamedplus"
     vim.o["completeopt"] = "menuone,noinsert,noselect"
     vim.o["confirm"] = true
@@ -118,6 +118,7 @@ function settings.Setup_options()
     vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
     vim.o["grepformat"] = "%f:%l:%c:%m"
     vim.o["formatoptions"] = "tcrqnb"
+    vim.o["fsync"] = false
     vim.wo["wrap"] = false
     vim.wo["foldenable"] = false
     vim.wo["number"] = true
@@ -132,6 +133,8 @@ function settings.Setup_general()
     vim.g.netrw_hide = 1
     vim.o["statusline"] =
         "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+    -- vim.o["statusline"] =
+    --     "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
     au FileType markdown set shiftwidth=2
@@ -310,27 +313,28 @@ local function lsp()
       indicator_info = '',
       indicator_hint = 'ﯦ',
       indicator_ok = '✔️',
-      spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+      -- spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
     })
     lsp_status.register_progress()
 
 	local function lsp_attach(client, bufnr)
-		lsp_status.on_attach(client, bufnr)
+		-- lsp_status.on_attach(client, bufnr)
 		api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
 		api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<RightMouse>", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
-		api.nvim_set_keymap("n", "<space>aa", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
-		api.nvim_set_keymap("n", "<f7>", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f8>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
 		api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 300)", "")
 		-- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
@@ -341,8 +345,7 @@ local function lsp()
     require "lspconfig".tsserver.setup {on_attach = lsp_attach}
     require "lspconfig".gopls.setup {on_attach = lsp_attach}
     require "lspconfig".html.setup {on_attach = lsp_attach}
-    require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
-    -- require "lspconfig".vimls.setup {on_attach = lsp_attach}
+    -- require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
 
     fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
     fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
@@ -418,20 +421,21 @@ local function fzf()
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
     -- api.nvim_set_keymap("n", "<F12>", ":Colors<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
     -- api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
     -- api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
     -- api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
+    api.nvim_set_keymap("n", "<C-f>", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     -- api.nvim_set_keymap("n", "<space>;", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+    api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
+    api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
     api.nvim_exec(
         [[
         au FileType fzf tnoremap <buffer> jk jk
@@ -499,40 +503,6 @@ local function vimrooter()
         "pom.xml",
         ".git"
     }
-end
-
-local function gutentags()
-    paq 'ludovicchabant/vim-gutentags'
-    vim.g.gutentags_ctags_exclude = {
-        "*.min.js",
-        "*.min.css",
-        "build",
-        "vendor",
-        ".git",
-        "node_modules",
-        "target",
-        "classes",
-        ".cache"
-    }
-end
-
-local function neoformat()
-    paq 'sbdchd/neoformat'
-    vim.g.neoformat_only_msg_on_error = 1
-    -- api.nvim_exec([[ autocmd BufWritePre *.lua undojoin | Neoformat ]], "")
-    -- api.nvim_exec([[ autocmd BufWritePre *.rs undojoin | Neoformat ]], "")
-end
-
-local function vista()
-    paq 'liuchengxu/vista.vim'
-    vim.g.vista_default_executive = "nvim_lsp"
-    vim.g.vista_executive_for = {rust = "nvim_lsp"}
-    vim.g.vista_executive_for = {json = "nvim_lsp"}
-    vim.g.vista_executive_for = {lua = "nvim_lsp"}
-    vim.g.vista_executive_for = {scala = "nvim_lsp"}
-    vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
-    vim.g.vista_fzf_preview = {right = '50%'}
-    vim.g.vista_keep_fzf_colors = 1
 end
 
 local function go()
@@ -640,51 +610,14 @@ local function neoterm()
     -- au FileType neoterm tnoremap <silent> <buffer> <C-w><C-w> <C-\><C-N><C-w><C-w>
 end
 
--- local function ultisnips()
---     vim.g.UltiSnipsExpandTrigger = "<C-.>"
--- end
-
-local function anyfold()
-    paq 'pseewald/vim-anyfold'
-    -- vim.cmd("AnyFoldActivate")
-end
-
--- local function lightline()
---     vim.g.lightline = {
---         active = {left = {{"mode", "paste"}, {"readonly", "absolutepath", "modified", "gitbranch"}}},
---         component_function = {gitbranch = "FugitiveHead"},
---         colorscheme = "nord",
---         mode_map = {n = "N", i = "I", R = "R", v = "V", V = "VL", c = "C", s = "S", S = "SL", t = "T"}
---     }
--- end
-
 local function fugitive()
     paq 'tpope/vim-fugitive'
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-local function dirvish()
-    paq 'justinmk/vim-dirvish'
-    vim.g.dirvish_mode = 1
-    vim.g.dirvish_relative_paths = 1
-    api.nvim_exec(
-        [[
-            au FileType dirvish nmap <buffer> h -
-            au FileType dirvish nmap <buffer> l <CR>
-            au FileType dirvish nmap <buffer> q gq
-            au FileType dirvish nnoremap <buffer> ~ :Dirvish ~<CR>
-            ]],
-        ""
-    )
-end
-
--- local function vinegar()
---     paq 'tpope/vim-vinegar'
---     vim.g.netrw_keepdir = 0
--- end
-
 local function nvimtree()
     paq 'kyazdani42/nvim-tree.lua'
+    api.nvim_set_keymap("n", "<space>n", ":NvimTreeToggle<CR>", keyopts)
     vim.g.lua_tree_allow_resize = 1
 end
 
@@ -707,14 +640,38 @@ local function align()
     paq 'junegunn/vim-easy-align'
 end
 
+local function coc()
+    paq {'neoclide/coc.nvim', branch='release'}
+    api.nvim_set_keymap("n", "gd", "<Plug>(coc-definition)", keyopts)
+    api.nvim_set_keymap("n", "K", ":call CocActionAsync('doHover')<cr>", keyopts)
+    api.nvim_set_keymap("n", "ar", "<Plug>(coc-codeaction)", keyopts)
+    api.nvim_set_keymap("n", "aa", "<Plug>(coc-fix-current)", keyopts)
+end
+
+local function lspfuzzy()
+    paq 'ojroques/nvim-lspfuzzy'
+    require('lspfuzzy').setup {
+        methods = 'all', 
+        fzf_preview = {
+            'right:+{2}-/2'
+        },
+       fzf_action = {
+         ['ctrl-t'] = 'tabedit',
+         ['ctrl-v'] = 'vsplit',
+         ['ctrl-x'] = 'split',
+       },
+       fzf_modifier = ':~:.',
+       fzf_trim = true,
+    }
+end
+
 function Setup()
     for _, setup in pairs(settings) do
         setup()
     end
 
     -- Plugins
-  paq 'vim-scripts/Align'
-    -- paq {'neoclide/coc.nvim', branch='release'}
+    paq 'vim-scripts/Align'
     paq 'mbbill/undotree'
     paq 'cespare/vim-toml'
     paq 'farmergreg/vim-lastplace'
@@ -723,29 +680,24 @@ function Setup()
     paq 'kyazdani42/nvim-web-devicons'
     paq 'ryanoasis/vim-devicons'
     -- paq{'jasilven/redbush', branch='clojure'}
-    -- paq 'guns/vim-sexp'
-    -- luatree()
+    nvimtree()
     align()
-    -- vinegar()
-    dirvish()
     vimrooter()
     fugitive()
     easymotion()
     autopairs()
     fzf()
-    telescope()
+    -- telescope()
     neoterm()
-    vista()
-    -- gutentags()
     anyjump()
-    -- anyfold()
-    neoformat()
     signify()
     treesitter()
     colorizer()
-    rust()
+    -- rust()
     completion()
     lsp()
+    lspfuzzy()
+    -- coc()
 
     -- Misc config
     colors()

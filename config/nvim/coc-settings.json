@@ -1,7 +1,4 @@
 {
-    "java.home": "/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home",
-    "lua.commandPath": "/usr/local/bin/lua-lsp",
-    "lua.enable": true,
     "rust-analyzer.diagnostics.enable": true,
     "json.enable": true,
     "codeLens.enable": true,

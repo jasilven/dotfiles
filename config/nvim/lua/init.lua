@@ -292,6 +292,12 @@ local function lsp()
     paq 'nvim-lua/diagnostic-nvim'
     paq 'nvim-lua/lsp-status.nvim'
 
+	-- inplace menu for code actions
+	paq 'RishabhRD/popfix'
+    paq 'RishabhRD/nvim-lsputils'
+    vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+	-- inplace menu for code actions
+
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = true,
@@ -321,7 +327,7 @@ local function lsp()
 		api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
 		api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<RightMouse>", "<RightMouse><cmd>lua vim.lsp.buf.hover()<CR><esc>", keyopts)
-		api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
@@ -701,7 +707,7 @@ function Setup()
     -- rust()
     completion()
     lsp()
-    lspfuzzy()
+    -- lspfuzzy()
     -- coc()
 
     -- Misc config

@@ -131,10 +131,6 @@ function settings.Setup_general()
     vim.g.netrw_liststyle = 3
     vim.g.netrw_banner = 0
     vim.g.netrw_hide = 1
-    vim.o["statusline"] =
-        "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
-    -- vim.o["statusline"] =
-    --     "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
     api.nvim_exec(
         [[
     au FileType markdown set shiftwidth=2
@@ -324,7 +320,7 @@ local function lsp()
 		api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
 		api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
-		api.nvim_set_keymap("n", "<RightMouse>", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
+		api.nvim_set_keymap("n", "<RightMouse>", "<RightMouse><cmd>lua vim.lsp.buf.hover()<CR><esc>", keyopts)
 		api.nvim_set_keymap("n", "<M-K>", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
@@ -475,13 +471,16 @@ local function easymotion()
 end
 
 local function autopairs()
-    paq 'jiangmiao/auto-pairs'
-    vim.g.autoPairsShortcutToggle = ""
-    vim.g.AutoPairsShortcutJump = ""
-    vim.g.AutoPairsShortcutBackInsert = ""
-    vim.g.AutoPairsShortcutFastWrap = ""
-    vim.g.AutoPairsShortcutToggle = ""
-    vim.g.PairsShortcutJump = ""
+    paq 'windwp/nvim-autopairs'
+    require('nvim-autopairs').setup()
+
+    -- paq 'jiangmiao/auto-pairs'
+    -- vim.g.autoPairsShortcutToggle = ""
+    -- vim.g.AutoPairsShortcutJump = ""
+    -- vim.g.AutoPairsShortcutBackInsert = ""
+    -- vim.g.AutoPairsShortcutFastWrap = ""
+    -- vim.g.AutoPairsShortcutToggle = ""
+    -- vim.g.PairsShortcutJump = ""
 end
 
 local function signify()
@@ -665,6 +664,11 @@ local function lspfuzzy()
     }
 end
 
+local function statusline()
+    vim.o["statusline"] =
+        "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+end
+
 function Setup()
     for _, setup in pairs(settings) do
         setup()
@@ -679,6 +683,7 @@ function Setup()
     paq 'tpope/vim-surround'
     paq 'kyazdani42/nvim-web-devicons'
     paq 'ryanoasis/vim-devicons'
+    statusline()
     -- paq{'jasilven/redbush', branch='clojure'}
     nvimtree()
     align()

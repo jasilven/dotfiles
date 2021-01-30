@@ -4,7 +4,6 @@ set -gx GO111MODULE on
 set -gx JAVA_HOME /Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home
 set -gx PATH . $HOME/.local/bin $HOME/.cargo/bin $HOME/go/bin $JAVA_HOME/bin $PATH
 set -gx EDITOR nvim
-set -gx PAGER bat -p
 set -gx MOZ_USE_XINPUT2 1
 set -gx MOZ_ENABLE_WAYLAND 1
 set -gx LC_TIME en_US.UTF-8

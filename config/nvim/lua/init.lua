@@ -224,40 +224,40 @@ local function colorizer()
     require "colorizer".setup()
 end
 
-local function luatree()
-    vim.g.lua_tree_bindings = {
-        edit = "<CR>",
-        edit_vsplit = "v",
-        edit_split = "s",
-        edit_tab = "!",
-        toggle_dotfiles = "I",
-        refresh = "gr",
-        cd = "R"
-    }
-    vim.g.lua_tree_auto_close = 0
-    vim.g.lua_tree_git_hl = 0
-    vim.g.lua_tree_hide_dotfiles = 1
-    vim.g.lua_tree_icons = {default = ""}
-    vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target", "classes", "tags"}
-    vim.g.lua_tree_follow = 1
-    vim.g.lua_tree_width = 40
-    vim.g.lua_tree_width_allow_resize = true
+-- local function luatree()
+--     vim.g.lua_tree_bindings = {
+--         edit = "<CR>",
+--         edit_vsplit = "v",
+--         edit_split = "s",
+--         edit_tab = "!",
+--         toggle_dotfiles = "I",
+--         refresh = "gr",
+--         cd = "R"
+--     }
+--     vim.g.lua_tree_auto_close = 0
+--     vim.g.lua_tree_git_hl = 0
+--     vim.g.lua_tree_hide_dotfiles = 1
+--     vim.g.lua_tree_icons = {default = ""}
+--     vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target", "classes", "tags"}
+--     vim.g.lua_tree_follow = 1
+--     vim.g.lua_tree_width = 40
+--     vim.g.lua_tree_width_allow_resize = true
 
-    api.nvim_exec(
-        [[
-        au FileType LuaTree nnoremap <buffer> q :LuaTreeClose<cr>
-        au FileType LuaTree nnoremap <buffer> <C-h> <Nop>
-        au FileType LuaTree nnoremap <buffer> <C-l> <Nop>
-        au FileType LuaTree nnoremap <buffer> <C-o> <Nop>
-        au FileType LuaTree nnoremap <buffer> <C-i> <Nop>
-        au FileType LuaTree nnoremap <buffer> go <C-w>l
-        ]],
-        ""
-    )
-    api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
-    api.nvim_set_keymap("t", "<space>n", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
-end
+--     api.nvim_exec(
+--         [[
+--         au FileType LuaTree nnoremap <buffer> q :LuaTreeClose<cr>
+--         au FileType LuaTree nnoremap <buffer> <C-h> <Nop>
+--         au FileType LuaTree nnoremap <buffer> <C-l> <Nop>
+--         au FileType LuaTree nnoremap <buffer> <C-o> <Nop>
+--         au FileType LuaTree nnoremap <buffer> <C-i> <Nop>
+--         au FileType LuaTree nnoremap <buffer> go <C-w>l
+--         ]],
+--         ""
+--     )
+--     api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
+--     -- api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
+--     api.nvim_set_keymap("t", "<space>n", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
+-- end
 
 local function completion()
     paq 'nvim-lua/completion-nvim'
@@ -287,25 +287,22 @@ local function completion()
     api.nvim_exec("au BufEnter * lua require'completion'.on_attach()", "")
 end
 
-local function lsp()
-    paq 'neovim/nvim-lspconfig'
-    paq 'nvim-lua/diagnostic-nvim'
-    paq 'nvim-lua/lsp-status.nvim'
-
-	-- inplace menu for code actions
+local function lsputils()
 	paq 'RishabhRD/popfix'
     paq 'RishabhRD/nvim-lsputils'
     vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-	-- inplace menu for code actions
+    vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+    vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+    vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+    vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+    vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+    vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+    vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+    vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+end
 
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = true,
-        signs = true,
-        update_in_insert = false,
-        underline = true,
-      }
-    )
+local function lspstatus()
+    paq 'nvim-lua/lsp-status.nvim'
 
     local lsp_status = require('lsp-status')
     lsp_status.config({
@@ -318,6 +315,20 @@ local function lsp()
       -- spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
     })
     lsp_status.register_progress()
+end
+
+local function lsp()
+    paq 'neovim/nvim-lspconfig'
+    paq 'nvim-lua/diagnostic-nvim'
+
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = true,
+        signs = true,
+        update_in_insert = false,
+        underline = true,
+      }
+    )
 
 	local function lsp_attach(client, bufnr)
 		-- lsp_status.on_attach(client, bufnr)
@@ -342,7 +353,16 @@ local function lsp()
 		-- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
     end
 
-    require "lspconfig".rust_analyzer.setup {on_attach = lsp_attach}
+    require "lspconfig".rust_analyzer.setup {on_attach = lsp_attach, settings = {
+        ["rust-analyzer"] = {
+		    diagnostics = {
+			enable = true,
+			disabled = {"unresolved-proc-macro"},
+			enableExperimental = true
+		    }
+		}
+    	}
+    }
     require "lspconfig".jsonls.setup {on_attach = lsp_attach}
     require "lspconfig".tsserver.setup {on_attach = lsp_attach}
     require "lspconfig".gopls.setup {on_attach = lsp_attach}
@@ -623,7 +643,7 @@ end
 local function nvimtree()
     paq 'kyazdani42/nvim-tree.lua'
     api.nvim_set_keymap("n", "<space>n", ":NvimTreeToggle<CR>", keyopts)
-    vim.g.lua_tree_allow_resize = 1
+    vim.g.nvim_tree_width_allow_resize = 1
 end
 
 local function rust()
@@ -672,10 +692,13 @@ end
 
 local function statusline()
     vim.o["statusline"] =
-        "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c  %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+        "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
 end
 
 function Setup()
+	-- set colors first
+    colors()
+
     for _, setup in pairs(settings) do
         setup()
     end
@@ -690,7 +713,6 @@ function Setup()
     paq 'kyazdani42/nvim-web-devicons'
     paq 'ryanoasis/vim-devicons'
     statusline()
-    -- paq{'jasilven/redbush', branch='clojure'}
     nvimtree()
     align()
     vimrooter()
@@ -706,12 +728,15 @@ function Setup()
     colorizer()
     -- rust()
     completion()
+
+    -- lsp
     lsp()
+    lspstatus()
+    lsputils()
     -- lspfuzzy()
     -- coc()
 
     -- Misc config
-    colors()
     cargo()
     go()
 end

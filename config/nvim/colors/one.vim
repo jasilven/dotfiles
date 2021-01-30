@@ -128,8 +128,8 @@ exe "hi QuickFixLine guibg=" . s:cursorline . " gui=" . s:none
 exe "hi PMenu guifg=" . s:fg . " guibg=" . s:pmenu. " gui=" . s:none
 exe "hi PMenuSel guifg=" . s:pmenu. " guibg=" . s:fg
 exe "hi TabLine guifg=" . s:nontext . " guibg=" . s:cursorline . " gui=" . s:none
-exe "hi TabLineFill guifg=" . s:nontext . " guibg=" . s:cursorline . " gui=" . s:none
-exe "hi TabLineSel guifg=" . s:green . " guibg=" . s:cursorline . " gui=" . s:none
+exe "hi TabLineFill guifg=" . s:nontext . " guibg=" . "#000000" . " gui=" . s:none
+exe "hi TabLineSel guifg=" . s:green . " guibg=" . s:bg . " gui=" . s:none
 
 " LSP
 exe "hi lspdiagnosticsDefaultError" . " guifg=" . s:comment

@@ -1,4 +1,5 @@
 set -gx XDG_DATA_HOME $HOME/.local/share
+set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx NVM_DIR $HOME/.nvm
 set -gx GO111MODULE on
 set -gx JAVA_HOME /Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home

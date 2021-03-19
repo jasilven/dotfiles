@@ -46,4 +46,5 @@
       "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
       "editor.fontSize": 15,
       "telemetry.enableCrashReporter": false,
+      "editor.minimap.enabled": false,
 }

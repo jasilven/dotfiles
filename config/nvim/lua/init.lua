@@ -43,8 +43,6 @@ function settings.Setup_keymaps()
         {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
         {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
         {mods = {"n"}, lhs = "<space>q", rhs = "q"},
-        {mods = {"n"}, lhs = "<space>B", rhs = ":Bd<cr>"},
-        {mods = {"n"}, lhs = "<space>x", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
         {mods = {"n"}, lhs = "Q", rhs = "<Nop>"},
         {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
@@ -70,11 +68,12 @@ function settings.Setup_keymaps()
 end
 
 function settings.Setup_options()
-    vim.o["autoread"] = true
+    vim.o["autoread"] = false 
     vim.o["backup"] = false
     vim.o["writebackup"] = false
     vim.o["clipboard"] = "unnamedplus"
-    vim.o["completeopt"] = "menuone,noinsert,noselect"
+    -- vim.o["completeopt"] = "menuone,noinsert,noselect"
+    vim.o["completeopt"] = "menu,menuone,noselect"
     vim.o["confirm"] = true
     vim.o["encoding"] = "utf-8"
     vim.o["expandtab"] = true
@@ -150,6 +149,8 @@ function settings.Setup_general()
     command! Bd bp | sp | bn | bd
     cnoreabbrev hon nohl 
     cnoreabbrev hoh nohl 
+    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
   ]],
         ""
     )
@@ -287,10 +288,45 @@ local function completion()
     api.nvim_exec("au BufEnter * lua require'completion'.on_attach()", "")
 end
 
+local function compe() 
+	paq 'hrsh7th/nvim-compe'
+
+    require'compe'.setup {
+      enabled = true;
+      autocomplete = true;
+      debug = false;
+      min_length = 1;
+      preselect = 'enable';
+      throttle_time = 80;
+      source_timeout = 200;
+      incomplete_delay = 400;
+      max_abbr_width = 100;
+      max_kind_width = 100;
+      max_menu_width = 100;
+
+      source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        vsnip = true;
+        nvim_lsp = true;
+        nvim_lua = true;
+        spell = true;
+        tags = true;
+        snippets_nvim = true;
+        treesitter = true;
+      };
+    }
+end
+
+local function vsnip()
+   paq 'hrsh7th/vim-vsnip'
+end
+
 local function lsputils()
 	paq 'RishabhRD/popfix'
     paq 'RishabhRD/nvim-lsputils'
-    vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+    vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
     vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
     vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
     vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
@@ -377,60 +413,60 @@ local function lsp()
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
-local function telescope()
-    paq 'nvim-lua/popup.nvim'
-    paq 'nvim-lua/plenary.nvim'
-    paq 'nvim-telescope/telescope.nvim'
+-- local function telescope()
+--     paq 'nvim-lua/popup.nvim'
+--     paq 'nvim-lua/plenary.nvim'
+--     paq 'nvim-telescope/telescope.nvim'
 
-    api.nvim_set_keymap("n", "<space>f", ":Telescope find_files<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>b", ":Telescope buffers<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>h", ":Telescope oldfiles<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>i", ":Telescope treesitter<CR>[function] ", keyopts)
-    api.nvim_set_keymap("n", "<space>G", ":Telescope grep_string<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>g", ":Telescope live_grep<CR>", keyopts)
+--     api.nvim_set_keymap("n", "<space>f", ":Telescope find_files<CR>", keyopts)
+--     api.nvim_set_keymap("n", "<space>b", ":Telescope buffers<CR>", keyopts)
+--     api.nvim_set_keymap("n", "<space>h", ":Telescope oldfiles<CR>", keyopts)
+--     api.nvim_set_keymap("n", "<space>i", ":Telescope treesitter<CR>", keyopts)
+--     api.nvim_set_keymap("n", "<space>G", ":Telescope grep_string<CR>", keyopts)
+--     api.nvim_set_keymap("n", "<space>g", ":Telescope live_grep<CR>", keyopts)
 
-    local actions = require('telescope.actions')
-    require('telescope').setup{
-      defaults = {
-        mappings = {
-          i = {
-            ["<esc>"] = actions.close
-          },
-        },
-        vimgrep_arguments = {
-          'rg',
-          '--color=never',
-          '--no-heading',
-          '--with-filename',
-          '--line-number',
-          '--column',
-          '--smart-case'
-        },
-        prompt_position = "bottom",
-        prompt_prefix = "🔍",
-        selection_strategy = "reset",
-        sorting_strategy = "descending",
-        layout_strategy = "horizontal",
-        layout_defaults = {
-          -- TODO add builtin options.
-        },
-        file_sorter =  require'telescope.sorters'.get_fuzzy_file ,
-        file_ignore_patterns = {},
-        generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-        shorten_path = true,
-        winblend = 0,
-        width = 0.75,
-        preview_cutoff = 120,
-        results_height = 1,
-        results_width = 0.8,
-        border = {},
-        borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-        color_devicons = true,
-        use_less = false,
-        set_env = { ['COLORTERM'] = 'truecolor', },
-      }
-    }
-end
+--     local actions = require('telescope.actions')
+--     require('telescope').setup{
+--       defaults = {
+--         mappings = {
+--           i = {
+--             ["<esc>"] = actions.close
+--           },
+--         },
+--         vimgrep_arguments = {
+--           'rg',
+--           '--color=never',
+--           '--no-heading',
+--           '--with-filename',
+--           '--line-number',
+--           '--column',
+--           '--smart-case'
+--         },
+--         prompt_position = "bottom",
+--         prompt_prefix = "🔍",
+--         selection_strategy = "reset",
+--         sorting_strategy = "descending",
+--         layout_strategy = "horizontal",
+--         layout_defaults = {
+--           -- TODO add builtin options.
+--         },
+--         file_sorter =  require'telescope.sorters'.get_fuzzy_file ,
+--         file_ignore_patterns = {},
+--         generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
+--         shorten_path = true,
+--         winblend = 0,
+--         width = 0.75,
+--         preview_cutoff = 120,
+--         results_height = 1,
+--         results_width = 0.8,
+--         border = {},
+--         borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+--         color_devicons = true,
+--         use_less = false,
+--         set_env = { ['COLORTERM'] = 'truecolor', },
+--       }
+--     }
+-- end
 
 local function fzf()
     paq 'junegunn/fzf'
@@ -665,13 +701,13 @@ local function align()
     paq 'junegunn/vim-easy-align'
 end
 
-local function coc()
-    paq {'neoclide/coc.nvim', branch='release'}
-    api.nvim_set_keymap("n", "gd", "<Plug>(coc-definition)", keyopts)
-    api.nvim_set_keymap("n", "K", ":call CocActionAsync('doHover')<cr>", keyopts)
-    api.nvim_set_keymap("n", "ar", "<Plug>(coc-codeaction)", keyopts)
-    api.nvim_set_keymap("n", "aa", "<Plug>(coc-fix-current)", keyopts)
-end
+-- local function coc()
+--     paq {'neoclide/coc.nvim', branch='release'}
+--     api.nvim_set_keymap("n", "gd", "<Plug>(coc-definition)", keyopts)
+--     api.nvim_set_keymap("n", "K", ":call CocActionAsync('doHover')<cr>", keyopts)
+--     api.nvim_set_keymap("n", "ar", "<Plug>(coc-codeaction)", keyopts)
+--     api.nvim_set_keymap("n", "aa", "<Plug>(coc-fix-current)", keyopts)
+-- end
 
 local function lspfuzzy()
     paq 'ojroques/nvim-lspfuzzy'
@@ -704,7 +740,6 @@ function Setup()
     end
 
     -- Plugins
-    paq 'vim-scripts/Align'
     paq 'mbbill/undotree'
     paq 'cespare/vim-toml'
     paq 'farmergreg/vim-lastplace'
@@ -727,14 +762,15 @@ function Setup()
     treesitter()
     colorizer()
     -- rust()
-    completion()
+
+    compe()
+    vsnip()
+    -- completion()
 
     -- lsp
     lsp()
     lspstatus()
     lsputils()
-    -- lspfuzzy()
-    -- coc()
 
     -- Misc config
     cargo()

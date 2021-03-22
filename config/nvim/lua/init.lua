@@ -167,8 +167,8 @@ function settings.Setup_general()
 end
 
 local function treesitter()
-    paq 'nvim-treesitter/nvim-treesitter-refactor'
-    paq 'nvim-treesitter/nvim-treesitter-textobjects'
+    -- paq 'nvim-treesitter/nvim-treesitter-refactor'
+    -- paq 'nvim-treesitter/nvim-treesitter-textobjects'
     paq 'nvim-treesitter/nvim-treesitter'
     require "nvim-treesitter.configs".setup {
         highlight = {
@@ -200,16 +200,6 @@ local function treesitter()
                 keymaps = {
                     -- You can use the capture groups defined in textobjects.scm
                     ["af"] = "@function.outer",
-                    ["if"] = "@function.inner",
-                    ["ac"] = "@class.outer",
-                    ["ic"] = "@class.inner",
-                    -- Or you can define your own textobjects like this
-                    ["iF"] = {
-                        python = "(function_definition) @function",
-                        cpp = "(function_definition) @function",
-                        c = "(function_definition) @function",
-                        java = "(method_declaration) @function"
-                    }
                 }
             }
         },
@@ -224,41 +214,6 @@ local function colorizer()
     paq 'norcalli/nvim-colorizer.lua'
     require "colorizer".setup()
 end
-
--- local function luatree()
---     vim.g.lua_tree_bindings = {
---         edit = "<CR>",
---         edit_vsplit = "v",
---         edit_split = "s",
---         edit_tab = "!",
---         toggle_dotfiles = "I",
---         refresh = "gr",
---         cd = "R"
---     }
---     vim.g.lua_tree_auto_close = 0
---     vim.g.lua_tree_git_hl = 0
---     vim.g.lua_tree_hide_dotfiles = 1
---     vim.g.lua_tree_icons = {default = ""}
---     vim.g.lua_tree_ignore = {".git", "node_modules", ".cache", "target", "classes", "tags"}
---     vim.g.lua_tree_follow = 1
---     vim.g.lua_tree_width = 40
---     vim.g.lua_tree_width_allow_resize = true
-
---     api.nvim_exec(
---         [[
---         au FileType LuaTree nnoremap <buffer> q :LuaTreeClose<cr>
---         au FileType LuaTree nnoremap <buffer> <C-h> <Nop>
---         au FileType LuaTree nnoremap <buffer> <C-l> <Nop>
---         au FileType LuaTree nnoremap <buffer> <C-o> <Nop>
---         au FileType LuaTree nnoremap <buffer> <C-i> <Nop>
---         au FileType LuaTree nnoremap <buffer> go <C-w>l
---         ]],
---         ""
---     )
---     api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
---     -- api.nvim_set_keymap("n", "<space>n", ":LuaTreeToggle<cr>", keyopts)
---     api.nvim_set_keymap("t", "<space>n", "<C-\\><C-N>:LuaTreeToggle<cr>", keyopts)
--- end
 
 local function completion()
     paq 'nvim-lua/completion-nvim'
@@ -413,61 +368,6 @@ local function lsp()
     -- api.nvim_exec("au CursorHold * lua vim.lsp.util.show_line_diagnostics()", "")
 end
 
--- local function telescope()
---     paq 'nvim-lua/popup.nvim'
---     paq 'nvim-lua/plenary.nvim'
---     paq 'nvim-telescope/telescope.nvim'
-
---     api.nvim_set_keymap("n", "<space>f", ":Telescope find_files<CR>", keyopts)
---     api.nvim_set_keymap("n", "<space>b", ":Telescope buffers<CR>", keyopts)
---     api.nvim_set_keymap("n", "<space>h", ":Telescope oldfiles<CR>", keyopts)
---     api.nvim_set_keymap("n", "<space>i", ":Telescope treesitter<CR>", keyopts)
---     api.nvim_set_keymap("n", "<space>G", ":Telescope grep_string<CR>", keyopts)
---     api.nvim_set_keymap("n", "<space>g", ":Telescope live_grep<CR>", keyopts)
-
---     local actions = require('telescope.actions')
---     require('telescope').setup{
---       defaults = {
---         mappings = {
---           i = {
---             ["<esc>"] = actions.close
---           },
---         },
---         vimgrep_arguments = {
---           'rg',
---           '--color=never',
---           '--no-heading',
---           '--with-filename',
---           '--line-number',
---           '--column',
---           '--smart-case'
---         },
---         prompt_position = "bottom",
---         prompt_prefix = "🔍",
---         selection_strategy = "reset",
---         sorting_strategy = "descending",
---         layout_strategy = "horizontal",
---         layout_defaults = {
---           -- TODO add builtin options.
---         },
---         file_sorter =  require'telescope.sorters'.get_fuzzy_file ,
---         file_ignore_patterns = {},
---         generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
---         shorten_path = true,
---         winblend = 0,
---         width = 0.75,
---         preview_cutoff = 120,
---         results_height = 1,
---         results_width = 0.8,
---         border = {},
---         borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
---         color_devicons = true,
---         use_less = false,
---         set_env = { ['COLORTERM'] = 'truecolor', },
---       }
---     }
--- end
-
 local function fzf()
     paq 'junegunn/fzf'
     paq 'junegunn/fzf.vim'
@@ -535,14 +435,6 @@ end
 local function autopairs()
     paq 'windwp/nvim-autopairs'
     require('nvim-autopairs').setup()
-
-    -- paq 'jiangmiao/auto-pairs'
-    -- vim.g.autoPairsShortcutToggle = ""
-    -- vim.g.AutoPairsShortcutJump = ""
-    -- vim.g.AutoPairsShortcutBackInsert = ""
-    -- vim.g.AutoPairsShortcutFastWrap = ""
-    -- vim.g.AutoPairsShortcutToggle = ""
-    -- vim.g.PairsShortcutJump = ""
 end
 
 local function signify()
@@ -680,6 +572,7 @@ local function nvimtree()
     paq 'kyazdani42/nvim-tree.lua'
     api.nvim_set_keymap("n", "<space>n", ":NvimTreeToggle<CR>", keyopts)
     vim.g.nvim_tree_width_allow_resize = 1
+    vim.g.nvim_tree_width = 40
 end
 
 local function rust()
@@ -701,14 +594,6 @@ local function align()
     paq 'junegunn/vim-easy-align'
 end
 
--- local function coc()
---     paq {'neoclide/coc.nvim', branch='release'}
---     api.nvim_set_keymap("n", "gd", "<Plug>(coc-definition)", keyopts)
---     api.nvim_set_keymap("n", "K", ":call CocActionAsync('doHover')<cr>", keyopts)
---     api.nvim_set_keymap("n", "ar", "<Plug>(coc-codeaction)", keyopts)
---     api.nvim_set_keymap("n", "aa", "<Plug>(coc-fix-current)", keyopts)
--- end
-
 local function lspfuzzy()
     paq 'ojroques/nvim-lspfuzzy'
     require('lspfuzzy').setup {
@@ -727,8 +612,24 @@ local function lspfuzzy()
 end
 
 local function statusline()
-    vim.o["statusline"] =
-        "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+    -- vim.o["statusline"] =
+    --     "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
+	paq 'hoob3rt/lualine.nvim'
+	require('lualine').setup{
+        sections = {
+			lualine_a = {'mode'},
+        	lualine_b = {'branch'},
+			lualine_c = { {'filename', full_path= true }},
+        	lualine_x = {'', 'filetype', 'encoding'},
+        	lualine_y = {''},
+        	lualine_z = {'location'}
+		},
+        extensions = { 'fzf' },
+		options = {
+			theme = 'onedark', 
+			section_separators = '', 
+			component_separators = ''}
+	}
 end
 
 function Setup()
@@ -746,7 +647,7 @@ function Setup()
     paq 'tpope/vim-commentary'
     paq 'tpope/vim-surround'
     paq 'kyazdani42/nvim-web-devicons'
-    paq 'ryanoasis/vim-devicons'
+    -- paq 'ryanoasis/vim-devicons'
     statusline()
     nvimtree()
     align()
@@ -769,7 +670,7 @@ function Setup()
 
     -- lsp
     lsp()
-    lspstatus()
+    -- lspstatus()
     lsputils()
 
     -- Misc config

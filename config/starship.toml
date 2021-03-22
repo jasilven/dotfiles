@@ -3,6 +3,7 @@ $username\
 $hostname\
 $directory\
 $shlvl\
+$kubernetes\
 $git_branch\
 $git_commit\
 $git_state\
@@ -32,6 +33,10 @@ style_root = "black bold"
 format = "[$user]($style)"
 disabled = false
 show_always = true
+
+[kubernetes]
+format = 'on [⛵ $context \($namespace\)](dimmed green) '
+disabled = false
 
 [git_branch]
 symbol = " "

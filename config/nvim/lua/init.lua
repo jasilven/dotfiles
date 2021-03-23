@@ -292,21 +292,21 @@ local function lsputils()
     vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 end
 
-local function lspstatus()
-    paq 'nvim-lua/lsp-status.nvim'
+-- local function lspstatus()
+--     paq 'nvim-lua/lsp-status.nvim'
 
-    local lsp_status = require('lsp-status')
-    lsp_status.config({
-      status_symbol = '',
-      indicator_errors = '⛔',
-      indicator_warnings = '⚑',
-      indicator_info = '',
-      indicator_hint = 'ﯦ',
-      indicator_ok = '✔️',
-      -- spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
-    })
-    lsp_status.register_progress()
-end
+--     local lsp_status = require('lsp-status')
+--     lsp_status.config({
+--       status_symbol = '',
+--       indicator_errors = '⛔',
+--       indicator_warnings = '⚑',
+--       indicator_info = '',
+--       indicator_hint = 'ﯦ',
+--       indicator_ok = '✔️',
+--       -- spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+--     })
+--     lsp_status.register_progress()
+-- end
 
 local function lsp()
     paq 'neovim/nvim-lspconfig'
@@ -378,17 +378,12 @@ local function fzf()
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-    -- api.nvim_set_keymap("n", "<F12>", ":Colors<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<C-p>", ":Files ~<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<C-s>", ":Rg<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<C-f>", ":Rg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-f>", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
-    -- api.nvim_set_keymap("n", "<space>;", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)

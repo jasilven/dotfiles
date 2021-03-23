@@ -292,22 +292,6 @@ local function lsputils()
     vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 end
 
--- local function lspstatus()
---     paq 'nvim-lua/lsp-status.nvim'
-
---     local lsp_status = require('lsp-status')
---     lsp_status.config({
---       status_symbol = '',
---       indicator_errors = '⛔',
---       indicator_warnings = '⚑',
---       indicator_info = '',
---       indicator_hint = 'ﯦ',
---       indicator_ok = '✔️',
---       -- spinner_frames = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
---     })
---     lsp_status.register_progress()
--- end
-
 local function lsp()
     paq 'neovim/nvim-lspconfig'
     paq 'nvim-lua/diagnostic-nvim'
@@ -332,7 +316,7 @@ local function lsp()
 		api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", keyopts)
 		api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
-		api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
+        api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
@@ -563,13 +547,6 @@ local function fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-local function nvimtree()
-    paq 'kyazdani42/nvim-tree.lua'
-    api.nvim_set_keymap("n", "<space>n", ":NvimTreeToggle<CR>", keyopts)
-    vim.g.nvim_tree_width_allow_resize = 1
-    vim.g.nvim_tree_width = 40
-end
-
 local function rust()
     paq 'rust-lang/rust.vim'
     -- vim.g.rustfmt_autosave = 1
@@ -644,7 +621,6 @@ function Setup()
     paq 'kyazdani42/nvim-web-devicons'
     -- paq 'ryanoasis/vim-devicons'
     statusline()
-    nvimtree()
     align()
     vimrooter()
     fugitive()
@@ -654,13 +630,13 @@ function Setup()
     -- telescope()
     neoterm()
     anyjump()
-    signify()
+    -- signify()
     treesitter()
-    colorizer()
+    -- colorizer()
     -- rust()
 
     compe()
-    vsnip()
+    -- vsnip()
     -- completion()
 
     -- lsp

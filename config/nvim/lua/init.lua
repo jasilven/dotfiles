@@ -29,7 +29,7 @@ function settings.Setup_keymaps()
         {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
         {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
         {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
-        {mods = {"n"}, lhs = "<C-n>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
+        {mods = {"n"}, lhs = "<C-N>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
         {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:Bd<cr>"},
         {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
         {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
@@ -215,33 +215,33 @@ local function colorizer()
     require "colorizer".setup()
 end
 
-local function completion()
-    paq 'nvim-lua/completion-nvim'
-    paq 'steelsojka/completion-buffers'
+-- local function completion()
+--     paq 'nvim-lua/completion-nvim'
+--     paq 'steelsojka/completion-buffers'
 
-    vim.g.completion_enable_auto_paren = 0
-    vim.g.completion_confirm_key = "<cr>"
-    vim.g.completion_enable_auto_hover = 1
-    vim.g.completion_enable_auto_signature = 1
-    vim.g.completion_enable_snippet = "UltiSnips"
-    api.nvim_exec(
-        [[
-    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-      ]],
-        ""
-    )
-    vim.g.completion_chain_complete_list = {
-        default = {
-            {complete_items = {"lsp", "snippet"}},
-            {complete_items = { "buffer"}},
-            {mode = "<c-p>"},
-            {mode = "<c-n>"}
-        }
-    }
+--     vim.g.completion_enable_auto_paren = 0
+--     vim.g.completion_confirm_key = "<cr>"
+--     vim.g.completion_enable_auto_hover = 1
+--     vim.g.completion_enable_auto_signature = 1
+--     vim.g.completion_enable_snippet = "UltiSnips"
+--     api.nvim_exec(
+--         [[
+--     inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+--     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+--       ]],
+--         ""
+--     )
+--     vim.g.completion_chain_complete_list = {
+--         default = {
+--             {complete_items = {"lsp", "snippet"}},
+--             {complete_items = { "buffer"}},
+--             {mode = "<c-p>"},
+--             {mode = "<c-n>"}
+--         }
+--     }
 
-    api.nvim_exec("au BufEnter * lua require'completion'.on_attach()", "")
-end
+--     api.nvim_exec("au BufEnter * lua require'completion'.on_attach()", "")
+-- end
 
 local function compe() 
 	paq 'hrsh7th/nvim-compe'
@@ -279,7 +279,7 @@ local function vsnip()
 end
 
 local function lsputils()
-	paq 'RishabhRD/popfix'
+    paq 'RishabhRD/popfix'
     paq 'RishabhRD/nvim-lsputils'
     vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
     vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
@@ -324,7 +324,7 @@ local function lsp()
 		api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f8>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
-		api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 300)", "")
+		api.nvim_exec("au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync({}, 300)", "")
 		-- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
     end
 
@@ -342,6 +342,7 @@ local function lsp()
     require "lspconfig".tsserver.setup {on_attach = lsp_attach}
     require "lspconfig".gopls.setup {on_attach = lsp_attach}
     require "lspconfig".html.setup {on_attach = lsp_attach}
+    require'lspconfig'.yamlls.setup{}
     -- require "lspconfig".sumneko_lua.setup {on_attach = lsp_attach}
 
     fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
@@ -355,21 +356,20 @@ end
 local function fzf()
     paq 'junegunn/fzf'
     paq 'junegunn/fzf.vim'
-
     -- vim.g.fzf_layout = {window = {width = 1, height = 0.3, yoffset = 1}}
     -- vim.g.fzf_layout = {window = "30new"}
-    vim.g.fzf_layout = {down = "35%"}
+    vim.g.fzf_layout = {down = "40%"}
     vim.g.fzf_preview_window = "right:50%"
     vim.g.fzf_buffers_jump = 1
     vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-    api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>s", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<C-f>", ":MyRg<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>b", ":Buffers<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-    api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
+    -- api.nvim_set_keymap("n", "<space>h", ":History<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>i", ":BTags<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>I", ":Tags<CR>", keyopts)
     api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
@@ -378,10 +378,8 @@ local function fzf()
         au FileType fzf tnoremap <buffer> jk jk
         au FileType fzf tmap <buffer> <Esc> <c-g>
         au FileType fzf imap <buffer> <Esc> <c-g>
-        au FileType fzf tmap <buffer> <C-l> <Down>
         au FileType fzf tmap <buffer> <C-j> <Down>
         au FileType fzf tmap <buffer> <Tab> <Down>
-        au FileType fzf tmap <buffer> <C-h> <Up>
         au FileType fzf tmap <buffer> <S-Tab> <Up>
         au FileType fzf set laststatus=0 noshowmode
         au FileType fzf set laststatus=0
@@ -538,7 +536,6 @@ local function neoterm()
     ]],
         ""
     )
-
     -- au FileType neoterm tnoremap <silent> <buffer> <C-w><C-w> <C-\><C-N><C-w><C-w>
 end
 
@@ -566,23 +563,6 @@ local function align()
     paq 'junegunn/vim-easy-align'
 end
 
-local function lspfuzzy()
-    paq 'ojroques/nvim-lspfuzzy'
-    require('lspfuzzy').setup {
-        methods = 'all', 
-        fzf_preview = {
-            'right:+{2}-/2'
-        },
-       fzf_action = {
-         ['ctrl-t'] = 'tabedit',
-         ['ctrl-v'] = 'vsplit',
-         ['ctrl-x'] = 'split',
-       },
-       fzf_modifier = ':~:.',
-       fzf_trim = true,
-    }
-end
-
 local function statusline()
     -- vim.o["statusline"] =
     --     "%* [%{split(getcwd(),'/')[-1]}]/%f%{&modified?'*':''} %{luaeval('#vim.lsp.buf_get_clients() > 0')? luaeval('require(\"lsp-status\").status()') : ''} %= %l,%.4c %{exists('g:loaded_fugitive')? '' . fugitive#head() :''} %y %{&fileencoding?&fileencoding:&encoding} "
@@ -604,6 +584,46 @@ local function statusline()
 	}
 end
 
+local function telescope()
+	paq 'nvim-lua/popup.nvim'
+	paq 'nvim-lua/plenary.nvim'
+	paq 'nvim-telescope/telescope.nvim'
+    -- paq 'nvim-telescope/telescope-fzy-native.nvim'
+
+    api.nvim_set_keymap("n", "<space>f", ":Telescope find_files<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>n", ":Telescope file_browser<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>h", ":Telescope oldfiles<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>b", ":Telescope buffers<CR>", keyopts)
+
+    local actions = require('telescope.actions')
+    require('telescope').setup{
+        defaults = {
+            scroll_strategy = nil,
+            shorten_path = false,
+            prompt_position = "bottom",
+            prompt_prefix="🔍 ",
+            selection_caret = "▶ ",
+            mappings = {
+                i = {
+                    ["<PageDown>"] = actions.preview_scrolling_down,
+                    ["<PageUp>"] = actions.preview_scrolling_up,
+                },
+                n = {
+                    ["<PageDown>"] = actions.preview_scrolling_down,
+                    ["<PageUp>"] = actions.preview_scrolling_up,
+                }
+            }
+        },
+    }
+    -- require('telescope').load_extension('fzy_native')
+end
+
+local function bufferline()
+	paq 'romgrk/barbar.nvim'
+    api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
+    api.nvim_set_keymap("n", "<C-h>", ":BufferPrevious<CR>", keyopts)
+end
+
 function Setup()
 	-- set colors first
     colors()
@@ -621,18 +641,19 @@ function Setup()
     paq 'kyazdani42/nvim-web-devicons'
     -- paq 'ryanoasis/vim-devicons'
     statusline()
+    bufferline()
     align()
     vimrooter()
     fugitive()
     easymotion()
     autopairs()
     fzf()
-    -- telescope()
+    telescope()
     neoterm()
     anyjump()
-    -- signify()
+    signify()
     treesitter()
-    -- colorizer()
+    colorizer()
     -- rust()
 
     compe()

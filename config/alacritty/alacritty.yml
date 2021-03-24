@@ -13,7 +13,8 @@ window:
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
   decorations: full
-  startup_mode: Maximized 
+  dynamic_title: false
+  title: Alacritty
  
 scrolling:
   history: 10000
@@ -151,7 +152,6 @@ selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
   save_to_clipboard: true
 
-window.dynamic_title: true
 live_config_reload: true
 background_opacity: 1.0
 

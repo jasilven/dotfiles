@@ -36,7 +36,7 @@
           "after": ["<Esc>"]
         }
       ],
-      "files.watcherExclude": {
+          "files.watcherExclude": {
         "**/.bloop": true,
         "**/.metals": true,
         "**/.ammonite": true

@@ -153,10 +153,10 @@ exe "hi lspdiagnosticsUnderlineWarning gui=underline" . " guifg=" . s:none
 exe "hi CocHintSign gui=underline" . " guifg=" . s:none 
 
 " Diff
-exe "hi DiffAdd" . " guifg=" . s:green . " guibg=" . s:cursorline
-exe "hi DiffChange" . " guifg=" . s:nontext . " guibg=" . s:cursorline
-exe "hi DiffDelete" . " guifg=" . s:red . " guibg=" . s:cursorline
-exe "hi DiffText" . " guifg=" . s:blue . " guibg=" . s:cursorline
+exe "hi DiffAdd" . " guifg=" . s:green . " guibg=" . s:bg
+exe "hi DiffChange" . " guifg=" . s:nontext . " guibg=" . s:bg
+exe "hi DiffDelete" . " guifg=" . s:red . " guibg=" . s:bg
+exe "hi DiffText" . " guifg=" . s:blue . " guibg=" . s:bg
 exe "hi DiffAdded" . " guifg=" . s:green . " guibg=" . s:bg
 exe "hi DiffFile" . " guifg=" . s:red . " guibg=" . s:bg
 exe "hi DiffNewFile" . " guifg=" . s:green . " guibg=" . s:bg
@@ -180,6 +180,9 @@ exe "hi TelescopeResultsBorder guifg=" . s:fg . " guibg=" . s:cursorline
 exe "hi TelescopePreviewBorder guifg=" . s:fg . " guibg=" . s:cursorline
 exe "hi TelescopeMatching guifg=" . s:yellow . " gui=underline"
 exe "hi TelescopePromptPrefix guifg=" . s:comment
+
+
+exe "hi YamlBlockMappingKey guifg=" . s:blue
 
 " Neovim terminal colours
 let g:terminal_color_0 =  s:bg

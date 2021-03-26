@@ -7,8 +7,9 @@ $kubernetes\
 $git_branch\
 $git_commit\
 $git_state\
-$env_var\
 $cmd_duration\
+$docker_context\
+$env_var\
 $line_break\
 $jobs\
 $battery\
@@ -41,3 +42,6 @@ disabled = false
 [git_branch]
 symbol = " "
 format = "[$symbol$branch]($style) "
+
+[docker_context]
+format = "via [🐋 $context](blue bold)"

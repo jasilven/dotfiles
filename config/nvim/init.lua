@@ -112,7 +112,8 @@ function settings.Setup_options()
     vim.o["updatetime"] = 300
     vim.o["wildignore"] = "*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*/.git/*,*/target/*,*~,tags"
     vim.o["wildmenu"] = true
-    vim.o["wildmode"] = "list:longest,full"
+    -- vim.o["wildmode"] = "list:longest,full"
+    vim.o["wildmode"] = "full"
     vim.o["wrap"] = false
     vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
     vim.o["grepformat"] = "%f:%l:%c:%m"
@@ -151,6 +152,8 @@ function settings.Setup_general()
     cnoreabbrev hoh nohl 
     inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    cnoremap <expr> <up> pumvisible() ? "<C-p>" : "\\<up>"
+    cnoremap <expr> <down> pumvisible() ? "<C-n>" : "\\<down>"
   ]],
         ""
     )
@@ -314,7 +317,8 @@ local function lsp()
 		api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<RightMouse>", "<RightMouse><cmd>lua vim.lsp.buf.hover()<CR><esc>", keyopts)
 		api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", keyopts)
-		api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
+		-- api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
+		api.nvim_set_keymap("n", "gr", "<cmd>lua require'telescope.builtin'.lsp_references(require('telescope.themes').get_dropdown({}))<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
         api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
@@ -322,10 +326,9 @@ local function lsp()
 		api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
-		api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
+		-- api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
 		api.nvim_set_keymap("n", "<f8>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
-		api.nvim_exec("au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync({}, 300)", "")
-		-- api.nvim_set_keymap("n", "<space>i", ":Vista finder<CR>", keyopts)
+		api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 500)", "")
     end
 
     require "lspconfig".rust_analyzer.setup {on_attach = lsp_attach, settings = {
@@ -544,10 +547,10 @@ local function fugitive()
     api.nvim_set_keymap("n", "<C-x>g", ":Gstatus<cr>", keyopts)
 end
 
-local function rust()
-    paq 'rust-lang/rust.vim'
-    -- vim.g.rustfmt_autosave = 1
-end
+-- local function rust()
+--     paq 'rust-lang/rust.vim'
+--     -- vim.g.rustfmt_autosave = 1
+-- end
 
 local function colors()
     api.nvim_exec(
@@ -594,6 +597,7 @@ local function telescope()
     api.nvim_set_keymap("n", "<space>n", ":Telescope file_browser<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>h", ":Telescope oldfiles<CR>", keyopts)
     api.nvim_set_keymap("n", "<space>b", ":Telescope buffers<CR>", keyopts)
+    api.nvim_set_keymap("n", "<space>i", ":Telescope lsp_document_symbols<CR>", keyopts)
 
     local actions = require('telescope.actions')
     require('telescope').setup{
@@ -657,10 +661,6 @@ function Setup()
     -- rust()
 
     compe()
-    -- vsnip()
-    -- completion()
-
-    -- lsp
     lsp()
     -- lspstatus()
     lsputils()

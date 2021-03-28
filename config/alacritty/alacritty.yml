@@ -32,11 +32,11 @@ font:
   normal:
     # family: FiraCode Nerd Font
     family: NotoSansMono Nerd Font
-    # family: RobotoMono Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: DejaVuSansMono Nerd Font Mono
     # family: DejaVuSansMono Nerd Font
     # family: Hack Nerd Font
+    # family: Hack 
     
     # style: Retina
     style: Regular 
@@ -153,13 +153,13 @@ selection:
   save_to_clipboard: true
 
 live_config_reload: true
-background_opacity: 1.0
+background_opacity: 0.95
 
 shell:
-  program: fish
+  # program: fish
   # args:
   #   - -c tmux -u attach || tmux -u new
-enable_experimental_conpty_backend: false
+enable_experimental_conpty_backend: true
 
 # Send ESC (\x1b) before characters when alt is pressed.
 # alt_send_esc: false 

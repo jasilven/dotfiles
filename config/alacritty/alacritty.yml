@@ -30,8 +30,8 @@ cursor:
 font:
   size: 13
   normal:
-    # family: FiraCode Nerd Font
-    family: NotoSansMono Nerd Font
+    family: FiraCode Nerd Font
+    # family: NotoSansMono Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: DejaVuSansMono Nerd Font Mono
     # family: DejaVuSansMono Nerd Font
@@ -55,31 +55,6 @@ font:
 draw_bold_text_with_bright_colors: false
 
 schemes:
-  mylight: &mylight
-    primary:
-      background: '#D9D9C4' 
-      foreground: '#000000' 
-    # cursor:
-      text:       '#ffffff' 
-      cursor:     '#cc6666' 
-    normal:
-      black:      '#1d1f21' 
-      red:        '#D4162A' 
-      green:      '#006600' 
-      yellow:     '#e27603' 
-      blue:       '#005cc5' 
-      magenta:    '#4f3281' 
-      cyan:    '#005f87'
-      white:      '#ffffff' 
-    bright:
-      black:      '#1d1f21' 
-      red:        '#D4162A' 
-      green:      '#006600' 
-      yellow:     '#e27603' 
-      blue:       '#005cc5' 
-      magenta:    '#4f3281' 
-      cyan:    '#005f87'
-      white:      '#ffffff' 
 
 solarized: &solarized
   primary:
@@ -153,7 +128,7 @@ selection:
   save_to_clipboard: true
 
 live_config_reload: true
-background_opacity: 0.95
+background_opacity: 1.0
 
 shell:
   # program: fish

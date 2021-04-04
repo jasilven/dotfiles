@@ -2,9 +2,9 @@ format = """
 $username\
 $hostname\
 $directory\
+$git_branch\
 $shlvl\
 $kubernetes\
-$git_branch\
 $git_commit\
 $git_state\
 $cmd_duration\
@@ -36,11 +36,12 @@ disabled = false
 show_always = true
 
 [kubernetes]
-format = 'on [⛵ $context \($namespace\)](dimmed green) '
+format = 'on [⛵$context \($namespace\)](dimmed green) '
 disabled = false
 
 [git_branch]
-symbol = " "
+symbol = ""
+style = "yellow bold"
 format = "[$symbol$branch]($style) "
 
 [docker_context]

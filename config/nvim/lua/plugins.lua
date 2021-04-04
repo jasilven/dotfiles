@@ -29,8 +29,8 @@ return require('packer').startup(function(use)
                     lualine_a = {'mode'},
                     lualine_b = {'branch'},
                     lualine_c = { {'filename', full_path= true }, {'diagnostics', {sources = {'nvim_lsp'}}}},
-                    lualine_x = {''},
-                    lualine_y = {'', 'filetype', 'encoding'},
+                    lualine_x = {'filetype'},
+                    lualine_y = {'', '', 'encoding'},
                     lualine_z = {'location'} },
                 extensions = { 'fzf' },
                 options = {

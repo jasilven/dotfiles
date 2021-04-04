@@ -54,3 +54,5 @@ alias ll="exa -l"
 alias find="fd"
 alias tm="tmux attach || tmux new"
 alias node12='export PATH="/usr/local/opt/node@12/bin:$PATH"'
+
+source /home/jari/.config/broot/launcher/bash/br

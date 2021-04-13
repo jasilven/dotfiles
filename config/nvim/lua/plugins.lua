@@ -1,7 +1,6 @@
 
 return require('packer').startup(function(use)
     use {'wbthomason/packer.nvim'}
-    use {'hrsh7th/vim-vsnip'}
     use {'mbbill/undotree'}
     use {'cespare/vim-toml'}
     use {'farmergreg/vim-lastplace'}
@@ -9,27 +8,41 @@ return require('packer').startup(function(use)
     use {'tpope/vim-surround'}
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
-    use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
     use {'tpope/vim-fugitive'}
-    -- use {'junegunn/vim-easy-align'}
+    use {'sbdchd/neoformat', cmd = 'Neoformat'}
+
+    use {'windwp/nvim-autopairs', 
+        disable = false,
+        config = function()
+            require('nvim-autopairs').setup()
+        end }
 
     use {'romgrk/barbar.nvim',
 	config = function()
 		local keyopts = {nowait = true, noremap = true, silent = true}
-		vim.api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", "<C-right>", ":BufferNext<CR>", keyopts)
 		vim.api.nvim_set_keymap("n", "<M-l>", ":BufferNext<CR>", keyopts)
 		vim.api.nvim_set_keymap("n", "<C-h>", ":BufferPrevious<CR>", keyopts)
+		vim.api.nvim_set_keymap("n", "<C-left>", ":BufferPrevious<CR>", keyopts)
 		vim.api.nvim_set_keymap("n", "<M-h>", ":BufferPrevious<CR>", keyopts)
 	end }
 
     use {'hoob3rt/lualine.nvim',
         config = function()
+            local function lspclient()
+                if next(vim.lsp.buf_get_clients()) == nil then
+                   return ""
+                else
+                   return "✔ lsp"
+                end
+            end
             require('lualine').setup{
                 sections = {
                     lualine_a = {'mode'},
                     lualine_b = {'branch'},
                     lualine_c = { {'filename', full_path= true }, {'diagnostics', {sources = {'nvim_lsp'}}}},
-                    lualine_x = {'filetype'},
+                    lualine_x = {{lspclient},'filetype'},
                     lualine_y = {'', '', 'encoding'},
                     lualine_z = {'location'} },
                 extensions = { 'fzf' },
@@ -62,13 +75,19 @@ return require('packer').startup(function(use)
             }
         end }
 
+    use {'nvim-lua/completion-nvim',
+        config = function() 
+			vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
+        end}
+
     use {'hrsh7th/nvim-compe',
+        disable = true,
         config = function()
             require('compe').setup{
                 enabled = true;
                 autocomplete = true;
                 debug = false;
-                min_length = 1;
+                min_length = 0;
                 preselect = 'enable';
                 throttle_time = 80;
                 source_timeout = 200;
@@ -79,12 +98,12 @@ return require('packer').startup(function(use)
                 source = {
                     path = true;
                     buffer = true;
-                    calc = true;
-                    vsnip = true;
+                    calc = false;
+                    vsnip = false;
                     nvim_lsp = true;
                     spell = true;
-                    tags = true;
-                    snippets_nvim = true;
+                    tags = false;
+                    snippets_nvim = false;
                     treesitter = true;
                 };
             }
@@ -188,7 +207,7 @@ return require('packer').startup(function(use)
 					scroll_strategy = nil,
 					shorten_path = false,
 					prompt_position = "bottom",
-					prompt_prefix="🔍 ",
+					prompt_prefix="> ",
 					selection_caret = "▶ ",
 					mappings = {
 						i = {
@@ -206,35 +225,38 @@ return require('packer').startup(function(use)
 		end }
 
     use {'neovim/nvim-lspconfig',
-        requires = {'RishabhRD/popfix'},
+        requires = {'RishabhRD/popfix', 'nvim-lua/completion-nvim'},
         config = function()
-			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<RightMouse>", "<RightMouse><cmd>lua vim.lsp.buf.hover()<CR><esc>", keyopts)
-			vim.api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", keyopts)
-			-- vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "gr", "<cmd>lua require'telescope.builtin'.lsp_references(require('telescope.themes').get_dropdown({}))<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
-			-- vim.api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<f8>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
-			vim.api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 300)", "")
+            local function on_attach()
+                local keyopts = {nowait = true, noremap = true, silent = true}
+                vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<RightMouse>", "<RightMouse><cmd>lua vim.lsp.buf.hover()<CR><esc>", keyopts)
+                vim.api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", keyopts)
+                -- vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "gr", "<cmd>Telescope lsp_references<cr>", keyopts)
+                vim.api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<space>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
+                -- vim.api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
+                vim.api.nvim_set_keymap("n", "<f8>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
+                vim.api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 300)", "")
 
-            vim.fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
-            vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
-            vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "LspDiagnosticsSignInformation"})
-            -- vim.fn.sign_define("LspDiagnosticsSignHint", {text = "ﯦ", texthl = "LspDiagnosticsSignInformation"})
-
+                vim.fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
+                vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
+                vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "LspDiagnosticsSignInformation"})
+                -- vim.fn.sign_define("LspDiagnosticsSignHint", {text = "ﯦ", texthl = "LspDiagnosticsSignInformation"})
+                require'completion'.on_attach()
+            end
 			require "lspconfig".rust_analyzer.setup {
+                on_attach = on_attach,
 				settings = {
 				["rust-analyzer"] = {
 					diagnostics = {
@@ -244,16 +266,17 @@ return require('packer').startup(function(use)
 					}
 				}
 			}
-			require "lspconfig".jsonls.setup {}
-			require "lspconfig".tsserver.setup {}
-			require "lspconfig".gopls.setup {}
-			require "lspconfig".html.setup {}
-			require "lspconfig".yamlls.setup{}
+			require "lspconfig".jsonls.setup {on_attach = on_attach}
+			require "lspconfig".tsserver.setup {on_attach = on_attach}
+			require "lspconfig".gopls.setup {on_attach = on_attach}
+            require'lspconfig'.html.setup { on_attach = on_attach}
+			require "lspconfig".yamlls.setup{on_attach = on_attach}
 			local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
 			require "lspconfig".sumneko_lua.setup{
+                on_attach = on_attach,
 				cmd = {"/usr/bin/lua-language-server", "-E", sumneko_root_path .. "/main.lua"},
 			}
-	end }
+	    end }
 
     use {'RishabhRD/nvim-lsputils',
         after = {'nvim-lspconfig'},

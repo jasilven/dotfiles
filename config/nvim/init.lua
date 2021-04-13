@@ -6,7 +6,7 @@ local keyopts = {nowait = true, noremap = true, silent = true}
 -- KEYS
 local keymaps = {
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
-    {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-t>", rhs = "<C-\\><C-N>:term<cr>"},
+    -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-t>", rhs = "<C-\\><C-N>:term<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<Esc>", rhs = "<C-\\><C-N>"},
     {mods = {"n", "v"}, lhs = "gh", rhs = "0"},
@@ -29,6 +29,9 @@ local keymaps = {
     {mods = {"n"}, lhs = "<space>q", rhs = "q"},
     {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
     {mods = {"n"}, lhs = "Q", rhs = "<Nop>"},
+    {mods = {"n"}, lhs = "P", rhs = "<Nop>"},
+    {mods = {"n"}, lhs = "gr", rhs = "<Nop>"},
+    {mods = {"n"}, lhs = "P", rhs = "\"0p"},
     {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
     {mods = {"n"}, lhs = "dh", rhs = "d0"},
     {mods = {"n"}, lhs = "dl", rhs = "d$"},
@@ -40,7 +43,7 @@ local keymaps = {
     {mods = {"n"}, lhs = "yh", rhs = "y0"},
     {mods = {"n"}, lhs = "yl", rhs = "y$"},
     {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
-    {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
+    {mods = {"t"}, lhs = "<C-ddd>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
     {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
 }
 for _, keymap in pairs(keymaps) do
@@ -101,24 +104,42 @@ vim.o["formatoptions"] = "tcrqnb"
 vim.o["fsync"] = false
 vim.wo["wrap"] = false
 vim.wo["foldenable"] = false
-vim.wo["foldmethod"] = "indent"
+vim.wo["foldmethod"] = "expr"
+vim.wo["foldexpr"] = "nvim_treesitter#foldexpr()"
 vim.wo["number"] = true
 vim.wo["signcolumn"] = "yes:1"
 vim.wo["cursorline"] = true
+
+-- NEOVIDE 
+api.nvim_exec( [[
+    set guifont=FiraCode\ Nerd\ Font:h16
+    let g:neovide_cursor_vfx_mode = "torpedo"
+    let g:neovide_cursor_animation_length=0.05
+    let g:neovide_cursor_trail_length=0.5
+    let g:neovide_refresh_rate=140
+    nnoremap <D-v> "+p
+]],"")
 
 -- GLOBAL SETTTINGS
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
 vim.g.netrw_hide = 1
 api.nvim_exec( [[
-set background=dark
+    set guifont=FiraCode\ Nerd\ Font:h16
+    let g:neovide_cursor_vfx_mode = "torpedo"
+    let g:neovide_cursor_animation_length=0.05
+    let g:neovide_cursor_trail_length=0.5
+    nnoremap <D-v> "+p
+
+    set background=dark
     colorscheme myone
+
     au FileType markdown set shiftwidth=2
     au TermOpen * startinsert
     au Bufenter term://*zsh* startinsert
     au Bufenter term://*fish* startinsert
     au TextYankPost * silent! lua vim.highlight.on_yank()
-    au Filetype lua setlocal ts=4 sts=4 sw=4
+    au Filetype lua,html setlocal ts=4 sts=4 sw=4
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
     vmap <LeftRelease> "+ygv
     vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
@@ -126,7 +147,6 @@ set background=dark
     inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
     nnoremap <space>/ *:%s/<c-r><c-w>//g<left><left>
     inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
     cnoremap <expr> <up> pumvisible() ? "<C-p>" : "\\<C-p>"
     cnoremap <expr> <down> pumvisible() ? "<C-n>" : "\\<C-n>"
     command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z

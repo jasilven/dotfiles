@@ -12,7 +12,7 @@ set -gx FZF_DEFAULT_COMMAND fd --type f
 set -gx FZF_DEFAULT_OPTS --color dark,hl:3,hl+:3,bg+:0,fg+:3,info:#7d889b,prompt:7,spinner:7,pointer:3,marker:254
 set -gx BAT_THEME 'TwoDark'
 set -gx TERM xterm-256color
-set -gx CARGO_TARGET_DIR $HOME/.cargo/target_dir
+#set -gx CARGO_TARGET_DIR $HOME/.cargo/target_dir
 set -gx RIPGREP_CONFIG_PATH /home/jari/.ripgreprc
 
 starship init fish | source

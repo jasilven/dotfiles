@@ -19,7 +19,8 @@ let s:green        = "#98c379"
 let s:fg           = "#c5c9d3"
 let s:bg           = "#282c34"
 let s:cursorline   = "#2c313a"
-let s:pmenu        = "#373d48"
+" let s:pmenu        = "#373d48"
+let s:pmenu        = "#434a56"
 let s:comment      = "#7d889b"
 let s:nontext      = "#657b83"
 let s:statusline   = "#c5cad3"
@@ -36,6 +37,7 @@ exe "hi Todo guifg=" . s:yellow . " guibg=" . s:cursorline
 exe "hi helpExample guifg=" . s:cyan
 exe "hi helpCommand guifg=" . s:blue
 exe "hi helpHeader  guifg=" . s:blue
+exe "hi! link Underlined  TSUnderline"
 exe "hi! link Boolean TSBoolean" 
 exe "hi! link Character TSCharacter" 
 exe "hi! link Conditional TSConditional"
@@ -55,9 +57,9 @@ exe "hi! link PreProc TSConstMacro"
 exe "hi! link Repeat TSRepeat"
 exe "hi! link Special TSPunctSpecial"
 exe "hi! link SpecialChar TSPunctSpecial"
-exe "hi! link Statement Normal"
+" exe "hi! link Statement Normal"
 exe "hi! link String TSString"
-exe "hi! link Structure Normal"
+" exe "hi! link Structure Normal"
 exe "hi! link Tag TSTag"
 exe "hi! link Type TSType"
 exe "hi! link Typedef TSType"
@@ -84,6 +86,8 @@ exe "hi MatchParen gui=bold guibg=" . s:yellow . " guifg=" . s:red
 exe "hi ModeMsg guifg=" . s:green
 exe "hi MoreMsg guifg=" . s:green
 exe "hi NonText guifg=" . s:nontext
+exe "hi Statement guifg=" . s:fg
+exe "hi Structure guifg=" . s:fg
 exe "hi Normal guifg=" . s:fg . " guibg=" . s:bg
 exe "hi PMenu guifg=" . s:fg . " guibg=" . s:pmenu. " gui=" . s:none
 exe "hi PMenuSel guifg=" . s:pmenu. " guibg=" . s:fg
@@ -100,7 +104,6 @@ exe "hi TabLineFill guifg=" . s:nontext . " guibg=" . "#000000" . " gui=" . s:no
 exe "hi TabLineSel guifg=" . s:green . " guibg=" . s:bg . " gui=" . s:none
 exe "hi Title guifg=" . s:blue . " gui=" . s:none
 exe "hi TooLong guifg=" . s:red
-exe "hi Underlined  gui=underline"
 exe "hi VertSplit guifg=" . s:comment . " guibg=" . s:none . " gui=" . s:none
 exe "hi Visual guibg=" . s:visual . " gui=" . s:none
 exe "hi VisualNOS guifg=" . s:red
@@ -130,7 +133,7 @@ exe "hi TSField         guifg=" . s:none
 exe "hi TSFloat         guifg=" . s:cyan
 exe "hi TSFuncBuiltin   guifg=" . s:cyan
 exe "hi TSFuncMacro     guifg=" . s:cyan
-exe "hi TSFunction      guifg=" . s:none
+exe "hi TSFunction      guifg=" . s:cyan
 exe "hi TSInclude       guifg=" . s:none
 exe "hi TSKeyword       guifg=" . s:keyword
 exe "hi TSKeywordFunction  guifg=" . s:keyword
@@ -156,7 +159,7 @@ exe "hi TSString        guifg=" . s:green
 exe "hi TSStringEscape  guifg=" . s:cyan
 exe "hi TSStringRegex   guifg=" . s:green
 exe "hi TSStrong        gui=bold"
-exe "hi TSSymbol        guifg=" . s:none
+exe "hi TSSymbol        guifg=" . s:fg
 exe "hi TSTag           guifg=" . s:yellow
 exe "hi TSTagDelimiter  guifg=" . s:none
 exe "hi TSText          guifg=" . s:none
@@ -166,6 +169,7 @@ exe "hi TSType          guifg=" . s:yellow
 exe "hi TSTypeBuiltin   guifg=" . s:none
 exe "hi TSURI           gui=underline" 
 exe "hi TSUnderline     gui=underline"
+exe "hi TSUnderline  gui=underline ctermfg=none guisp=" . s:fg . " guifg=" . s:fg
 exe "hi TSVariableBuiltin  guifg=" . s:cyan
 exe "hi TSWarning       guifg=" . s:yellow . " guibg=" . s:cursorline
 
@@ -216,7 +220,7 @@ exe "hi TelescopeBorder guifg=" . s:fg . " guibg=" . s:cursorline
 exe "hi TelescopePromptBorder guifg=" . s:fg . " guibg=" . s:cursorline
 exe "hi TelescopeResultsBorder guifg=" . s:fg . " guibg=" . s:cursorline
 exe "hi TelescopePreviewBorder guifg=" . s:fg . " guibg=" . s:cursorline
-exe "hi TelescopeMatching guifg=" . s:yellow . " gui=underline"
+exe "hi TelescopeMatching guifg=" . s:yellow . " gui=underline guisp=" . s:yellow
 exe "hi TelescopePromptPrefix guifg=" . s:comment
 
 " MARKDOWN
@@ -230,3 +234,21 @@ exe "hi markdownH3 guifg=" . s:blue
 
 " YAML
 " exe "hi YamlBlockMappingKey guifg=" . s:blue
+
+" TERMINAL
+let g:terminal_color_0 = s:fg
+let g:terminal_color_8 = s:bg
+let g:terminal_color_1 = s:red
+let g:terminal_color_9 = s:red
+let g:terminal_color_2 = s:green
+let g:terminal_color_10 = s:green
+let g:terminal_color_3 = s:yellow
+let g:terminal_color_11 = s:yellow
+let g:terminal_color_4 = s:blue
+let g:terminal_color_12 = s:blue
+let g:terminal_color_5 = s:magenta
+let g:terminal_color_13 = s:magenta
+let g:terminal_color_6 = s:cyan
+let g:terminal_color_14 = s:cyan
+let g:terminal_color_7 = s:fg
+let g:terminal_color_15 = s:fg

@@ -82,7 +82,7 @@ solarized: &solarized
     cyan:    '#d33682'
     white:   '#fdf6e3'
 
-solarized: &one
+one: &one
   primary:
     background: '#282c34'
     foreground: '#d4d7de'

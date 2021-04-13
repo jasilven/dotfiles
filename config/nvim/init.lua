@@ -136,7 +136,6 @@ api.nvim_exec( [[
 
     au FileType markdown set shiftwidth=2
     au TermOpen * startinsert
-    au Bufenter term://*zsh* startinsert
     au Bufenter term://*fish* startinsert
     au TextYankPost * silent! lua vim.highlight.on_yank()
     au Filetype lua,html setlocal ts=4 sts=4 sw=4

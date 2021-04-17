@@ -11,12 +11,12 @@ let s:color8       = "#fdf6e3"
 let s:yellow       = "#d5992a"
 let s:orange       = "#FF5F00"
 let s:red          = "#e06c75"
-let s:magenta      = "#c678dd"
+let s:magenta      = "#c270db"
 let s:violet       = "#6c71c4"
 let s:blue         = "#61afef"
 let s:cyan         = "#56b6c2"
 let s:green        = "#98c379"
-let s:fg           = "#c5c9d3"
+let s:fg           = "#b6bbc8"
 " let s:bg           = "#282c34"
 let s:bg           = "#21252b"
 let s:cursorline   = "#2c313a"
@@ -166,7 +166,7 @@ exe "hi TSTagDelimiter  guifg=" . s:none
 exe "hi TSText          guifg=" . s:none
 exe "hi TSTextReference  guifg=" . s:yellow
 exe "hi TSTitle         guifg=" . s:blue
-exe "hi TSType          guifg=" . s:yellow
+exe "hi TSType          guifg=" . s:fg
 exe "hi TSTypeBuiltin   guifg=" . s:none
 exe "hi TSURI           gui=underline" 
 exe "hi TSUnderline     gui=underline"
@@ -232,9 +232,13 @@ exe "hi markdownH1 gui=bold guifg=" . s:blue
 exe "hi markdownH2 gui=bold guifg=" . s:blue
 exe "hi markdownH3 guifg=" . s:blue
 
+" GITSIGNS
+exe "hi GitSignsAdd guibg=NONE guifg=" s:green
+exe "hi GitSignsChange guifg=" s:yellow
+exe "hi GitSignsDelete guibg=NONE guifg=" . s:red
 
 " YAML
-" exe "hi YamlBlockMappingKey guifg=" . s:blue
+exe "hi YamlBlockMappingKey guifg=" . s:blue
 
 " TERMINAL
 let g:terminal_color_0 = s:fg

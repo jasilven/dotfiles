@@ -28,7 +28,7 @@ cursor:
 
 # Font configuration
 font:
-  size: 13
+  size: 14
   normal:
     family: FiraCode Nerd Font
     # family: NotoSansMono Nerd Font
@@ -84,23 +84,23 @@ solarized: &solarized
 
 one: &one
   primary:
-    background: '#282c34'
-    foreground: '#d4d7de'
+    background: '#21252b'
+    foreground: '#b6bbc8'
   cursor:
     text: '#282c34'
     cursor: '#ffffff'
   normal:
     black:   '#282c34'
-    red:     '#cb4b16'
+    red:     '#e06c75'
     green:   '#98c379'
-    yellow:  '#e5c07b'
+    yellow:  '#ddae55'
     blue:    '#61afef'
-    magenta: '#6c71c4'
+    magenta: '#c270db'
     cyan:    '#56b6c2'
-    white:   '#d4d7de'
+    white:   '#b6bbc8'
   bright:
     black:   '#282c34'
-    red:     '#cb4b16'
+    red:     '#e06c75'
     green:   '#98c379'
     yellow:  '#e5c07b'
     blue:    '#61afef'

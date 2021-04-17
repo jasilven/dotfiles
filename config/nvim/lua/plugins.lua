@@ -9,8 +9,8 @@ return require('packer').startup(function(use)
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'tpope/vim-fugitive'}
-    use {'sbdchd/neoformat', cmd = 'Neoformat'}
-
+    use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat', 
+        config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
     use {'windwp/nvim-autopairs', 
         disable = false,
         config = function()
@@ -20,8 +20,8 @@ return require('packer').startup(function(use)
     use {'romgrk/barbar.nvim',
 	config = function()
 		local keyopts = {nowait = true, noremap = true, silent = true}
-            vim.api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", "<C-right>", ":BufferNext<CR>", keyopts)
+        vim.api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
+        vim.api.nvim_set_keymap("n", "<C-right>", ":BufferNext<CR>", keyopts)
 		vim.api.nvim_set_keymap("n", "<M-l>", ":BufferNext<CR>", keyopts)
 		vim.api.nvim_set_keymap("n", "<C-h>", ":BufferPrevious<CR>", keyopts)
 		vim.api.nvim_set_keymap("n", "<C-left>", ":BufferPrevious<CR>", keyopts)
@@ -157,7 +157,16 @@ return require('packer').startup(function(use)
 			vim.api.nvim_set_keymap("n", "f", "<Plug>(easymotion-bd-f)", {nowait = true, silent = true})
 		end }
 
+    use {
+      'lewis6991/gitsigns.nvim',
+      requires = { 'nvim-lua/plenary.nvim' },
+      config = function()
+        require('gitsigns').setup()
+      end
+    }
+
     use {'mhinz/vim-signify',
+        disable = true,
 		config = function()
 			vim.g.signify_line_highlight = 0
 			vim.g.signify_disable_by_default = 1
@@ -252,7 +261,7 @@ return require('packer').startup(function(use)
                 vim.fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
                 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
                 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "LspDiagnosticsSignInformation"})
-                -- vim.fn.sign_define("LspDiagnosticsSignHint", {text = "ﯦ", texthl = "LspDiagnosticsSignInformation"})
+                vim.fn.sign_define("LspDiagnosticsSignHint", {text = "ﯦ", texthl = "LspDiagnosticsSignInformation"})
                 require'completion'.on_attach()
             end
 			require "lspconfig".rust_analyzer.setup {

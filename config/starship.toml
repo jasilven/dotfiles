@@ -1,25 +1,18 @@
 format = """
 $username\
-$hostname\
 $directory\
 $git_branch\
-$shlvl\
 $kubernetes\
-$git_commit\
-$git_state\
-$cmd_duration\
 $docker_context\
 $env_var\
 $line_break\
 $jobs\
-$battery\
-$time\
-$status\
 $character"""
 
 [directory]
 truncation_length = 8
 truncate_to_repo = false
+style = "yellow"
 # use_logical_path = false
 
 [hostname]
@@ -29,9 +22,9 @@ trim_at = ".companyname.com"
 disabled = false
 
 [username]
-style_user = "white bold"
-style_root = "black bold"
-format = "[$user]($style)"
+style_user = "white"
+style_root = "red bold"
+format = "[$user]($style) "
 disabled = false
 show_always = true
 
@@ -41,7 +34,7 @@ disabled = false
 
 [git_branch]
 symbol = ""
-style = "yellow bold"
+style = "blue"
 format = "[$symbol$branch]($style) "
 
 [docker_context]

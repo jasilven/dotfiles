@@ -3,6 +3,12 @@ local api = vim.api
 local fn = vim.fn
 local keyopts = {nowait = true, noremap = true, silent = true}
 
+-- COLOR
+vim.cmd([[colorscheme mylight]])
+
+-- PLUGINS 
+require "plugins"
+
 -- KEYS
 local keymaps = {
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
@@ -125,15 +131,6 @@ vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
 vim.g.netrw_hide = 1
 api.nvim_exec( [[
-    set guifont=FiraCode\ Nerd\ Font:h16
-    let g:neovide_cursor_vfx_mode = "torpedo"
-    let g:neovide_cursor_animation_length=0.05
-    let g:neovide_cursor_trail_length=0.5
-    nnoremap <D-v> "+p
-
-    set background=dark
-    colorscheme myone
-
     au FileType markdown set shiftwidth=2
     au TermOpen * startinsert
     au Bufenter term://*fish* startinsert
@@ -252,5 +249,4 @@ end
 
 setup_go()
 setup_rust()
-require "plugins"
 

@@ -5,30 +5,27 @@ syntax reset
 let g:colors_name="mylight"
 set background="light"
 
-" COLORS
-let s:sand         = "#eee8d5"
-let s:color8       = "#fdf6e3"
+" COLORS 
+let s:deepblue     = "#032f62"
 let s:yellow       = "#d5992a"
 let s:orange       = "#FF5F00"
 let s:red          = "#e06c75"
 let s:magenta      = "#c270db"
-let s:violet       = "#6c71c4"
-let s:blue         = "#61afef"
+let s:violet       = "#6f42c1"
+let s:blue         = "#005cc5"
 let s:cyan         = "#56b6c2"
-let s:green        = "#98c379"
-let s:fg           = "#b6bbc8"
-" let s:bg           = "#282c34"
-let s:bg           = "#21252b"
-let s:cursorline   = "#2c313a"
-" let s:pmenu        = "#373d48"
-let s:pmenu        = "#434a56"
+let s:green        = "#478943"
+let s:fg           = "#505962"
+let s:bg           = "#F8F8FF"
+let s:cursorline   = "#e8e8fa"
+let s:pmenu        = "#e8e8fa"
 let s:comment      = "#7d889b"
 let s:nontext      = "#657b83"
 let s:statusline   = "#c5cad3"
 let s:statuslinenc = "#424957"
-let s:visual       = "#586274"
-let s:linenr       = "#585858"
-let s:keyword      = "#68A8E4"
+let s:visual       = "#b3b3ff"
+let s:linenr       = "#c5cad3"
+let s:keyword      = "#d73a49"
 let s:none         = "NONE"
 
 " SYNTAX
@@ -69,7 +66,7 @@ exe "hi! link Typedef TSType"
 exe "hi Bold gui=bold"
 exe "hi ColorColumn guibg=" . s:cursorline . " gui=" . s:none
 exe "hi Conceal guifg=" . s:blue . " guibg=" . s:bg
-exe "hi Cursor guifg=" . "#ffffff" . " guibg=" . s:red. " gui=inverse"
+exe "hi Cursor guifg=" . "#ffffff" . " guibg=" . s:red . " gui=inverse"
 exe "hi CursorColumn guibg=" . s:cursorline . " gui=" . s:none
 exe "hi CursorLine guibg=" . s:cursorline . " gui=" . s:none
 exe "hi CursorLineNr guifg=" s:yellow . " guibg=" . s:cursorline
@@ -83,7 +80,8 @@ exe "hi Folded guifg=" . s:nontext . " guibg=" . s:cursorline
 exe "hi IncSearch guifg=" . s:cursorline . " guibg=" . s:orange . " gui=" . s:none
 exe "hi Italic gui=" . s:none 
 exe "hi LineNr guifg=" . s:linenr. " guibg=" . s:none
-exe "hi MatchParen gui=bold guibg=" . s:yellow . " guifg=" . s:red
+exe "hi MatchParen gui=bold guibg=none guifg=none"
+" exe "hi clear MatchParen"
 exe "hi ModeMsg guifg=" . s:green
 exe "hi MoreMsg guifg=" . s:green
 exe "hi NonText guifg=" . s:nontext
@@ -100,9 +98,9 @@ exe "hi SpecialKey guifg=" . s:nontext
 exe "hi StatusLine guifg=" . s:bg . " guibg=" . s:statusline . " gui=" . s:none
 exe "hi StatusLineNC guifg=" . s:comment . " guibg=" . s:statuslinenc. " gui=" . s:none
 exe "hi Substitute guifg=" . s:cursorline . " guibg=" . s:yellow . " gui=" . s:none
-exe "hi TabLine guifg=" . s:nontext . " guibg=" . s:cursorline . " gui=" . s:none
-exe "hi TabLineFill guifg=" . s:nontext . " guibg=" . "#000000" . " gui=" . s:none
-exe "hi TabLineSel guifg=" . s:green . " guibg=" . s:bg . " gui=" . s:none
+exe "hi TabLine guifg=" . s:green . " guibg=" . s:cursorline . " gui=bold"
+exe "hi TabLineFill guifg=" . s:nontext . " guibg=" . s:statusline . " gui=bold"
+exe "hi TabLineSel guifg=" . s:comment . " guibg=" . s:cursorline . " gui=none"
 exe "hi Title guifg=" . s:blue . " gui=" . s:none
 exe "hi TooLong guifg=" . s:red
 exe "hi VertSplit guifg=" . s:comment . " guibg=" . s:none . " gui=" . s:none
@@ -120,7 +118,7 @@ exe "hi TSCharacter     guifg=" . s:green
 exe "hi TSConditional   guifg=" . s:keyword
 exe "hi TSConstBuiltin  guifg=" . s:cyan
 exe "hi TSConstMacro    guifg=" . s:violet
-exe "hi TSConstant      guifg=" . s:fg
+exe "hi TSConstant      guifg=" . s:blue
 exe "hi TSConstructor   guifg=" . s:cyan
 exe "hi TSCurrentScope  guifg=" . s:cursorline
 exe "hi TSDanger        guifg=" . s:red
@@ -133,8 +131,8 @@ exe "hi TSException     guifg=" . s:red
 exe "hi TSField         guifg=" . s:none
 exe "hi TSFloat         guifg=" . s:cyan
 exe "hi TSFuncBuiltin   guifg=" . s:cyan
-exe "hi TSFuncMacro     guifg=" . s:cyan
-exe "hi TSFunction      guifg=" . s:cyan
+exe "hi TSFuncMacro     guifg=" . s:violet
+exe "hi TSFunction      guifg=" . s:violet
 exe "hi TSInclude       guifg=" . s:none
 exe "hi TSKeyword       guifg=" . s:keyword
 exe "hi TSKeywordFunction  guifg=" . s:keyword
@@ -148,8 +146,8 @@ exe "hi TSNone          guifg=" . s:fg
 exe "hi TSNote          guifg=" . s:cyan
 exe "hi TSNumber        guifg=" . s:cyan
 exe "hi TSOperator      guifg=" . s:fg
-exe "hi TSParameter     guifg=" . s:magenta
-exe "hi TSParameterReference  guifg=" . s:none
+exe "hi TSParameter     guifg=" . s:blue
+exe "hi TSParameterReference  guifg=" . s:blue
 exe "hi TSProperty      guifg=" . s:none
 exe "hi TSPunctBracket  guifg=" . s:none
 exe "hi TSPunctDelimiter  guifg=" . s:none 
@@ -213,15 +211,18 @@ exe "hi SpellCap gui=undercurl guisp=" . s:blue
 exe "hi SpellRare gui=undercurl guisp=" . s:violet
 
 " TELESCOPE
-exe "hi TelescopeSelection guibg="  . s:cursorline . " guifg=" . s:yellow  . " gui=bold"
-exe "hi TelescopeSelectionCaret guifg=" . s:yellow . " gui=bold"
+exe "hi TelescopeSelection guibg="  . s:cursorline . " guifg=" . s:blue . " gui=bold"
+exe "hi TelescopeSelectionCaret guifg=" . s:blue . " gui=bold guibg=" . s:cursorline 
 exe "hi TelescopeMultiSelection guifg=" . s:orange
-exe "hi TelescopeNormal guifg=" . s:comment . " guibg=" . s:cursorline
-exe "hi TelescopeBorder guifg=" . s:fg . " guibg=" . s:cursorline
-exe "hi TelescopePromptBorder guifg=" . s:fg . " guibg=" . s:cursorline
-exe "hi TelescopeResultsBorder guifg=" . s:fg . " guibg=" . s:cursorline
-exe "hi TelescopePreviewBorder guifg=" . s:fg . " guibg=" . s:cursorline
-exe "hi TelescopeMatching guifg=" . s:yellow . " gui=underline guisp=" . s:yellow
+exe "hi TelescopeNormal guifg=" . s:comment . " guibg=" . s:bg
+exe "hi TelescopeBorder guifg=" . s:fg . " guibg=" . s:bg
+" exe "hi! link TelescopePromptBorder TelescopeBorder"
+" exe "hi! link TelescopeResultsorder TelescopeBorder"
+" exe "hi! link TelescopePrevieworder TelescopeBorder"
+exe "hi TelescopePromptBorder guifg=" . s:fg . " guibg=" . s:bg
+exe "hi TelescopeResultsBorder guifg=" . s:fg . " guibg=" . s:bg
+exe "hi TelescopePreviewBorder guifg=" . s:fg . " guibg=" . s:bg
+exe "hi TelescopeMatching guifg=" . s:blue . " gui=underline guisp=" . s:yellow
 exe "hi TelescopePromptPrefix guifg=" . s:comment
 
 " MARKDOWN

@@ -30,6 +30,7 @@ cursor:
 font:
   size: 14
   normal:
+    # family: Menlo
     family: FiraCode Nerd Font
     # family: NotoSansMono Nerd Font
     # family: CodeNewRoman Nerd Font
@@ -102,11 +103,11 @@ one: &one
     black:   '#282c34'
     red:     '#e06c75'
     green:   '#98c379'
-    yellow:  '#e5c07b'
+    yellow:  '#ddae55'
     blue:    '#61afef'
-    magenta: '#6c71c4'
+    magenta: '#c270db'
     cyan:    '#56b6c2'
-    white:   '#d4d7de'
+    white:   '#b6bbc8'
     
 colors: *one
 

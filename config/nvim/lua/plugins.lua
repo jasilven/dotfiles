@@ -9,6 +9,16 @@ return require('packer').startup(function(use)
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'tpope/vim-fugitive'}
+    use {'tomasiser/vim-code-dark'}
+    use {'marko-cerovac/material.nvim', requires = {{'tjdevries/colorbuddy.nvim'}}}
+    use {'savq/melange'}
+    use {'ishan9299/nvim-solarized-lua', 
+        config = function() 
+            vim.g.solarized_italics = 1
+            vim.g.solarized_visibility = 'normal'
+            vim.g.solarized_diffmode = 'normal'
+            vim.g.solarized_statusline = 'normal'
+        end }
     use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat', 
         config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
     use {'windwp/nvim-autopairs', 
@@ -29,6 +39,7 @@ return require('packer').startup(function(use)
 	end }
 
     use {'hoob3rt/lualine.nvim',
+        requires = {'kyazdani42/nvim-web-devicons', opt = true},
         config = function()
             local function lspclient()
                 if next(vim.lsp.buf_get_clients()) == nil then

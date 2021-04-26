@@ -1,5 +1,5 @@
 {
-    "rust-analyzer.diagnostics.enable": true,
+  "rust-analyzer.diagnostics.enable": true,
     "json.enable": true,
     "codeLens.enable": true,
     "codeLens.separator": " ",

@@ -4,28 +4,18 @@ return require('packer').startup(function(use)
     use {'mbbill/undotree'}
     use {'cespare/vim-toml'}
     use {'farmergreg/vim-lastplace'}
-    use {'tpope/vim-commentary'}
+    use {'terrortylor/nvim-comment' , config = function() require('nvim_comment').setup() end }
     use {'tpope/vim-surround'}
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'tpope/vim-fugitive'}
-    use {'tomasiser/vim-code-dark'}
-    use {'marko-cerovac/material.nvim', requires = {{'tjdevries/colorbuddy.nvim'}}}
-    use {'savq/melange'}
-    use {'ishan9299/nvim-solarized-lua', 
-        config = function() 
-            vim.g.solarized_italics = 1
-            vim.g.solarized_visibility = 'normal'
-            vim.g.solarized_diffmode = 'normal'
-            vim.g.solarized_statusline = 'normal'
-        end }
-    use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat', 
+    use {'Soares/base16.nvim'}
+    use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat',
         config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
-    use {'windwp/nvim-autopairs', 
+    use {'windwp/nvim-autopairs',
         disable = false,
-        config = function()
-            require('nvim-autopairs').setup()
-        end }
+        config = function() require('nvim-autopairs').setup() end
+    }
 
     use {'romgrk/barbar.nvim',
 	config = function()
@@ -87,7 +77,7 @@ return require('packer').startup(function(use)
         end }
 
     use {'nvim-lua/completion-nvim',
-        config = function() 
+        config = function()
 			vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
         end}
 
@@ -159,7 +149,7 @@ return require('packer').startup(function(use)
 			local keyopts = {nowait = true, noremap = true, silent = true}
 			vim.g.any_jump_window_width_ratio = 0.8
 			vim.g.any_jump_window_height_ratio = 0.3
-			vim.api.nvim_set_keymap("n", "<space>j", ":AnyJump<cr>", keyopts)
+			vim.api.nvim_set_keymap("n", "<space>J", ":AnyJump<cr>", keyopts)
 		end }
 
     use {'easymotion/vim-easymotion',
@@ -171,9 +161,7 @@ return require('packer').startup(function(use)
     use {
       'lewis6991/gitsigns.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
-      config = function()
-        require('gitsigns').setup()
-      end
+      config = function() require('gitsigns').setup() end
     }
 
     use {'mhinz/vim-signify',
@@ -216,11 +204,12 @@ return require('packer').startup(function(use)
 		requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
 		config = function()
 			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", "<space>f", ":Telescope find_files<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>n", ":Telescope file_browser<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>h", ":Telescope oldfiles<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>b", ":Telescope buffers<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>i", ":Telescope lsp_document_symbols<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>n', ":Telescope file_browser<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols<CR>", keyopts)
 			local actions = require('telescope.actions')
 			require('telescope').setup{
 				defaults = {
@@ -245,58 +234,111 @@ return require('packer').startup(function(use)
 		end }
 
     use {'neovim/nvim-lspconfig',
-        requires = {'RishabhRD/popfix', 'nvim-lua/completion-nvim'},
+        requires = {'RishabhRD/popfix', 'nvim-lua/completion-nvim', 'kabouzeid/nvim-lspinstall'},
         config = function()
-            local function on_attach()
-                local keyopts = {nowait = true, noremap = true, silent = true}
-                vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<RightMouse>", "<RightMouse><cmd>lua vim.lsp.buf.hover()<CR><esc>", keyopts)
-                vim.api.nvim_set_keymap("n", "<M-k>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", keyopts)
-                -- vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "gr", "<cmd>Telescope lsp_references<cr>", keyopts)
-                vim.api.nvim_set_keymap("n", "<f2>", "<cmd>lua vim.lsp.buf.rename()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<space>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<space>ee", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<space>en", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<space>ep", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<space>el", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", keyopts)
-                -- vim.api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", keyopts)
-                vim.api.nvim_set_keymap("n", "<f8>", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", keyopts)
-                vim.api.nvim_exec("au BufWritePre *.rs lua vim.lsp.buf.formatting_sync({}, 300)", "")
+              local on_attach = function(client, bufnr)
+                  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+                  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-                vim.fn.sign_define("LspDiagnosticsSignError", {text = "⛔", texthl = "LspDiagnosticsSignError"})
-                vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "⚑", texthl = "LspDiagnosticsSignWarning"})
-                vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "LspDiagnosticsSignInformation"})
-                vim.fn.sign_define("LspDiagnosticsSignHint", {text = "ﯦ", texthl = "LspDiagnosticsSignInformation"})
-                require'completion'.on_attach()
+                  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+                  local opts = { noremap=true, silent=true }
+                  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+                  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+                  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+                  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+                  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+                  buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+                  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+                  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+                  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+                  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+                  buf_set_keymap('n', 'gr', ':Telescope lsp_references<CR>', opts)
+                  buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+                  buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+                  buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+                  buf_set_keymap('n', '<space>el', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+                  if client.resolved_capabilities.document_formatting then
+                    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+                  end
+             end
+             vim.fn.sign_define('LspDiagnosticsSignError', { text = "⛔", texthl = "ErrorMsg"})
+             vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "▲", texthl = "WarningMsg"})
+             vim.fn.sign_define('LspDiagnosticsSignInfo', { text = "", texthl = "MoreMsg"})
+             vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "Comment"})
+             local lua_settings = {
+               Lua = {
+                 runtime = {
+                   version = 'LuaJIT',
+                   path = vim.split(package.path, ';'),
+                 },
+                 diagnostics = {
+                   globals = {'vim'},
+                 },
+                 workspace = {
+                   library = {
+                     [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                     [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                   },
+                 },
+               }
+             }
+
+            local function make_config()
+              local capabilities = vim.lsp.protocol.make_client_capabilities()
+              capabilities.textDocument.completion.completionItem.snippetSupport = true
+              return {
+                capabilities = capabilities,
+                on_attach = on_attach,
+              }
             end
-			require "lspconfig".rust_analyzer.setup {
-                on_attach = on_attach,
-				settings = {
-				["rust-analyzer"] = {
-					diagnostics = {
-						enable = true,
-						disabled = {"unresolved-proc-macro"},
-						enableExperimental = true }
-					}
-				}
-			}
-			require "lspconfig".jsonls.setup {on_attach = on_attach}
-			require "lspconfig".tsserver.setup {on_attach = on_attach}
-			require "lspconfig".gopls.setup {on_attach = on_attach}
-            require'lspconfig'.html.setup { on_attach = on_attach}
-			require "lspconfig".yamlls.setup{on_attach = on_attach}
-			local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
-			require "lspconfig".sumneko_lua.setup{
-                on_attach = on_attach,
-				cmd = {"/usr/bin/lua-language-server", "-E", sumneko_root_path .. "/main.lua"},
-			}
+            local function setup_servers()
+              require'lspinstall'.setup()
+              local servers = require'lspinstall'.installed_servers()
+              -- ... and add manually installed servers
+              -- table.insert(servers, "clangd")
+
+              for _, server in pairs(servers) do
+                local config = make_config()
+                if server == "lua" then
+                  config.settings = lua_settings
+                end
+                require'lspconfig'[server].setup(config)
+              end
+            end
+            setup_servers()
+            vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+              vim.lsp.diagnostic.on_publish_diagnostics, {
+                virtual_text = true, signs = true, update_in_insert = false,
+              }
+            )
+            require'lspinstall'.post_install_hook = function ()
+              setup_servers() -- reload installed servers
+              vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+            end
 	    end }
+
+    use {'kosayoda/nvim-lightbulb',
+        after = {'nvim-lspconfig'},
+        config = function()
+            vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+            vim.fn.sign_define('LightBulbSign', { text = "⚡", texthl = "Comment", linehl="", numhl="" })
+            require'nvim-lightbulb'.update_lightbulb {
+                sign = {
+                    enabled = true,
+                    priority = 10,
+                },
+                float = {
+                    enabled = false,
+                    text = "A",
+                    win_opts = {},
+                },
+                virtual_text = {
+                    enabled = false,
+                    text = "A",
+                }
+            }
+        end }
 
     use {'RishabhRD/nvim-lsputils',
         after = {'nvim-lspconfig'},
@@ -310,18 +352,5 @@ return require('packer').startup(function(use)
             vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
             vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
             vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-        end }
-
-    use {'nvim-lua/diagnostic-nvim',
-        after = {'nvim-lspconfig'},
-        config = function()
-            vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-                vim.lsp.diagnostic.on_publish_diagnostics, {
-                    virtual_text = true,
-                    signs = true,
-                    update_in_insert = false,
-                    underline = true
-				}
-			)
         end }
 end)

@@ -4,9 +4,9 @@ local fn = vim.fn
 local keyopts = {nowait = true, noremap = true, silent = true}
 
 -- COLOR
-vim.cmd([[colorscheme mylight]])
+vim.cmd([[colorscheme mynext]])
 
--- PLUGINS 
+-- PLUGINS
 require "plugins"
 
 -- KEYS
@@ -49,7 +49,8 @@ local keymaps = {
     {mods = {"n"}, lhs = "yh", rhs = "y0"},
     {mods = {"n"}, lhs = "yl", rhs = "y$"},
     {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
-    {mods = {"t"}, lhs = "<C-ddd>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
+    {mods = {"n"}, lhs = "<f9>", rhs = ":luafile ~/dotfiles/config/nvim/init.lua<cr>"},
+    {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
     {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
 }
 for _, keymap in pairs(keymaps) do
@@ -116,7 +117,7 @@ vim.wo["number"] = true
 vim.wo["signcolumn"] = "yes:1"
 vim.wo["cursorline"] = true
 
--- NEOVIDE 
+-- NEOVIDE
 api.nvim_exec( [[
     set guifont=FiraCode\ Nerd\ Font:h16
     let g:neovide_cursor_vfx_mode = "torpedo"
@@ -155,22 +156,6 @@ api.nvim_exec( [[
       au QuickFixCmdPost    l* lwindow
     augroup END
     ]], "")
-
-function MySolarized()
-    vim.cmd("colorscheme myone")
-    vim.cmd(":!sed -i 's/colors: \\*one/colors: \\*solarized/' ~/dotfiles/config/alacritty/alacritty.yml")
-    vim.cmd(":!sed -i 's/colorscheme myone$/colorscheme mysolar/' ~/dotfiles/config/nvim/init.lua")
-    vim.cmd(":luafile ~/dotfiles/config/nvim/init.lua")
-end
-api.nvim_exec("command! MySolar call v:lua.MySolarized()", "")
-
-function MyOne()
-    vim.cmd("colorscheme myone")
-    vim.cmd(":!sed -i 's/colors: \\*solarized/colors: \\*one/' ~/dotfiles/config/alacritty/alacritty.yml")
-    vim.cmd(":!sed -i 's/colorscheme mysolar$/colorscheme myone/' ~/dotfiles/config/nvim/init.lua")
-    vim.cmd(":luafile ~/dotfiles/config/nvim/init.lua")
-end
-api.nvim_exec("command! MyOne call v:lua.MyOne()", "")
 
 local function setup_go()
     function Go_run()

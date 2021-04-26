@@ -31,8 +31,8 @@ font:
   size: 14
   normal:
     # family: Menlo
-    family: FiraCode Nerd Font
-    # family: NotoSansMono Nerd Font
+    # family: FiraCode
+    family: "Noto Sans Mono"
     # family: CodeNewRoman Nerd Font
     # family: DejaVuSansMono Nerd Font Mono
     # family: DejaVuSansMono Nerd Font
@@ -41,16 +41,17 @@ font:
     
     # style: Retina
     style: Regular 
-  bold:
-    style: Bold
-  italic:
-    style: Regular 
-  offset:
-    x: 0
-    y: 0
-  glyph_offset:
-    x: 0
-    y: 0
+    # style: Regular
+  # bold:
+  #   style: Bold
+  # italic:
+  #   style: Italic 
+  # offset:
+  #   x: 0
+  #   y: 0
+  # glyph_offset:
+  #   x: 0
+  #   y: 0
   use_thin_strokes: true 
 
 draw_bold_text_with_bright_colors: false
@@ -109,7 +110,33 @@ one: &one
     cyan:    '#56b6c2'
     white:   '#b6bbc8'
     
-colors: *one
+next: &next
+  primary:
+    background: '#1B2B34'
+    foreground: '#b6bbc8'
+  cursor:
+    text:       '#000000'
+    cursor:     '#ffffff'
+  normal:
+    black:   '#1B2B34'
+    red:     '#ef767c'
+    green:   '#98c379'
+    yellow:  '#df9707'
+    blue:    '#6699CC'
+    magenta: '#C594C5'
+    cyan:    '#56b6c2'
+    white:   '#CDD3DE'
+  bright:
+    black:   '#1B2B34'
+    red:     '#ef767c'
+    green:   '#98c379'
+    yellow:  '#df9707'
+    blue:    '#6699CC'
+    magenta: '#C594C5'
+    cyan:    '#56b6c2'
+    white:   '#CDD3DE'
+
+colors: *next
 
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
@@ -149,3 +176,4 @@ key_bindings:
   - { key: End,      mods: Shift,   action: ScrollToBottom    }
   - { key: Home,     mods: Shift,   action: ScrollToTop       }
   - { key: Tab,     mods: Control,   chars: "\e[27;5;9~" }
+  - { key: Space,  mods: Shift|Control, action: ToggleViMode  } 

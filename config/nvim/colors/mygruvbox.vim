@@ -4,23 +4,23 @@ if exists('syntax_on')
   syntax reset
 endif
 set background=dark
-let g:colors_name = 'myone'
+let g:colors_name = 'mygruvbox'
 let g:base16_hex_colors = {
-      \ 'black':  '#282c34',
-      \ 'dark3':  '#2c313a',
-      \ 'dark2':  '#373d48',
-      \ 'dark1':  '#646e82',
-      \ 'light1': '#4d5666',
-      \ 'light2': '#6e7a91',
-      \ 'light3': '#8b95a7',
-      \ 'white':  '#abb2bf',
-      \ 'red':    '#c27070',
-      \ 'orange': '#986801',
-      \ 'yellow': '#b8952e',
-      \ 'green':  '#86b464',
-      \ 'blue':   '#61afef',
-      \ 'aqua':   '#56b6c2',
-      \ 'purple': '#bb7ece',
+      \ 'black':  '#1d2021',
+      \ 'dark3':  '#282828',
+      \ 'dark2':  '#3c3836',
+      \ 'dark1':  '#504945',
+      \ 'light1': '#5e5a55',
+      \ 'light2': '#6b6761',
+      \ 'light3': '#78746d',
+      \ 'white':  '#928e87',
+      \ 'red':    '#e08589',
+      \ 'orange': '#c0660c',
+      \ 'yellow': '#d79921',
+      \ 'green':  '#98971a',
+      \ 'blue':   '#458588',
+      \ 'aqua':   '#689d6a',
+      \ 'purple': '#9b7892',
       \ 'brown':  '#AB7967'}
 
 let g:base16_cterm_colors = {
@@ -81,7 +81,7 @@ let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'
 let s:specs['Identifier']        = 'fg=antibase'
 let s:specs['Function']          = 'fg=blue'
-let s:specs['Statement']         = 'fg=yellow'
+let s:specs['Statement']         = 'fg=purple'
 let s:specs['PreProc']           = 'fg=purple'
 let s:specs['Type']              = 'fg=antibase'
 let s:specs['Special']           = 'fg=yellow'
@@ -105,7 +105,7 @@ let s:specs['SpecialKey']   = 'fg=similar1 bold'
 let s:specs['NonText']      = 'fg=similar2'
 let s:specs['Conceal']      = 'fg=contrast1 bg=similar3'
 let s:specs['MatchParen']   = 'fg=aqua bold'
-let s:specs['NormalFloat']  = 'bg=similar2'
+let s:specs['NormalFloat']  = 'bg=similar3'
 
 " MESSAGES, QUESTIONS, AND PROMPTS
 let s:specs['ModeMsg']     = 'bold'
@@ -134,18 +134,21 @@ let s:specs['SpellRare']  = 'undercurl sp=purple'
 let s:specs['SpellLocal'] = 'undercurl sp=aqua'
 
 " POPUP MENU
-
-let s:specs['Pmenu']      = 'fg=contrast3 bg=similar2'
-let s:specs['PmenuSel']   = 'fg=similar3 bold bg=contrast2'
+let s:specs['Pmenu']      = 'fg=contrast3 bg=similar3'
+let s:specs['PmenuSel']   = 'fg=similar3 bold bg=contrast3'
 let s:specs['PmenuSbar']  = 'bg=dark3'
 let s:specs['PmenuThumb'] = 'bg=white'
+" let s:specs['Pmenu']      = 'fg=light3 bg=similar3'
+" let s:specs['PmenuSel']   = 'fg=base bold bg=light3'
+" let s:specs['PmenuSbar']  = 'bg=dark3'
+" let s:specs['PmenuThumb'] = 'bg=white'
 
 " INTERFACE COMPONENTS.
 let s:specs['LineNr']        = 'fg=similar2'
 let s:specs['CursorLineNr']  = 'fg=white bg=similar3'
 let s:specs['CursorLine']    = 'bg=similar3 sp=contrast2'
 let s:specs['CursorColumn']  = 'bg=similar3'
-let s:specs['Visual']        = 'bg=similar1'
+let s:specs['Visual']        = 'bg=similar2'
 let s:specs['StatusLine']    = 'fg=contrast2 bg=similar3 reverse bold'
 let s:specs['StatusLineNC']  = 'fg=similar1 bg=similar3 reverse bold'
 let s:specs['VertSplit']     = 'fg=similar1'

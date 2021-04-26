@@ -1,26 +1,25 @@
-
 highlight clear
 if exists('syntax_on')
   syntax reset
 endif
 set background=dark
-let g:colors_name = 'myone'
+let g:colors_name = 'mynext'
 let g:base16_hex_colors = {
-      \ 'black':  '#282c34',
-      \ 'dark3':  '#2c313a',
-      \ 'dark2':  '#373d48',
-      \ 'dark1':  '#646e82',
-      \ 'light1': '#4d5666',
-      \ 'light2': '#6e7a91',
-      \ 'light3': '#8b95a7',
-      \ 'white':  '#abb2bf',
-      \ 'red':    '#c27070',
-      \ 'orange': '#986801',
-      \ 'yellow': '#b8952e',
-      \ 'green':  '#86b464',
-      \ 'blue':   '#61afef',
-      \ 'aqua':   '#56b6c2',
-      \ 'purple': '#bb7ece',
+      \ 'black':  '#1B2B34',
+      \ 'dark3':  '#233743',
+      \ 'dark2':  '#2b4554',
+      \ 'dark1':  '#65737E',
+      \ 'light1': '#466d86',
+      \ 'light2': '#466d86',
+      \ 'light3': '#8ea2be',
+      \ 'white':  '#aebcd0',
+      \ 'red':    '#ef767c',
+      \ 'orange': '#f87d3a',
+      \ 'yellow': '#df9707',
+      \ 'green':  '#99C794',
+      \ 'aqua':   '#5FB3B3',
+      \ 'blue':   '#6699CC',
+      \ 'purple': '#C594C5',
       \ 'brown':  '#AB7967'}
 
 let g:base16_cterm_colors = {
@@ -79,23 +78,23 @@ let s:specs['Comment']           = 'fg=contrast1'
 let s:specs['Constant']          = 'fg=antibase'
 let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'
-let s:specs['Identifier']        = 'fg=antibase'
-let s:specs['Function']          = 'fg=blue'
-let s:specs['Statement']         = 'fg=yellow'
+let s:specs['Identifier']        = 'fg=aqua'
+let s:specs['Function']          = 'fg=aqua'
+let s:specs['Statement']         = 'fg=blue'
 let s:specs['PreProc']           = 'fg=purple'
 let s:specs['Type']              = 'fg=antibase'
-let s:specs['Special']           = 'fg=yellow'
+let s:specs['Special']           = 'fg=orange'
 let s:specs['SpecialChar']       = 'fg=green bold'
 let s:specs['Underlined']        = 'fg=blue underline'
 let s:specs['Ignore']            = 'fg=bg'
-let s:specs['Error']             = 'fg=red bg=black bold reverse'
+let s:specs['Error']             = 'fg=red bg=base bold reverse'
 let s:specs['Todo']              = 'fg=orange bg=black bold reverse'
 let s:specs['Delimiter']         = 'fg=antibase'
 let s:specs['StorageClass']      = 'fg=antibase'
 let s:specs['Operator']          = 'fg=antibase'
 let s:specs['TSAnnotation']      = 'fg=red bold'
 let s:specs['TSAttribute']       = 'fg=yellow bold'
-let s:specs['TSFuncMacro']       = 'fg=blue'
+let s:specs['TSFuncMacro']       = 'fg=aqua'
 let s:specs['TSConstMacro']      = 'fg=aqua bold'
 let s:specs['TSVariableBuiltIn'] = 'fg=antibase'
 let s:specs['Include']           = 'fg=antibase'
@@ -104,12 +103,12 @@ let s:specs['Include']           = 'fg=antibase'
 let s:specs['SpecialKey']   = 'fg=similar1 bold'
 let s:specs['NonText']      = 'fg=similar2'
 let s:specs['Conceal']      = 'fg=contrast1 bg=similar3'
-let s:specs['MatchParen']   = 'fg=aqua bold'
-let s:specs['NormalFloat']  = 'bg=similar2'
+let s:specs['MatchParen']   = 'fg=red bold underline'
+let s:specs['NormalFloat']  = 'bg=similar3'
 
 " MESSAGES, QUESTIONS, AND PROMPTS
 let s:specs['ModeMsg']     = 'bold'
-let s:specs['MoreMsg']     = 'fg=aqua'
+let s:specs['MoreMsg']     = 'fg=aqua bold'
 let s:specs['WarningMsg']  = 'fg=yellow'
 let s:specs['ErrorMsg']    = 'fg=red'
 let s:specs['Question']    = 'fg=aqua bold'
@@ -135,17 +134,21 @@ let s:specs['SpellLocal'] = 'undercurl sp=aqua'
 
 " POPUP MENU
 
-let s:specs['Pmenu']      = 'fg=contrast3 bg=similar2'
-let s:specs['PmenuSel']   = 'fg=similar3 bold bg=contrast2'
+let s:specs['Pmenu']      = 'fg=contrast3 bg=similar3'
+let s:specs['PmenuSel']   = 'fg=similar3 bold bg=contrast3'
 let s:specs['PmenuSbar']  = 'bg=dark3'
 let s:specs['PmenuThumb'] = 'bg=white'
+" let s:specs['Pmenu']      = 'fg=light3 bg=similar3'
+" let s:specs['PmenuSel']   = 'fg=base bold bg=light3'
+" let s:specs['PmenuSbar']  = 'bg=dark3'
+" let s:specs['PmenuThumb'] = 'bg=white'
 
 " INTERFACE COMPONENTS.
 let s:specs['LineNr']        = 'fg=similar2'
-let s:specs['CursorLineNr']  = 'fg=white bg=similar3'
+let s:specs['CursorLineNr']  = 'fg=yellow bg=similar3 bold'
 let s:specs['CursorLine']    = 'bg=similar3 sp=contrast2'
 let s:specs['CursorColumn']  = 'bg=similar3'
-let s:specs['Visual']        = 'bg=similar1'
+let s:specs['Visual']        = 'bg=similar2'
 let s:specs['StatusLine']    = 'fg=contrast2 bg=similar3 reverse bold'
 let s:specs['StatusLineNC']  = 'fg=similar1 bg=similar3 reverse bold'
 let s:specs['VertSplit']     = 'fg=similar1'
@@ -167,29 +170,24 @@ let s:specs['GitSignsChange']   = 'fg=yellow'
 let s:specs['GitSignsDelete']   = 'fg=red'
 
 " TELESCOPE
-let s:specs['TelescopeNormal']         = 'fg=similar1'
-let s:specs['TelescopeSelection']      = 'fg=antibase bold bg=similar3'
+let s:specs['TelescopeNormal']         = 'fg=contrast2'
+let s:specs['TelescopeSelection']      = 'fg=antibase bold bg=similar2'
 let s:specs['GitSignsSelectionCaret']  = 'fg=antibase'
 let s:specs['TelescopeMatching']       = 'fg=orange bold'
 
 " YAML 
 let s:specs['yamlTSField']   = 'fg=aqua'
 
-" TREESITTER 
-let s:specs['TSProperty']   = 'fg=yellow'
-let s:specs['TSTagDelimiter']   = 'fg=blue'
+" TREESITTER
+let s:specs['TSProperty']       = 'fg=yellow'
+let s:specs['TSTagDelimiter']   = 'fg=antibase'
 let s:specs['TSPunctSpecial']   = 'fg=red'
 
 " LSP
-highlight link LspDiagnosticsDefaultError ErrorMsg
-highlight link LspDiagnosticsDefaultWarning WarningMsg
-highlight link LspDiagnosticsDefaultInformation MoreMsg
-highlight link LspDiagnosticsDefaultHint MoreMsg
-
-" Application ----------------------------------------------------------------
-if exists('g:base16_color_overrides')
-  call extend(s:specs, g:base16_color_overrides, 'force')
-endif
+hi link LspDiagnosticsDefaultError ErrorMsg
+hi link LspDiagnosticsDefaultWarning WarningMsg
+hi link LspDiagnosticsDefaultInformation MoreMsg
+hi link LspDiagnosticsDefaultHint MoreMsg
 
 " Normal must go first.
 execute 'Base16Highlight! Normal' s:specs['Normal']

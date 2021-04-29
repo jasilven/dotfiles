@@ -4,7 +4,11 @@ local fn = vim.fn
 local keyopts = {nowait = true, noremap = true, silent = true}
 
 -- COLOR
-vim.cmd([[colorscheme mynext]])
+if vim.g.colors_name == nil then
+    vim.cmd("colorscheme mynext")
+else 
+    vim.cmd("colorscheme " .. vim.g.colors_name)
+end
 
 -- PLUGINS
 require "plugins"
@@ -50,7 +54,7 @@ local keymaps = {
     {mods = {"n"}, lhs = "yl", rhs = "y$"},
     {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
     {mods = {"n"}, lhs = "<f9>", rhs = ":luafile ~/dotfiles/config/nvim/init.lua<cr>"},
-    {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
+    {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:bd!<cr>"},
     {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
 }
 for _, keymap in pairs(keymaps) do
@@ -103,7 +107,8 @@ vim.o["undofile"] = true
 vim.o["updatetime"] = 300
 vim.o["wildignore"] = "*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*/.git/*,*/target/*,*~,tags"
 vim.o["wildmenu"] = true
-vim.o["wildmode"] = "full"
+-- vim.o["wildmode"] = "full"
+vim.o["wildmode"] = "longest:full,full"
 vim.o["wrap"] = false
 vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
 vim.o["grepformat"] = "%f:%l:%c:%m"

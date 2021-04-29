@@ -5,106 +5,59 @@ endif
 set background=dark
 let g:colors_name = 'mynext'
 let g:base16_hex_colors = {
-      \ 'black':  '#1B2B34',
-      \ 'dark3':  '#233743',
-      \ 'dark2':  '#2b4554',
-      \ 'dark1':  '#65737E',
-      \ 'light1': '#466d86',
-      \ 'light2': '#466d86',
-      \ 'light3': '#8ea2be',
-      \ 'white':  '#aebcd0',
-      \ 'red':    '#ef767c',
-      \ 'orange': '#f87d3a',
-      \ 'yellow': '#df9707',
-      \ 'green':  '#99C794',
-      \ 'aqua':   '#5FB3B3',
-      \ 'blue':   '#6699CC',
-      \ 'purple': '#C594C5',
-      \ 'brown':  '#AB7967'}
-
-let g:base16_cterm_colors = {
-      \ 'black':  0,
-      \ 'dark3':  18,
-      \ 'dark2':  19,
-      \ 'dark1':  8,
-      \ 'light1': 20,
-      \ 'light2': 7,
-      \ 'light3': 21,
-      \ 'white':  15,
-      \ 'red':    1,
-      \ 'orange': 16,
-      \ 'yellow': 3,
-      \ 'green':  2,
-      \ 'aqua':   6,
-      \ 'blue':   4,
-      \ 'purple': 5,
-      \ 'brown':  17}
-
-for s:dict in [g:base16_hex_colors, g:base16_cterm_colors]
-  if &background == 'dark'
-    let s:dict['base'] = s:dict['black']
-    let s:dict['similar3'] = s:dict['dark3']
-    let s:dict['similar2'] = s:dict['dark2']
-    let s:dict['similar1'] = s:dict['dark1']
-    let s:dict['contrast1'] = s:dict['light1']
-    let s:dict['contrast2'] = s:dict['light2']
-    let s:dict['contrast3'] = s:dict['light3']
-    let s:dict['antibase'] = s:dict['white']
-  else
-    let s:dict['base'] = s:dict['white']
-    let s:dict['similar3'] = s:dict['light3']
-    let s:dict['similar2'] = s:dict['light2']
-    let s:dict['similar1'] = s:dict['light1']
-    let s:dict['contrast1'] = s:dict['dark1']
-    let s:dict['contrast2'] = s:dict['dark2']
-    let s:dict['contrast3'] = s:dict['dark3']
-    let s:dict['antibase'] = s:dict['black']
-  endif
-endfor
-unlet s:dict
+      \ 'background':   '#1B2B34',
+      \ 'bg3':          '#233743',
+      \ 'bg2':          '#345365',
+      \ 'bg1':          '#3d6176',
+      \ 'fg1':          '#4a6182',
+      \ 'fg2':          '#6d87ab',
+      \ 'fg3':          '#8ea2be',
+      \ 'foreground':   '#aebcd0',
+      \ 'red':          '#ef767c',
+      \ 'orange':       '#f87d3a',
+      \ 'yellow':       '#df9707',
+      \ 'green':        '#99C794',
+      \ 'aqua':         '#5FB3B3',
+      \ 'blue':         '#6699CC',
+      \ 'purple':       '#C594C5',
+      \ 'brown':        '#AB7967'}
 
 command! -bang -nargs=+ Base16Highlight call base16#highlight(<q-bang>=='!', <f-args>)
 
 let s:specs = {}
 
-if get(g:, 'base16_transparent_background', 0)
-  let s:specs['Normal'] = 'fg=antibase'
-else
-  let s:specs['Normal'] = 'fg=antibase bg=base'
-endif
-
 " DEFAULTS
-let s:specs['Comment']           = 'fg=contrast1'
-let s:specs['Constant']          = 'fg=antibase'
+let s:specs['Normal']            = 'fg=foreground bg=background'
+let s:specs['Comment']           = 'fg=fg2'
+let s:specs['Constant']          = 'fg=foreground'
 let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'
 let s:specs['Identifier']        = 'fg=aqua'
 let s:specs['Function']          = 'fg=aqua'
 let s:specs['Statement']         = 'fg=blue'
 let s:specs['PreProc']           = 'fg=purple'
-let s:specs['Type']              = 'fg=antibase'
+let s:specs['Type']              = 'fg=foreground'
 let s:specs['Special']           = 'fg=orange'
 let s:specs['SpecialChar']       = 'fg=green bold'
 let s:specs['Underlined']        = 'fg=blue underline'
-let s:specs['Ignore']            = 'fg=bg'
-let s:specs['Error']             = 'fg=red bg=base bold reverse'
-let s:specs['Todo']              = 'fg=orange bg=black bold reverse'
-let s:specs['Delimiter']         = 'fg=antibase'
-let s:specs['StorageClass']      = 'fg=antibase'
-let s:specs['Operator']          = 'fg=antibase'
+let s:specs['Ignore']            = 'fg=background bg=red'
+let s:specs['Error']             = 'fg=red bg=background bold reverse'
+let s:specs['Todo']              = 'fg=orange bg=background bold reverse'
+let s:specs['Delimiter']         = 'fg=foreground'
+let s:specs['StorageClass']      = 'fg=foreground'
+let s:specs['Operator']          = 'fg=foreground'
 let s:specs['TSAnnotation']      = 'fg=red bold'
 let s:specs['TSAttribute']       = 'fg=yellow bold'
 let s:specs['TSFuncMacro']       = 'fg=aqua'
 let s:specs['TSConstMacro']      = 'fg=aqua bold'
-let s:specs['TSVariableBuiltIn'] = 'fg=antibase'
-let s:specs['Include']           = 'fg=antibase'
+let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
+let s:specs['Include']           = 'fg=foreground'
 
 " REST  
-let s:specs['SpecialKey']   = 'fg=similar1 bold'
-let s:specs['NonText']      = 'fg=similar2'
-let s:specs['Conceal']      = 'fg=contrast1 bg=similar3'
-let s:specs['MatchParen']   = 'fg=red bold underline'
-let s:specs['NormalFloat']  = 'bg=similar3'
+let s:specs['SpecialKey']   = 'fg=fg3 bold'
+let s:specs['NonText']      = 'fg=fg2'
+let s:specs['Conceal']      = 'fg=bg1 bg=bg3'
+let s:specs['MatchParen']   = 'fg=yellow bold underline'
 
 " MESSAGES, QUESTIONS, AND PROMPTS
 let s:specs['ModeMsg']     = 'bold'
@@ -115,16 +68,16 @@ let s:specs['Question']    = 'fg=aqua bold'
 let s:specs['Title']       = 'fg=blue bold'
 
 " SEARCH, COMPLETION, AND OTHER NVIM NAVIGATION
-let s:specs['IncSearch']  = 'fg=orange bg=black reverse'
-let s:specs['Search']     = 'fg=yellow bg=black reverse'
-let s:specs['WildMenu']   = 'fg=yellow bg=black reverse'
+let s:specs['IncSearch']  = 'fg=orange bg=background reverse'
+let s:specs['Search']     = 'fg=yellow bg=background reverse'
+let s:specs['WildMenu']   = 'fg=yellow bg=background reverse'
 let s:specs['Directory']  = 'fg=aqua'
 
 " DIFF
-let s:specs['DiffAdd']     = 'fg=green bg=similar3 bold'
-let s:specs['DiffChange']  = 'fg=yellow bg=similar3 sp=yellow bold'
-let s:specs['DiffDelete']  = 'fg=red bg=similar3 bold'
-let s:specs['DiffText']    = 'fg=blue bg=similar3 sp=blue bold'
+let s:specs['DiffAdd']     = 'fg=green bg=bg3 bold'
+let s:specs['DiffChange']  = 'fg=yellow bg=bg3 sp=yellow bold'
+let s:specs['DiffDelete']  = 'fg=red bg=bg3 bold'
+let s:specs['DiffText']    = 'fg=red bold bg=bg3 sp=blue bold'
 
 " SPELLING
 let s:specs['SpellBad']   = 'undercurl sp=red'
@@ -134,33 +87,30 @@ let s:specs['SpellLocal'] = 'undercurl sp=aqua'
 
 " POPUP MENU
 
-let s:specs['Pmenu']      = 'fg=contrast3 bg=similar3'
-let s:specs['PmenuSel']   = 'fg=similar3 bold bg=contrast3'
-let s:specs['PmenuSbar']  = 'bg=dark3'
-let s:specs['PmenuThumb'] = 'bg=white'
-" let s:specs['Pmenu']      = 'fg=light3 bg=similar3'
-" let s:specs['PmenuSel']   = 'fg=base bold bg=light3'
-" let s:specs['PmenuSbar']  = 'bg=dark3'
-" let s:specs['PmenuThumb'] = 'bg=white'
+let s:specs['Pmenu']      = 'fg=foreground bg=bg3'
+let s:specs['PmenuSel']   = 'fg=background bold bg=foreground'
+let s:specs['PmenuSbar']  = 'bg=bg3'
+let s:specs['PmenuThumb'] = 'bg=foreground'
 
 " INTERFACE COMPONENTS.
-let s:specs['LineNr']        = 'fg=similar2'
-let s:specs['CursorLineNr']  = 'fg=yellow bg=similar3 bold'
-let s:specs['CursorLine']    = 'bg=similar3 sp=contrast2'
-let s:specs['CursorColumn']  = 'bg=similar3'
-let s:specs['Visual']        = 'bg=similar2'
-let s:specs['StatusLine']    = 'fg=contrast2 bg=similar3 reverse bold'
-let s:specs['StatusLineNC']  = 'fg=similar1 bg=similar3 reverse bold'
-let s:specs['VertSplit']     = 'fg=similar1'
-let s:specs['TabLine']       = 'fg=similar1 bg=similar3'
-let s:specs['TabLineSel']    = 'fg=similar2 bg=contrast3 reverse bold'
-let s:specs['TabLineFill']   = 'fg=similar1 bg=similar3'
+let s:specs['LineNr']        = 'fg=bg2'
+let s:specs['CursorLineNr']  = 'fg=yellow bg=bg3 bold'
+let s:specs['CursorLine']    = 'bg=bg3 sp=fg2'
+let s:specs['CursorColumn']  = 'bg=bg3'
+let s:specs['Visual']        = 'bg=bg1'
+let s:specs['NormalFloat']   = 'bg=bg3'
+let s:specs['VertSplit']     = 'fg=foreground bg=bg3'
 let s:specs['ColorColumn']   = 'bg=orange'
-let s:specs['SignColumn']    = 'fg=contrast1'
-let s:specs['Folded']        = 'fg=contrast1 bg=similar3 underline bold'
-let s:specs['FoldColumn']    = 'fg=contrast1 bg=similar3'
+let s:specs['SignColumn']    = 'fg=bg1'
+let s:specs['Folded']        = 'fg=bg1 bg=bg3 underline bold'
+let s:specs['FoldColumn']    = 'fg=bg1 bg=bg3'
 let s:specs['Cursor']        = 'reverse'
 let s:specs['TermCursor']    = 'reverse'
+" let s:specs['StatusLine']    = 'fg=bg2 bg=bg3 reverse bold'
+" let s:specs['StatusLineNC']  = 'fg=fg3 bg=bg3 reverse bold'
+" let s:specs['TabLine']       = 'fg=fg3'
+" let s:specs['TabLineSel']    = 'fg=fg bold'
+" let s:specs['TabLineFill']   = 'fg=fg3 bg=bg2'
 highlight link TermCursor Cursor
 highlight link lCursor Cursor
 
@@ -170,18 +120,31 @@ let s:specs['GitSignsChange']   = 'fg=yellow'
 let s:specs['GitSignsDelete']   = 'fg=red'
 
 " TELESCOPE
-let s:specs['TelescopeNormal']         = 'fg=contrast2'
-let s:specs['TelescopeSelection']      = 'fg=antibase bold bg=similar2'
-let s:specs['GitSignsSelectionCaret']  = 'fg=antibase'
+let s:specs['TelescopeNormal']         = 'fg=fg3'
+let s:specs['TelescopeSelection']      = 'fg=yellow bold'
+let s:specs['GitSignsSelectionCaret']  = 'fg=foreground'
 let s:specs['TelescopeMatching']       = 'fg=orange bold'
 
 " YAML 
 let s:specs['yamlTSField']   = 'fg=aqua'
 
+" BARBAR
+let s:specs['BufferCurrent']       = 'fg=foreground bold'
+let s:specs['BufferCurrentIndex']  = 'fg=foreground bold'
+let s:specs['BufferCurrentMod']    = 'fg=foreground bold'
+let s:specs['BufferCurrentSign']   = 'fg=foreground bold'
+
 " TREESITTER
 let s:specs['TSProperty']       = 'fg=yellow'
-let s:specs['TSTagDelimiter']   = 'fg=antibase'
+let s:specs['TSTagDelimiter']   = 'fg=foreground'
 let s:specs['TSPunctSpecial']   = 'fg=red'
+
+" Neogit 
+hi link NeogitDiffAddHighlight DiffAdd
+hi link NeogitDiffDeleteHighlight DiffDelete
+hi link NeogitDiffContextHighlight Keyword
+hi link NeogitHunkHeader Constant
+hi link NeogitHunkHeaderHighlight Statusline
 
 " LSP
 hi link LspDiagnosticsDefaultError ErrorMsg
@@ -212,21 +175,21 @@ unlet s:group s:spec s:specs
 
 " Neovim :terminal Configuration ---------------------------------------------
 if has('termguicolors') && &termguicolors
-  let g:terminal_color_0  = g:base16_hex_colors['black']   " black
+  let g:terminal_color_0  = g:base16_hex_colors['background']   " bg
   let g:terminal_color_1  = g:base16_hex_colors['red']     " red
   let g:terminal_color_2  = g:base16_hex_colors['green']   " green
   let g:terminal_color_3  = g:base16_hex_colors['yellow']  " yellow
   let g:terminal_color_4  = g:base16_hex_colors['blue']    " blue
   let g:terminal_color_5  = g:base16_hex_colors['purple']  " magenta
   let g:terminal_color_6  = g:base16_hex_colors['aqua']    " cyan
-  let g:terminal_color_7  = g:base16_hex_colors['light2']  " light grey
-  let g:terminal_color_8  = g:base16_hex_colors['dark2']   " dark grey
+  let g:terminal_color_7  = g:base16_hex_colors['fg2']  " light grey
+  let g:terminal_color_8  = g:base16_hex_colors['bg2']   " dark grey
   let g:terminal_color_9  = g:base16_hex_colors['orange']  " light red
   let g:terminal_color_10 = g:base16_hex_colors['green']   " light green
   let g:terminal_color_11 = g:base16_hex_colors['brown']   " light yellow
   let g:terminal_color_12 = g:base16_hex_colors['blue']    " light blue
   let g:terminal_color_13 = g:base16_hex_colors['purple']  " light magenta
   let g:terminal_color_14 = g:base16_hex_colors['aqua']    " light cyan
-  let g:terminal_color_15 = g:base16_hex_colors['white']   " white
+  let g:terminal_color_15 = g:base16_hex_colors['foreground']   " fg
 endif
 

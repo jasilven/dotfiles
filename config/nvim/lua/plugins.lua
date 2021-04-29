@@ -9,7 +9,12 @@ return require('packer').startup(function(use)
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'tpope/vim-fugitive'}
-    use {'Soares/base16.nvim'}
+    use {'Soares/base16.nvim', disable= true}
+    use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
+        config = function() 
+            local neogit = require('neogit')
+            neogit.setup {} 
+        end }
     use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat',
         config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
     use {'windwp/nvim-autopairs',
@@ -122,7 +127,7 @@ return require('packer').startup(function(use)
 			vim.api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+			-- vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
 			vim.api.nvim_exec(
 				[[
 				au FileType fzf tnoremap <buffer> jk jk
@@ -210,6 +215,7 @@ return require('packer').startup(function(use)
 			vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
 			local actions = require('telescope.actions')
 			require('telescope').setup{
 				defaults = {
@@ -259,7 +265,7 @@ return require('packer').startup(function(use)
                   buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
                   buf_set_keymap('n', '<space>el', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
                   if client.resolved_capabilities.document_formatting then
-                    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+                    buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
                   end
              end
              vim.fn.sign_define('LspDiagnosticsSignError', { text = "⛔", texthl = "ErrorMsg"})
@@ -312,6 +318,7 @@ return require('packer').startup(function(use)
                 virtual_text = true, signs = true, update_in_insert = false,
               }
             )
+            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
             require'lspinstall'.post_install_hook = function ()
               setup_servers() -- reload installed servers
               vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server

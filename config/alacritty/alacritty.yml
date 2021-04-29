@@ -31,19 +31,18 @@ font:
   size: 14
   normal:
     # family: Menlo
-    # family: FiraCode
-    family: "Noto Sans Mono"
+    family: "FiraCode Nerd Font"
+    # family: "Noto Sans Mono"
     # family: CodeNewRoman Nerd Font
-    # family: DejaVuSansMono Nerd Font Mono
+    # family: UbuntuMono Nerd Font
     # family: DejaVuSansMono Nerd Font
     # family: Hack Nerd Font
-    # family: Hack 
+    # family: Inconsolata Nerd Font 
     
     # style: Retina
-    style: Regular 
-    # style: Regular
-  # bold:
-  #   style: Bold
+    style: Regular
+  bold:
+    style: Retina
   # italic:
   #   style: Italic 
   # offset:

@@ -1,19 +1,29 @@
 [user]
-	email = jasilven@gmail.com
-	name = jasilven
+    email = jasilven@gmail.com
+    name = jasilven
 [push]
-	default = matching
+    default = matching
 [core]
-	excludesfile = ~/.config/git/ignore
-
+    excludesfile = ~/.config/git/ignore
 [color "status"]
-  added = green
-  changed = yellow 
-  untracked = magenta bold
-
+    added = green
+    changed = yellow 
+    untracked = magenta bold
 [color "branch"]
-  remote = yellow
+    remote = yellow
 [alias]
-	logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 [pull]
-	rebase = false
+    rebase = false
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+    plus-style = "syntax #028000"
+    minus-style = "syntax #800002"
+    navigate = true
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none

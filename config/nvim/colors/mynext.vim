@@ -15,7 +15,7 @@ let g:base16_hex_colors = {
       \ 'foreground':   '#aebcd0',
       \ 'red':          '#ef767c',
       \ 'orange':       '#f87d3a',
-      \ 'yellow':       '#df9707',
+      \ 'yellow':       '#b28834',
       \ 'green':        '#99C794',
       \ 'aqua':         '#5FB3B3',
       \ 'blue':         '#6699CC',
@@ -29,13 +29,13 @@ let s:specs = {}
 " DEFAULTS
 let s:specs['Normal']            = 'fg=foreground bg=background'
 let s:specs['Comment']           = 'fg=fg2'
-let s:specs['Constant']          = 'fg=foreground'
+let s:specs['Constant']          = 'fg=aqua'
 let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'
-let s:specs['Identifier']        = 'fg=aqua'
-let s:specs['Function']          = 'fg=aqua'
-let s:specs['Statement']         = 'fg=blue'
-let s:specs['PreProc']           = 'fg=purple'
+let s:specs['Identifier']        = 'fg=foreground'
+let s:specs['Function']          = 'fg=blue'
+let s:specs['Statement']         = 'fg=purple'
+let s:specs['PreProc']           = 'fg=aqua'
 let s:specs['Type']              = 'fg=foreground'
 let s:specs['Special']           = 'fg=orange'
 let s:specs['SpecialChar']       = 'fg=green bold'
@@ -46,11 +46,6 @@ let s:specs['Todo']              = 'fg=orange bg=background bold reverse'
 let s:specs['Delimiter']         = 'fg=foreground'
 let s:specs['StorageClass']      = 'fg=foreground'
 let s:specs['Operator']          = 'fg=foreground'
-let s:specs['TSAnnotation']      = 'fg=red bold'
-let s:specs['TSAttribute']       = 'fg=yellow bold'
-let s:specs['TSFuncMacro']       = 'fg=aqua'
-let s:specs['TSConstMacro']      = 'fg=aqua bold'
-let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
 let s:specs['Include']           = 'fg=foreground'
 
 " REST  
@@ -94,7 +89,7 @@ let s:specs['PmenuThumb'] = 'bg=foreground'
 
 " INTERFACE COMPONENTS.
 let s:specs['LineNr']        = 'fg=bg2'
-let s:specs['CursorLineNr']  = 'fg=yellow bg=bg3 bold'
+let s:specs['CursorLineNr']  = 'fg=yellow bold bg=bg3'
 let s:specs['CursorLine']    = 'bg=bg3 sp=fg2'
 let s:specs['CursorColumn']  = 'bg=bg3'
 let s:specs['Visual']        = 'bg=bg1'
@@ -135,9 +130,21 @@ let s:specs['BufferCurrentMod']    = 'fg=foreground bold'
 let s:specs['BufferCurrentSign']   = 'fg=foreground bold'
 
 " TREESITTER
-let s:specs['TSProperty']       = 'fg=yellow'
-let s:specs['TSTagDelimiter']   = 'fg=foreground'
-let s:specs['TSPunctSpecial']   = 'fg=red'
+let s:specs['TSProperty']        = 'fg=yellow'
+let s:specs['TSTagDelimiter']    = 'fg=brown'
+let s:specs['TSInclude']         = 'fg=blue'
+let s:specs['TSNamespace']       = 'fg=yellow'
+let s:specs['TSPunctDelimiter']  = 'fg=foreground'
+let s:specs['TSPunctBracket']    = 'fg=foreground'
+let s:specs['TSPunctSpecial']    = 'fg=red'
+let s:specs['TSAnnotation']      = 'fg=red bold'
+let s:specs['TSAttribute']       = 'fg=yellow bold'
+let s:specs['TSFuncMacro']       = 'fg=aqua'
+let s:specs['TSConstMacro']      = 'fg=aqua bold'
+let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
+
+" RUST 
+let s:specs['RustTSPunctDelimiter'] = 'fg=fg3'
 
 " Neogit 
 hi link NeogitDiffAddHighlight DiffAdd
@@ -145,6 +152,7 @@ hi link NeogitDiffDeleteHighlight DiffDelete
 hi link NeogitDiffContextHighlight Keyword
 hi link NeogitHunkHeader Constant
 hi link NeogitHunkHeaderHighlight Statusline
+hi link NeogitDiffContextHighlight Normal
 
 " LSP
 hi link LspDiagnosticsDefaultError ErrorMsg

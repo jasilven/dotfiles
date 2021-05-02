@@ -13,7 +13,7 @@ return require('packer').startup(function(use)
     use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
         config = function() 
             local neogit = require('neogit')
-            neogit.setup {} 
+            neogit.setup { disable_context_highlighting = true, }
         end }
     use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat',
         config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
@@ -259,6 +259,7 @@ return require('packer').startup(function(use)
                   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
                   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
                   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+                  buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
                   buf_set_keymap('n', 'gr', ':Telescope lsp_references<CR>', opts)
                   buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
                   buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)

@@ -42,7 +42,7 @@ font:
     # style: Retina
     style: Regular
   bold:
-    style: Retina
+    style: Bold
   # italic:
   #   style: Italic 
   # offset:

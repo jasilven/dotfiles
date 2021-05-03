@@ -20,7 +20,7 @@ let g:base16_hex_colors = {
       \ 'aqua':         '#0086b3',
       \ 'blue':         '#183691',
       \ 'purple':       '#56329a',
-      \ 'brown':        '#AB7967'}
+      \ 'brown':        '#946351'}
 
 command! -bang -nargs=+ Base16Highlight call base16#highlight(<q-bang>=='!', <f-args>)
 
@@ -28,12 +28,12 @@ let s:specs = {}
 
 " DEFAULTS
 let s:specs['Normal']            = 'fg=foreground bg=background'
-let s:specs['Comment']           = 'fg=fg2'
-let s:specs['Constant']          = 'fg=foreground'
+let s:specs['Comment']           = 'fg=brown'
+let s:specs['Constant']          = 'fg=aqua'
 let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'
-let s:specs['Identifier']        = 'fg=aqua'
-let s:specs['Function']          = 'fg=aqua'
+let s:specs['Identifier']        = 'fg=foreground'
+let s:specs['Function']          = 'fg=blue'
 let s:specs['Statement']         = 'fg=red'
 let s:specs['PreProc']           = 'fg=purple'
 let s:specs['Type']              = 'fg=foreground'
@@ -46,12 +46,8 @@ let s:specs['Todo']              = 'fg=orange bg=background bold reverse'
 let s:specs['Delimiter']         = 'fg=foreground'
 let s:specs['StorageClass']      = 'fg=foreground'
 let s:specs['Operator']          = 'fg=foreground'
-let s:specs['TSAnnotation']      = 'fg=red bold'
-let s:specs['TSAttribute']       = 'fg=yellow bold'
-let s:specs['TSFuncMacro']       = 'fg=aqua'
-let s:specs['TSConstMacro']      = 'fg=aqua bold'
-let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
 let s:specs['Include']           = 'fg=foreground'
+let s:specs['helpExample']       = 'fg=blue bold'
 
 " REST  
 let s:specs['SpecialKey']   = 'fg=fg3 bold'
@@ -78,6 +74,9 @@ let s:specs['DiffAdd']     = 'fg=green bg=bg3 bold'
 let s:specs['DiffChange']  = 'fg=yellow bg=bg3 sp=yellow bold'
 let s:specs['DiffDelete']  = 'fg=red bg=bg3 bold'
 let s:specs['DiffText']    = 'fg=blue bg=bg3 sp=blue bold'
+hi link diffadded DiffAdd
+hi link diffchanged DiffChange
+hi link diffremoved DiffDelete
 
 " SPELLING
 let s:specs['SpellBad']   = 'undercurl sp=red'
@@ -126,7 +125,7 @@ let s:specs['GitSignsSelectionCaret']  = 'fg=foreground'
 let s:specs['TelescopeMatching']       = 'fg=orange bold'
 
 " YAML 
-let s:specs['yamlTSField']   = 'fg=aqua'
+let s:specs['yamlTSField']   = 'fg=blue'
 
 " BARBAR
 let s:specs['BufferCurrent']       = 'fg=foreground bold'
@@ -134,10 +133,28 @@ let s:specs['BufferCurrentIndex']  = 'fg=foreground bold'
 let s:specs['BufferCurrentMod']    = 'fg=foreground bold'
 let s:specs['BufferCurrentSign']   = 'fg=foreground bold'
 
+" RUST 
+let s:specs['RustTSPunctDelimiter']  = 'fg=fg3'
+let s:specs['RustTSKeywordOperator'] = 'fg=red'
+
+" TOML 
+let s:specs['tomlTSTypeBuiltin']  = 'fg=red bold'
+let s:specs['tomlTSProperty']     = 'fg=blue nocombine'
+
 " TREESITTER
-let s:specs['TSProperty']       = 'fg=yellow'
-let s:specs['TSTagDelimiter']   = 'fg=foreground'
-let s:specs['TSPunctSpecial']   = 'fg=red'
+let s:specs['TSProperty']        = 'fg=blue'
+let s:specs['TSTagDelimiter']    = 'fg=brown'
+let s:specs['TSInclude']         = 'fg=blue'
+let s:specs['TSNamespace']       = 'fg=aqua'
+let s:specs['TSPunctDelimiter']  = 'fg=foreground'
+let s:specs['TSPunctBracket']    = 'fg=foreground'
+let s:specs['TSPunctSpecial']    = 'fg=red'
+let s:specs['TSAnnotation']      = 'fg=red bold'
+let s:specs['TSAttribute']       = 'fg=yellow bold'
+let s:specs['TSFuncMacro']       = 'fg=blue'
+let s:specs['TSConstMacro']      = 'fg=aqua bold'
+let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
+let s:specs['TSKeyWordOperator'] = 'fg=red'
 
 " Neogit 
 hi link NeogitDiffAddHighlight DiffAdd

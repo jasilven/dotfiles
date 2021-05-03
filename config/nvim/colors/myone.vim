@@ -17,7 +17,7 @@ let g:base16_hex_colors = {
       \ 'orange':       '#d26f2d',
       \ 'yellow':       '#e5c07b',
       \ 'green':        '#86b464',
-      \ 'blue':         '#6699CC',
+      \ 'blue':         '#6699cc',
       \ 'aqua':         '#56b6c2',
       \ 'purple':       '#bb7ece',
       \ 'brown':        '#AB7967'}
@@ -73,6 +73,9 @@ let s:specs['DiffAdd']     = 'fg=green bg=bg3 bold'
 let s:specs['DiffChange']  = 'fg=yellow bg=bg3 sp=yellow'
 let s:specs['DiffDelete']  = 'fg=red bg=bg3 bold'
 let s:specs['DiffText']    = 'fg=red bold bg=bg3 sp=blue bold underline'
+hi link diffadded DiffAdd
+hi link diffchanged DiffChange
+hi link diffremoved DiffDelete
 
 " SPELLING
 let s:specs['SpellBad']   = 'undercurl sp=red'
@@ -147,7 +150,11 @@ let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
 let s:specs['RustTSPunctDelimiter']  = 'fg=fg3'
 let s:specs['RustTSKeywordOperator'] = 'fg=red'
 
-" Neogit 
+" TOML 
+let s:specs['tomlTSTypeBuiltin']  = 'fg=red bold'
+let s:specs['tomlTSProperty']     = 'fg=blue nocombine'
+
+" NEOGIT 
 hi link NeogitDiffAddHighlight DiffAdd
 hi link NeogitDiffDeleteHighlight DiffDelete
 hi link NeogitDiffContextHighlight Keyword

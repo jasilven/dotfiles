@@ -43,8 +43,8 @@ font:
     style: Regular
   bold:
     style: Bold
-  # italic:
-  #   style: Italic 
+  italic:
+    style: Italic
   # offset:
   #   x: 0
   #   y: 0

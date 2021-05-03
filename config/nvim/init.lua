@@ -132,6 +132,7 @@ api.nvim_exec( [[
     nnoremap <D-v> "+p
 ]],"")
 
+    -- nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 -- GLOBAL SETTTINGS
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
@@ -145,7 +146,6 @@ api.nvim_exec( [[
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
     vmap <LeftRelease> "+ygv
     vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-    nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
     inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
     nnoremap <space>/ *:%s/<c-r><c-w>//g<left><left>
     inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"

@@ -11,7 +11,7 @@ return require('packer').startup(function(use)
     use {'tpope/vim-fugitive'}
     use {'Soares/base16.nvim', disable= true}
     use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
-        config = function() 
+        config = function()
             local neogit = require('neogit')
             neogit.setup { disable_context_highlighting = true, }
         end }
@@ -21,6 +21,25 @@ return require('packer').startup(function(use)
         disable = false,
         config = function() require('nvim-autopairs').setup() end
     }
+    use {'simrat39/rust-tools.nvim',
+        config = function()
+            local opts = {
+                tools = { -- rust-tools options
+                    autoSetHints = true,
+                    hover_with_actions = true,
+                    runnables = {
+                        use_telescope = true
+                    },
+                    inlay_hints = {
+                        show_parameter_hints = true,
+                        parameter_hints_prefix = " <- ",
+                        other_hints_prefix  = " => ",
+                    },
+                },
+                server = {}, -- rust-analyer options
+            }
+            require('rust-tools').setup(opts)
+        end}
 
     use {'romgrk/barbar.nvim',
 	config = function()
@@ -40,7 +59,7 @@ return require('packer').startup(function(use)
                 if next(vim.lsp.buf_get_clients()) == nil then
                    return ""
                 else
-                   return "✔ lsp"
+                   return "✔lsp"
                 end
             end
             require('lualine').setup{
@@ -57,6 +76,12 @@ return require('packer').startup(function(use)
                     section_separators = '',
                     component_separators = ''} }
         end }
+
+    use { 'nvim-treesitter/playground',
+        config = function ()
+		    local keyopts = {nowait = true, noremap = true, silent = true}
+		    vim.api.nvim_set_keymap("n", "<f10>", ":TSHighlightCapturesUnderCursor<CR>", keyopts)
+        end}
 
     use { 'nvim-treesitter/nvim-treesitter',
         requires = {{'nvim-treesitter/nvim-treesitter-textobjects'}, {'nvim-treesitter/nvim-treesitter-refactor'}},
@@ -123,7 +148,7 @@ return require('packer').startup(function(use)
 			-- vim.g.fzf_preview_window = "right:50%"
 			vim.g.fzf_buffers_jump = 1
 			vim.g.fzf_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-			vim.api.nvim_set_keymap("n", "<space>s", ":Rg<CR>", keyopts)
+			-- vim.api.nvim_set_keymap("n", "<space>s", ":Rg<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
@@ -210,6 +235,7 @@ return require('packer').startup(function(use)
 		config = function()
 			local keyopts = {nowait = true, noremap = true, silent = true}
 			vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>n', ":Telescope file_browser<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)

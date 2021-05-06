@@ -6,7 +6,7 @@ local keyopts = {nowait = true, noremap = true, silent = true}
 -- COLOR
 if vim.g.colors_name == nil then
     vim.cmd("colorscheme mynext")
-else 
+else
     vim.cmd("colorscheme " .. vim.g.colors_name)
 end
 

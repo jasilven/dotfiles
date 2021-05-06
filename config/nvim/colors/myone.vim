@@ -84,7 +84,6 @@ let s:specs['SpellRare']  = 'undercurl sp=purple'
 let s:specs['SpellLocal'] = 'undercurl sp=aqua'
 
 " POPUP MENU
-
 let s:specs['Pmenu']      = 'fg=foreground bg=bg3'
 let s:specs['PmenuSel']   = 'fg=background bold bg=foreground'
 let s:specs['PmenuSbar']  = 'bg=bg3'
@@ -119,18 +118,25 @@ let s:specs['GitSignsDelete']   = 'fg=red'
 
 " TELESCOPE
 let s:specs['TelescopeNormal']         = 'fg=fg3'
-let s:specs['TelescopeSelection']      = 'fg=yellow bold'
+let s:specs['TelescopeSelection']      = 'fg=yellow bold underline'
 let s:specs['GitSignsSelectionCaret']  = 'fg=foreground'
 let s:specs['TelescopeMatching']       = 'fg=orange bold'
 
 " YAML 
 let s:specs['yamlTSField']   = 'fg=aqua'
 
+" MARKDOWN 
+let s:specs['MarkdownCOde']   = 'fg=blue'
+
 " BARBAR
 let s:specs['BufferCurrent']       = 'fg=foreground bold'
 let s:specs['BufferCurrentIndex']  = 'fg=foreground bold'
 let s:specs['BufferCurrentMod']    = 'fg=foreground bold'
 let s:specs['BufferCurrentSign']   = 'fg=foreground bold'
+let s:specs['BufferTabpageFill']   = 'bg=bg1'
+let s:specs['BufferInactive']      = 'bg=bg2'
+let s:specs['BufferInactiveIndex'] = 'bg=bg2'
+let s:specs['BufferInactiveSign']  = 'bg=bg2'
 
 " TREESITTER
 let s:specs['TSProperty']        = 'fg=yellow'

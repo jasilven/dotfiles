@@ -4,6 +4,7 @@
 [push]
     default = matching
 [core]
+	pager = delta
     excludesfile = ~/.config/git/ignore
 [color "status"]
     added = green

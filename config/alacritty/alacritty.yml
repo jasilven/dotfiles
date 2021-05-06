@@ -26,13 +26,15 @@ cursor:
   unfocused_hollow: true
   thickness: 0.20
 
+
 # Font configuration
 font:
   size: 14
   normal:
     # family: Menlo
     # family: "FiraCode Nerd Font"
-    family: "Noto Sans Mono"
+    # family: "Noto Sans Mono"
+    family: "NotoSansMono Nerd Font"
     # family: CodeNewRoman Nerd Font
     # family: UbuntuMono Nerd Font
     # family: DejaVuSansMono Nerd Font
@@ -45,13 +47,7 @@ font:
     style: Bold
   italic:
     style: Italic
-  # offset:
-  #   x: 0
-  #   y: 0
-  # glyph_offset:
-  #   x: 0
-  #   y: 0
-  use_thin_strokes: true 
+  use_thin_strokes: false
 
 draw_bold_text_with_bright_colors: false
 
@@ -116,6 +112,16 @@ next: &next
   cursor:
     text:       '#000000'
     cursor:     '#ffffff'
+  vi_mode_cursor:
+    text: '#ffffff'
+    cursor: '#ef767c'
+  search:
+    matches:
+      foreground: '#000000'
+      background: '#C594C5'
+    focused_match:
+      foreground: '#ffffff'
+      background: '#df9707'
   normal:
     black:   '#1B2B34'
     red:     '#ef767c'
@@ -167,12 +173,12 @@ enable_experimental_conpty_backend: true
 # alt_send_esc: false 
 
 key_bindings:
-  - { key: V,        mods: Control|Shift, action: Paste       }
-  - { key: C,        mods: Control|Shift, action: Copy        }
-  - { key: F,        mods: Control|Shift, action: ReceiveChar }
-  - { key: PageUp,   mods: Shift,   action: ScrollPageUp      }
-  - { key: PageDown, mods: Shift,   action: ScrollPageDown    }
-  - { key: End,      mods: Shift,   action: ScrollToBottom    }
-  - { key: Home,     mods: Shift,   action: ScrollToTop       }
-  - { key: Tab,     mods: Control,   chars: "\e[27;5;9~" }
-  - { key: Space,  mods: Shift|Control, action: ToggleViMode  } 
+  - { key: V,        mods: Control|Shift,   action: Paste       }
+  - { key: C,        mods: Control|Shift,   action: Copy        }
+  - { key: F,        mods: Control|Shift,   action: ReceiveChar }
+  - { key: PageUp,   mods: Shift,           action: ScrollPageUp      }
+  - { key: PageDown, mods: Shift,           action: ScrollPageDown    }
+  - { key: End,      mods: Shift,           action: ScrollToBottom    }
+  - { key: Home,     mods: Shift,           action: ScrollToTop       }
+  - { key: Tab,      mods: Control,         chars: "\e[27;5;9~" }
+  - { key: Space,    mods: Shift|Control,   action: ToggleViMode  } 

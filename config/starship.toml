@@ -22,7 +22,7 @@ trim_at = ".companyname.com"
 disabled = false
 
 [username]
-style_user = "white"
+style_user = "blue"
 style_root = "red bold"
 format = "[$user]($style) "
 disabled = false

@@ -138,6 +138,7 @@ let s:specs['BufferCurrentSign']   = 'fg=foreground bold'
 let s:specs['BufferTabpageFill']   = 'bg=bg1'
 let s:specs['BufferInactive']      = 'bg=bg2'
 let s:specs['BufferInactiveIndex'] = 'bg=bg2'
+let s:specs['BufferInactiveMod'] = 'bg=bg2'
 let s:specs['BufferInactiveSign']  = 'bg=bg2'
 
 " RUST 

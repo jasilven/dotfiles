@@ -56,3 +56,5 @@ alias tm="tmux attach || tmux new"
 alias node12='export PATH="/usr/local/opt/node@12/bin:$PATH"'
 
 source /home/jari/.config/broot/launcher/bash/br
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

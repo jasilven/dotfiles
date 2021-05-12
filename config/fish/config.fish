@@ -13,7 +13,7 @@ set -gx FZF_DEFAULT_OPTS --color dark,hl:3,hl+:3,bg+:0,fg+:3,info:#7d889b,prompt
 set -gx BAT_THEME 'TwoDark'
 set -gx TERM xterm-256color
 #set -gx CARGO_TARGET_DIR $HOME/.cargo/target_dir
-set -gx RIPGREP_CONFIG_PATH /home/jari/.ripgreprc
+set -gx RIPGREP_CONFIG_PATH $HOME/dotfiles/ripgreprc
 
 starship init fish | source
 
@@ -49,3 +49,5 @@ function br --wraps=broot
         return $code
     end
 end
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH

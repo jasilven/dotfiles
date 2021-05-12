@@ -10,6 +10,14 @@ return require('packer').startup(function(use)
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'tpope/vim-fugitive'}
     use {'Soares/base16.nvim', disable= true}
+    use {'kyazdani42/nvim-tree.lua',
+        config = function()
+            vim.g.nvim_tree_width = 40
+            vim.g.nvim_tree_width_allow_resize = 1
+            vim.g.nvim_tree_ignore = {'.git', 'node_modules', 'target', '.cache'}
+			local keyopts = {nowait = true, noremap = true, silent = true}
+			vim.api.nvim_set_keymap("n", '<space>n', ":NvimTreeToggle<CR>", keyopts)
+        end }
     use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
         config = function()
             local neogit = require('neogit')
@@ -66,8 +74,8 @@ return require('packer').startup(function(use)
                 sections = {
                     lualine_a = {'mode'},
                     lualine_b = {'branch'},
-                    lualine_c = { {'filename', full_path= true }, {'diagnostics', {sources = {'nvim_lsp'}}}},
-                    lualine_x = {{lspclient},'filetype'},
+                    lualine_c = { {'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', {sources = {'nvim_lsp'}}}},
+                    lualine_x = {{lspclient},{'filetype', colored = true}},
                     lualine_y = {'', '', 'encoding'},
                     lualine_z = {'location'} },
                 extensions = { 'fzf' },
@@ -236,7 +244,6 @@ return require('packer').startup(function(use)
 			local keyopts = {nowait = true, noremap = true, silent = true}
 			vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>n', ":Telescope file_browser<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers<CR>", keyopts)

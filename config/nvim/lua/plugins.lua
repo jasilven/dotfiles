@@ -10,14 +10,11 @@ return require('packer').startup(function(use)
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'tpope/vim-fugitive'}
     use {'Soares/base16.nvim', disable= true}
-    use {'kyazdani42/nvim-tree.lua',
+    use {'mcchrish/nnn.vim',
         config = function()
-            vim.g.nvim_tree_width = 40
-            vim.g.nvim_tree_width_allow_resize = 1
-            vim.g.nvim_tree_ignore = {'.git', 'node_modules', 'target', '.cache'}
 			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", '<space>n', ":NvimTreeToggle<CR>", keyopts)
-        end }
+			vim.api.nvim_set_keymap("n", '<space>n', ":NnnPicker<CR>", keyopts)
+        end}
     use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
         config = function()
             local neogit = require('neogit')
@@ -152,8 +149,9 @@ return require('packer').startup(function(use)
 		requires = {{'junegunn/fzf'}},
 		config = function()
 			local keyopts = {nowait = true, noremap = true, silent = true}
-			-- vim.g.fzf_layout = {down = "40%"}
-			-- vim.g.fzf_preview_window = "right:50%"
+			vim.g.fzf_layout = {down = "40%"}
+			-- vim.g.fzf_preview_window = "up:50%"
+			vim.g.fzf_preview_window = {}
 			vim.g.fzf_buffers_jump = 1
 			vim.g.fzf_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
 			-- vim.api.nvim_set_keymap("n", "<space>s", ":Rg<CR>", keyopts)
@@ -234,10 +232,10 @@ return require('packer').startup(function(use)
 			au FileType neoterm tnoremap <silent> <buffer> <C-l> <C-\><C-N><C-\><C-N>:BufferNext<cr>
 			au FileType neoterm tnoremap <silent> <buffer> <C-q> <C-\><C-N><C-w><C-p>:Tclose<cr>
 			au FileType neoterm tnoremap <Esc> <c-\><c-n>
-			au FileType neoterm tnoremap jk <c-\><c-n>
 			]], "")
 		end }
-
+			-- au FileType neoterm tnoremap jk <c-\><c-n>
+    
     use {'nvim-telescope/telescope.nvim',
 		requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
 		config = function()

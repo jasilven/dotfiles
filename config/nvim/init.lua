@@ -22,7 +22,7 @@ local keymaps = {
     {mods = {"n", "v"}, lhs = "gh", rhs = "0"},
     {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
     {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
-    {mods = {"i", "t"}, lhs = "jk", rhs = "<C-\\><C-N>"},
+    {mods = {"i"}, lhs = "jk", rhs = "<C-\\><C-N>"},
     {mods = {"n"}, lhs = "<C-N>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
     {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:Bd<cr>"},
     {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
@@ -111,7 +111,7 @@ vim.o["wildmenu"] = true
 vim.o["wildmode"] = "longest:full,full"
 vim.o["wrap"] = false
 vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
-vim.o["grepformat"] = "%f:%l:%c:%m"
+vim.o["grepformat"] = "%f:%l:%c:%m,%f:%l:%m"
 vim.o["formatoptions"] = "tcrqnb"
 vim.o["fsync"] = false
 vim.wo["wrap"] = false

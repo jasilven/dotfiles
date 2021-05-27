@@ -26,25 +26,27 @@ return require('packer').startup(function(use)
         disable = false,
         config = function() require('nvim-autopairs').setup() end
     }
-    use {'simrat39/rust-tools.nvim',
-        config = function()
-            local opts = {
-                tools = { -- rust-tools options
-                    autoSetHints = true,
-                    hover_with_actions = true,
-                    runnables = {
-                        use_telescope = true
-                    },
-                    inlay_hints = {
-                        show_parameter_hints = true,
-                        parameter_hints_prefix = " <- ",
-                        other_hints_prefix  = " => ",
-                    },
-                },
-                server = {}, -- rust-analyer options
-            }
-            require('rust-tools').setup(opts)
-        end}
+    -- use {'nvim-lua/lsp_extensions.nvim'}
+
+    -- use {'simrat39/rust-tools.nvim',
+    --     config = function()
+    --         local opts = {
+    --             tools = { -- rust-tools options
+    --                 autoSetHints = true,
+    --                 hover_with_actions = true,
+    --                 runnables = {
+    --                     use_telescope = true
+    --                 },
+    --                 inlay_hints = {
+    --                     show_parameter_hints = true,
+    --                     parameter_hints_prefix = " <- ",
+    --                     other_hints_prefix  = " => ",
+    --                 },
+    --             },
+    --             server = {}, -- rust-analyer options
+    --         }
+    --         require('rust-tools').setup(opts)
+    --     end}
 
     use {'romgrk/barbar.nvim',
 	config = function()
@@ -277,6 +279,8 @@ return require('packer').startup(function(use)
                   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
                   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
+                  -- vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)]], "")
+
                   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
                   local opts = { noremap=true, silent=true }
@@ -335,6 +339,7 @@ return require('packer').startup(function(use)
               local servers = require'lspinstall'.installed_servers()
               -- ... and add manually installed servers
               -- table.insert(servers, "clangd")
+              table.insert(servers, "rust_analyzer")
 
               for _, server in pairs(servers) do
                 local config = make_config()
@@ -352,7 +357,7 @@ return require('packer').startup(function(use)
             )
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
             require'lspinstall'.post_install_hook = function ()
-              setup_servers() -- reload installed servers
+              setup_servers()
               vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
             end
 	    end }
@@ -382,7 +387,6 @@ return require('packer').startup(function(use)
     use {'RishabhRD/nvim-lsputils',
         after = {'nvim-lspconfig'},
         config = function()
-            vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
             vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
             vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
             vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler

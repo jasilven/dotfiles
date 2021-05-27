@@ -47,6 +47,7 @@ let s:specs['Delimiter']         = 'fg=foreground'
 let s:specs['StorageClass']      = 'fg=foreground'
 let s:specs['Operator']          = 'fg=foreground'
 let s:specs['Include']           = 'fg=foreground'
+let s:specs['helpExample']       = 'fg=blue'
 
 " REST  
 let s:specs['SpecialKey']   = 'fg=fg3 bold'
@@ -168,6 +169,10 @@ hi link LspDiagnosticsDefaultError ErrorMsg
 hi link LspDiagnosticsDefaultWarning WarningMsg
 hi link LspDiagnosticsDefaultInformation MoreMsg
 hi link LspDiagnosticsDefaultHint MoreMsg
+hi link LspDiagnosticsUnderlineError underlined
+hi link LspDiagnosticsUnderlineWarning underlined 
+hi link LspDiagnosticsUnderlineInformation  underlined
+hi link LspDiagnosticsUnderlineHint underlined 
 
 " Normal must go first.
 execute 'Base16Highlight! Normal' s:specs['Normal']

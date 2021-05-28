@@ -3,23 +3,23 @@ if exists('syntax_on')
   syntax reset
 endif
 set background=dark
-let g:colors_name = 'mynext'
+let g:colors_name = 'mygithubdark'
 let g:base16_hex_colors = {
-      \ 'background':   '#1B2B34',
-      \ 'bg3':          '#233743',
-      \ 'bg2':          '#345365',
-      \ 'bg1':          '#3d6176',
-      \ 'fg1':          '#4a6182',
-      \ 'fg2':          '#6d87ab',
-      \ 'fg3':          '#8ea2be',
-      \ 'foreground':   '#aebcd0',
-      \ 'red':          '#ef767c',
-      \ 'orange':       '#f87d3a',
+      \ 'background':   '#121821',
+      \ 'bg3':          '#1c2431',
+      \ 'bg2':          '#2e3c52',
+      \ 'bg1':          '#374862',
+      \ 'fg1':          '#89929b',
+      \ 'fg2':          '#89929b',
+      \ 'fg3':          '#c6cdd5',
+      \ 'foreground':   '#ecf2f8',
+      \ 'red':          '#fa7970',
+      \ 'orange':       '#faa356',
       \ 'yellow':       '#e2bf78',
-      \ 'green':        '#99C794',
-      \ 'aqua':         '#5FB3B3',
-      \ 'blue':         '#6699CC',
-      \ 'purple':       '#C594C5',
+      \ 'green':        '#7ce38b',
+      \ 'aqua':         '#a2d2fb',
+      \ 'blue':         '#77bdfb',
+      \ 'purple':       '#cea5fb',
       \ 'brown':        '#AB7967'}
 
 command! -bang -nargs=+ Base16Highlight call base16#highlight(<q-bang>=='!', <f-args>)
@@ -28,7 +28,7 @@ let s:specs = {}
 
 " DEFAULTS
 let s:specs['Normal']            = 'fg=foreground bg=background'
-let s:specs['Comment']           = 'fg=fg1'
+let s:specs['Comment']           = 'fg=fg2'
 let s:specs['Constant']          = 'fg=aqua'
 let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'
@@ -82,6 +82,7 @@ let s:specs['SpellRare']  = 'undercurl sp=purple'
 let s:specs['SpellLocal'] = 'undercurl sp=aqua'
 
 " POPUP MENU
+
 let s:specs['Pmenu']      = 'fg=foreground bg=bg3'
 let s:specs['PmenuSel']   = 'fg=background bold bg=foreground'
 let s:specs['PmenuSbar']  = 'bg=bg3'

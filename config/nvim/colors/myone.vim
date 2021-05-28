@@ -28,7 +28,7 @@ let s:specs = {}
 
 " DEFAULTS
 let s:specs['Normal']            = 'fg=foreground bg=background'
-let s:specs['Comment']           = 'fg=orange'
+let s:specs['Comment']           = 'fg=fg2'
 let s:specs['Constant']          = 'fg=aqua'
 let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'

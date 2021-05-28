@@ -26,6 +26,7 @@ local keymaps = {
     {mods = {"n"}, lhs = "<C-N>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
     {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:Bd<cr>"},
     {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
+    {mods = {"n"}, lhs = "<C-l>", rhs = "<C-l>:nohl<CR>"},
     {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
     {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
     {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
@@ -53,7 +54,7 @@ local keymaps = {
     {mods = {"n"}, lhs = "yh", rhs = "y0"},
     {mods = {"n"}, lhs = "yl", rhs = "y$"},
     {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
-    {mods = {"n"}, lhs = "<f9>", rhs = ":luafile ~/dotfiles/config/nvim/init.lua<cr>"},
+    {mods = {"n"}, lhs = "<f9>", rhs = ":luafile ~/dotfiles/config/nvim/init.lua<cr>:PackerCompile<cr>"},
     {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:bd!<cr>"},
     {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
 }
@@ -122,17 +123,6 @@ vim.wo["number"] = true
 vim.wo["signcolumn"] = "yes:1"
 vim.wo["cursorline"] = true
 
--- NEOVIDE
-api.nvim_exec( [[
-    set guifont=FiraCode\ Nerd\ Font:h16
-    let g:neovide_cursor_vfx_mode = "torpedo"
-    let g:neovide_cursor_animation_length=0.05
-    let g:neovide_cursor_trail_length=0.5
-    let g:neovide_refresh_rate=140
-    nnoremap <D-v> "+p
-]],"")
-
-    -- nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"  . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 -- GLOBAL SETTTINGS
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0

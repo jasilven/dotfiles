@@ -8,26 +8,78 @@ return require('packer').startup(function(use)
     use {'tpope/vim-surround'}
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
-    use {'tpope/vim-fugitive'}
-    use {'Soares/base16.nvim', disable= true}
-    use {'mcchrish/nnn.vim',
+    use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
+    use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         config = function()
+            local actions = require'lir.actions'
+            local mark_actions = require 'lir.mark.actions'
+            local clipboard_actions = require'lir.clipboard.actions'
 			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", '<space>n', ":NnnPicker<CR>", keyopts)
+            vim.api.nvim_exec([[
+				au FileType lir set showtabline=0 
+                ]], "")
+			vim.api.nvim_set_keymap("n", '<space>n', ":edit .<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '-', ":edit .<CR>", keyopts)
+            require'lir'.setup {
+              show_hidden_files = false,
+              devicons_enable = false,
+              mappings = {
+                ['l']     = actions.edit,
+                ['<Enter>'] = actions.edit,
+                ['q'] = actions.quit,
+                ['<Esc>'] = actions.quit,
+                ['<C-s>'] = actions.split,
+                ['<C-v>'] = actions.vsplit,
+                ['<C-t>'] = actions.tabedit,
+                ['h']     = actions.up,
+                ['K']     = actions.mkdir,
+                ['N']     = actions.newfile,
+                ['R']     = actions.rename,
+                ['@']     = actions.cd,
+                ['Y']     = actions.yank_path,
+                ['.']     = actions.toggle_show_hidden,
+                ['D']     = actions.delete,
+                ['J'] = function()
+                  mark_actions.toggle_mark()
+                  vim.cmd('normal! j')
+                end,
+                ['C'] = clipboard_actions.copy,
+                ['X'] = clipboard_actions.cut,
+                ['P'] = clipboard_actions.paste,
+              },
+              float = {
+                -- If you want to configure the height and width of the window individually,
+                -- pass in a table like so: { width = 0.5, height = 0.8 }
+                size_percentage = 0.5,
+                winblend = 15,
+                border = true,
+                borderchars = {"╔" , "═" , "╗" , "║" , "╝" , "═" , "╚", "║"},
+                -- -- If you want to use `shadow`, set `shadow` to `true`.
+                -- -- Also, if you set shadow to true, the value of `borderchars` will be ignored.
+                shadow = false,
+              },
+            }
         end}
+
     use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
         config = function()
             local neogit = require('neogit')
             neogit.setup { disable_context_highlighting = true, }
         end }
-    use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat',
-        config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
-    use {'windwp/nvim-autopairs',
-        disable = false,
-        config = function() require('nvim-autopairs').setup() end
-    }
+    -- use {'tpope/vim-fugitive'}
+    -- use {'Soares/base16.nvim', disable= true}
+    -- use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat',
+    --     config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
     -- use {'nvim-lua/lsp_extensions.nvim'}
-
+--     use {'vijaymarupudi/nvim-fzf-commands', requires = {'vijaymarupudi/nvim-fzf', opt = true},
+--         config = function()
+-- 			local keyopts = {nowait = true, noremap = true, silent = true}
+-- 			vim.api.nvim_set_keymap("n", '<space>F', ":lua require('fzf-commands').files()<cr>", keyopts)
+--             vim.api.nvim_exec([[
+--                 command! -nargs=1 Rg call luaeval('require("fzf-commands").rg(_A)', <f-args>)
+--                 nnoremap <space>G :<c-u>Rg<space>
+--                 ]], "")
+--         end}
     -- use {'simrat39/rust-tools.nvim',
     --     config = function()
     --         local opts = {
@@ -48,16 +100,16 @@ return require('packer').startup(function(use)
     --         require('rust-tools').setup(opts)
     --     end}
 
-    use {'romgrk/barbar.nvim',
-	config = function()
-		local keyopts = {nowait = true, noremap = true, silent = true}
-        vim.api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
-        vim.api.nvim_set_keymap("n", "<C-right>", ":BufferNext<CR>", keyopts)
-		vim.api.nvim_set_keymap("n", "<M-l>", ":BufferNext<CR>", keyopts)
-		vim.api.nvim_set_keymap("n", "<C-h>", ":BufferPrevious<CR>", keyopts)
-		vim.api.nvim_set_keymap("n", "<C-left>", ":BufferPrevious<CR>", keyopts)
-		vim.api.nvim_set_keymap("n", "<M-h>", ":BufferPrevious<CR>", keyopts)
-	end }
+	--     use {'romgrk/barbar.nvim',
+	-- config = function()
+	-- 	local keyopts = {nowait = true, noremap = true, silent = true}
+	--         vim.api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
+	--         vim.api.nvim_set_keymap("n", "<C-right>", ":BufferNext<CR>", keyopts)
+	-- 	vim.api.nvim_set_keymap("n", "<M-l>", ":BufferNext<CR>", keyopts)
+	-- 	vim.api.nvim_set_keymap("n", "<C-h>", ":BufferPrevious<CR>", keyopts)
+	-- 	vim.api.nvim_set_keymap("n", "<C-left>", ":BufferPrevious<CR>", keyopts)
+	-- 	vim.api.nvim_set_keymap("n", "<M-h>", ":BufferPrevious<CR>", keyopts)
+	-- end }
 
     use {'hoob3rt/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
@@ -118,34 +170,34 @@ return require('packer').startup(function(use)
 			vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
         end}
 
-    use {'hrsh7th/nvim-compe',
-        disable = true,
-        config = function()
-            require('compe').setup{
-                enabled = true;
-                autocomplete = true;
-                debug = false;
-                min_length = 0;
-                preselect = 'enable';
-                throttle_time = 80;
-                source_timeout = 200;
-                incomplete_delay = 400;
-                max_abbr_width = 100;
-                max_kind_width = 100;
-                max_menu_width = 100;
-                source = {
-                    path = true;
-                    buffer = true;
-                    calc = false;
-                    vsnip = false;
-                    nvim_lsp = true;
-                    spell = true;
-                    tags = false;
-                    snippets_nvim = false;
-                    treesitter = true;
-                };
-            }
-        end }
+--     use {'hrsh7th/nvim-compe',
+--         disable = true,
+--         config = function()
+--             require('compe').setup{
+--                 enabled = true;
+--                 autocomplete = true;
+--                 debug = false;
+--                 min_length = 0;
+--                 preselect = 'enable';
+--                 throttle_time = 80;
+--                 source_timeout = 200;
+--                 incomplete_delay = 400;
+--                 max_abbr_width = 100;
+--                 max_kind_width = 100;
+--                 max_menu_width = 100;
+--                 source = {
+--                     path = true;
+--                     buffer = true;
+--                     calc = false;
+--                     vsnip = false;
+--                     nvim_lsp = true;
+--                     spell = true;
+--                     tags = false;
+--                     snippets_nvim = false;
+--                     treesitter = true;
+--                 };
+--             }
+--         end }
 
     use {'junegunn/fzf.vim',
 		requires = {{'junegunn/fzf'}},
@@ -156,11 +208,11 @@ return require('packer').startup(function(use)
 			vim.g.fzf_preview_window = {}
 			vim.g.fzf_buffers_jump = 1
 			vim.g.fzf_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-			-- vim.api.nvim_set_keymap("n", "<space>s", ":Rg<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>S", ":MyRgHome<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", "<space>s", ":Rg<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>F", ":Files ~<CR>", keyopts)
-			-- vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+			vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
 			vim.api.nvim_exec(
 				[[
 				au FileType fzf tnoremap <buffer> jk jk
@@ -174,11 +226,8 @@ return require('packer').startup(function(use)
 				au BufEnter term://*fzf* startinsert
 				au BufLeave term://*fzf*  set laststatus=2
 				command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
-				command! -bang -nargs=* MyRgHomeOld call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
-				command! -bang -nargs=* MyNotes call fzf#vim#grep("rg --line-number --no-heading --color=never --smart-case -e '^# ' -- ~/notes | sort -k5 -k4M -k3 -n --reverse | column -t -s\#", 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
-				let g:XXfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'marker': ['fg', 'Comment'], 'fg':  ['fg', 'Normal'], 'bg':  ['bg', 'Normal'], 'hl':  ['fg', 'keyword'], 'info': ['fg', 'Comment'], 'border': ['fg', 'VertSplit'], 'prompt': ['fg', 'Function'], 'spinner': ['fg', 'Label'], 'header': ['fg', 'Comment'],  'gutter': ['bg', 'Normal'],} 
-				let g:XYfzf_colors = { 'fg+':  ['fg', 'FZF'], 'bg+':  ['bg', 'FZF'], 'hl+':  ['fg', 'FZF'], 'pointer': ['fg', 'FZF'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'keyword'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
-				let g:fzf_action = { 'ctrl-o': '!xdg-open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
+				let g:fzf_colors = { 'fg+':  ['fg', 'IncSearch'], 'bg+':  ['bg', 'IncSearch'], 'hl+':  ['fg', 'IncSearch'], 'pointer': ['fg', 'IncSearch'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
+				let g:fzf_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
 			]], "")
 		end }
 
@@ -201,13 +250,6 @@ return require('packer').startup(function(use)
       requires = { 'nvim-lua/plenary.nvim' },
       config = function() require('gitsigns').setup() end
     }
-
-    use {'mhinz/vim-signify',
-        disable = true,
-		config = function()
-			vim.g.signify_line_highlight = 0
-			vim.g.signify_disable_by_default = 1
-		end }
 
     use {'airblade/vim-rooter',
 		config = function()
@@ -237,15 +279,14 @@ return require('packer').startup(function(use)
 			]], "")
 		end }
 			-- au FileType neoterm tnoremap jk <c-\><c-n>
-    
     use {'nvim-telescope/telescope.nvim',
 		requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
 		config = function()
 			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
+			-- vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
+			-- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
+			-- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
@@ -256,6 +297,7 @@ return require('packer').startup(function(use)
 					shorten_path = false,
 					prompt_position = "bottom",
 					prompt_prefix="> ",
+                    border = {},
 					selection_caret = "▶ ",
 					mappings = {
 						i = {

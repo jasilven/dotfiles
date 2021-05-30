@@ -6,6 +6,7 @@ return require('packer').startup(function(use)
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
     use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
+    use {'sindrets/diffview.nvim'}
     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         config = function()
             local actions = require'lir.actions'

@@ -1,28 +1,22 @@
-
 return require('packer').startup(function(use)
     use {'wbthomason/packer.nvim'}
-    use {'mbbill/undotree'}
-    use {'cespare/vim-toml'}
-    use {'farmergreg/vim-lastplace'}
-    use {'terrortylor/nvim-comment' , config = function() require('nvim_comment').setup() end }
+    use {'terrortylor/nvim-comment', config = function() require('nvim_comment').setup() end }
     use {'tpope/vim-surround'}
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
+    use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         config = function()
             local actions = require'lir.actions'
             local mark_actions = require 'lir.mark.actions'
             local clipboard_actions = require'lir.clipboard.actions'
 			local keyopts = {nowait = true, noremap = true, silent = true}
-            vim.api.nvim_exec([[
-				au FileType lir set showtabline=0 
-                ]], "")
 			vim.api.nvim_set_keymap("n", '<space>n', ":edit .<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '-', ":edit .<CR>", keyopts)
             require'lir'.setup {
               show_hidden_files = false,
-              devicons_enable = false,
+              devicons_enable = true,
               mappings = {
                 ['l']     = actions.edit,
                 ['<Enter>'] = actions.edit,
@@ -66,50 +60,6 @@ return require('packer').startup(function(use)
             local neogit = require('neogit')
             neogit.setup { disable_context_highlighting = true, }
         end }
-    -- use {'tpope/vim-fugitive'}
-    -- use {'Soares/base16.nvim', disable= true}
-    -- use {'sbdchd/neoformat', disable = false, cmd = 'Neoformat',
-    --     config = function() vim.g.neoformat_enabled_yaml = {'prettier'} end }
-    -- use {'nvim-lua/lsp_extensions.nvim'}
---     use {'vijaymarupudi/nvim-fzf-commands', requires = {'vijaymarupudi/nvim-fzf', opt = true},
---         config = function()
--- 			local keyopts = {nowait = true, noremap = true, silent = true}
--- 			vim.api.nvim_set_keymap("n", '<space>F', ":lua require('fzf-commands').files()<cr>", keyopts)
---             vim.api.nvim_exec([[
---                 command! -nargs=1 Rg call luaeval('require("fzf-commands").rg(_A)', <f-args>)
---                 nnoremap <space>G :<c-u>Rg<space>
---                 ]], "")
---         end}
-    -- use {'simrat39/rust-tools.nvim',
-    --     config = function()
-    --         local opts = {
-    --             tools = { -- rust-tools options
-    --                 autoSetHints = true,
-    --                 hover_with_actions = true,
-    --                 runnables = {
-    --                     use_telescope = true
-    --                 },
-    --                 inlay_hints = {
-    --                     show_parameter_hints = true,
-    --                     parameter_hints_prefix = " <- ",
-    --                     other_hints_prefix  = " => ",
-    --                 },
-    --             },
-    --             server = {}, -- rust-analyer options
-    --         }
-    --         require('rust-tools').setup(opts)
-    --     end}
-
-	--     use {'romgrk/barbar.nvim',
-	-- config = function()
-	-- 	local keyopts = {nowait = true, noremap = true, silent = true}
-	--         vim.api.nvim_set_keymap("n", "<C-l>", ":BufferNext<CR>", keyopts)
-	--         vim.api.nvim_set_keymap("n", "<C-right>", ":BufferNext<CR>", keyopts)
-	-- 	vim.api.nvim_set_keymap("n", "<M-l>", ":BufferNext<CR>", keyopts)
-	-- 	vim.api.nvim_set_keymap("n", "<C-h>", ":BufferPrevious<CR>", keyopts)
-	-- 	vim.api.nvim_set_keymap("n", "<C-left>", ":BufferPrevious<CR>", keyopts)
-	-- 	vim.api.nvim_set_keymap("n", "<M-h>", ":BufferPrevious<CR>", keyopts)
-	-- end }
 
     use {'hoob3rt/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
@@ -118,31 +68,68 @@ return require('packer').startup(function(use)
                 if next(vim.lsp.buf_get_clients()) == nil then
                    return ""
                 else
-                   return "✔lsp"
+                   return "lsp"
                 end
             end
+            local function dir()
+                return string.match(vim.fn.getcwd(),"%a*$")
+            end
+            local custom_gruvbox = require'lualine.themes.gruvbox'
+            local bg = '#4d4d66'
+            local inactive_bg = '#4d4d66'
+            local fg = '#d9d9d9'
+            custom_gruvbox.normal.a.bg = bg
+            custom_gruvbox.normal.a.fg = fg
+            custom_gruvbox.normal.b.bg = bg
+            custom_gruvbox.normal.b.fg = fg
+            custom_gruvbox.normal.c.bg = bg
+            custom_gruvbox.normal.c.fg = fg
+
+            custom_gruvbox.insert.a.bg = '#e2bf78'
+            custom_gruvbox.insert.a.fg = bg
+            custom_gruvbox.insert.b.bg = bg
+            custom_gruvbox.insert.b.fg = fg
+            custom_gruvbox.insert.c.bg = bg
+            custom_gruvbox.insert.c.fg = fg
+
+            custom_gruvbox.inactive.a.bg = inactive_bg
+            custom_gruvbox.inactive.a.fg = fg
+            custom_gruvbox.inactive.b.bg = inactive_bg
+            custom_gruvbox.inactive.b.fg = fg
+            custom_gruvbox.inactive.c.bg = inactive_bg
+            custom_gruvbox.inactive.c.fg = fg
+
+            custom_gruvbox.visual.a.bg = '#e2bf78'
+            custom_gruvbox.visual.a.fg = bg
+            custom_gruvbox.visual.b.bg = bg
+            custom_gruvbox.visual.b.fg = fg
+            custom_gruvbox.visual.c.bg = bg
+            custom_gruvbox.visual.c.fg = fg
+
+            custom_gruvbox.replace = custom_gruvbox.visual
+            custom_gruvbox.command = custom_gruvbox.visual
             require('lualine').setup{
                 sections = {
                     lualine_a = {'mode'},
-                    lualine_b = {'branch'},
-                    lualine_c = { {'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', {sources = {'nvim_lsp'}}}},
-                    lualine_x = {{lspclient},{'filetype', colored = true}},
-                    lualine_y = {'', '', 'encoding'},
+                    lualine_b = {{dir}},
+                    lualine_c = {{'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', {sources = {'nvim_lsp'}}}},
+                    lualine_x = {},
+                    lualine_y = {{lspclient}, 'branch', {'filetype', colored = false}, 'encoding'},
                     lualine_z = {'location'} },
                 extensions = { 'fzf' },
                 options = {
-                    theme = 'nord',
+                    theme = custom_gruvbox,
                     section_separators = '',
                     component_separators = ''} }
         end }
 
-    use { 'nvim-treesitter/playground',
+    use {'nvim-treesitter/playground',
         config = function ()
 		    local keyopts = {nowait = true, noremap = true, silent = true}
 		    vim.api.nvim_set_keymap("n", "<f10>", ":TSHighlightCapturesUnderCursor<CR>", keyopts)
         end}
 
-    use { 'nvim-treesitter/nvim-treesitter',
+    use {'nvim-treesitter/nvim-treesitter',
         requires = {{'nvim-treesitter/nvim-treesitter-textobjects'}, {'nvim-treesitter/nvim-treesitter-refactor'}},
         run = ':TSUpdate',
         config = function()
@@ -170,40 +157,12 @@ return require('packer').startup(function(use)
 			vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
         end}
 
---     use {'hrsh7th/nvim-compe',
---         disable = true,
---         config = function()
---             require('compe').setup{
---                 enabled = true;
---                 autocomplete = true;
---                 debug = false;
---                 min_length = 0;
---                 preselect = 'enable';
---                 throttle_time = 80;
---                 source_timeout = 200;
---                 incomplete_delay = 400;
---                 max_abbr_width = 100;
---                 max_kind_width = 100;
---                 max_menu_width = 100;
---                 source = {
---                     path = true;
---                     buffer = true;
---                     calc = false;
---                     vsnip = false;
---                     nvim_lsp = true;
---                     spell = true;
---                     tags = false;
---                     snippets_nvim = false;
---                     treesitter = true;
---                 };
---             }
---         end }
-
     use {'junegunn/fzf.vim',
 		requires = {{'junegunn/fzf'}},
 		config = function()
 			local keyopts = {nowait = true, noremap = true, silent = true}
 			vim.g.fzf_layout = {down = "40%"}
+            vim.g.fzf_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
 			-- vim.g.fzf_preview_window = "up:50%"
 			vim.g.fzf_preview_window = {}
 			vim.g.fzf_buffers_jump = 1
@@ -212,6 +171,7 @@ return require('packer').startup(function(use)
 			vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
 			vim.api.nvim_exec(
 				[[
@@ -222,31 +182,30 @@ return require('packer').startup(function(use)
 				au FileType fzf tmap <buffer> <Tab> <Down>
 				au FileType fzf tmap <buffer> <S-Tab> <Up>
 				au FileType fzf set laststatus=0 noshowmode
-				au FileType fzf set laststatus=0
 				au BufEnter term://*fzf* startinsert
 				au BufLeave term://*fzf*  set laststatus=2
 				command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
-				let g:fzf_colors = { 'fg+':  ['fg', 'IncSearch'], 'bg+':  ['bg', 'IncSearch'], 'hl+':  ['fg', 'IncSearch'], 'pointer': ['fg', 'IncSearch'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
-				let g:fzf_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
+				let g:fzf_colors = { 'fg+':  ['fg', 'Search'], 'bg+':  ['bg', 'Search'], 'hl+':  ['fg', 'Search'], 'pointer': ['fg', 'Search'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
+				let g:fzf_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
 			]], "")
 		end }
 
     use {'pechorin/any-jump.vim',
 		config = function()
-			local keyopts = {nowait = true, noremap = true, silent = true}
 			vim.g.any_jump_window_width_ratio = 0.8
 			vim.g.any_jump_window_height_ratio = 0.3
+			local keyopts = {nowait = true, noremap = true, silent = true}
 			vim.api.nvim_set_keymap("n", "<space>J", ":AnyJump<cr>", keyopts)
 		end }
 
-    use {'easymotion/vim-easymotion',
-		config = function()
-			vim.g.EasyMotion_keys = "abcdefghijklmnopqrstuvwxy"
-			vim.api.nvim_set_keymap("n", "f", "<Plug>(easymotion-bd-f)", {nowait = true, silent = true})
-		end }
+    use { 'phaazon/hop.nvim', as = 'hop',
+        config = function()
+            require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+			local keyopts = {nowait = true, noremap = true, silent = true}
+			vim.api.nvim_set_keymap("n", "f", ":HopChar1<cr>", keyopts)
+        end }
 
-    use {
-      'lewis6991/gitsigns.nvim',
+    use {'lewis6991/gitsigns.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
       config = function() require('gitsigns').setup() end
     }
@@ -258,7 +217,7 @@ return require('packer').startup(function(use)
 			vim.g.rooter_patterns = { "project.clj", "deps.edn", "go.mod", "package.json", "build.sbt", "pom.xml", ".git" }
 		end }
 
-	use {'kassio/neoterm',
+    use {'kassio/neoterm',
 		config = function()
 			local keyopts = {nowait = true, noremap = true, silent = true}
 			vim.g.neoterm_size = 25
@@ -285,9 +244,8 @@ return require('packer').startup(function(use)
 			local keyopts = {nowait = true, noremap = true, silent = true}
 			-- vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
 			-- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles<CR>", keyopts)
 			-- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
 			local actions = require('telescope.actions')
@@ -337,7 +295,7 @@ return require('packer').startup(function(use)
                   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
                   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
                   buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-                  buf_set_keymap('n', 'gr', ':Telescope lsp_references<CR>', opts)
+                  buf_set_keymap('n', 'gr', ':Telescope lsp_references theme=get_dropdown<CR>', opts)
                   buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
                   buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
                   buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -410,19 +368,9 @@ return require('packer').startup(function(use)
             vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
             vim.fn.sign_define('LightBulbSign', { text = "⚡", texthl = "Comment", linehl="", numhl="" })
             require'nvim-lightbulb'.update_lightbulb {
-                sign = {
-                    enabled = true,
-                    priority = 10,
-                },
-                float = {
-                    enabled = false,
-                    text = "A",
-                    win_opts = {},
-                },
-                virtual_text = {
-                    enabled = false,
-                    text = "A",
-                }
+                sign = { enabled = true, priority = 10, },
+                float = { enabled = false, text = "A", win_opts = {}, },
+                virtual_text = { enabled = false, text = "A", }
             }
         end }
 

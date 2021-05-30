@@ -43,7 +43,7 @@
       },
       "metals.javaHome": "/Users/e103270/.jabba/jdk/adopt@1.11.0-7/Contents/Home",
       "workbench.colorTheme": "Visual Studio Dark",
-      "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+      "editor.fontFamily": "FiraCode, Menlo, Monaco, 'Courier New', monospace",
       "editor.fontSize": 15,
       "telemetry.enableCrashReporter": false,
       "editor.minimap.enabled": false,

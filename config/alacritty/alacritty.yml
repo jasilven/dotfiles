@@ -17,24 +17,22 @@ window:
   title: Alacritty
  
 scrolling:
-  history: 10000
-  multiplier: 3
+  # Specifying '0' will disable scrolling.
+  history: 0
 
-# tabspaces: 4
 cursor:
   style: Block 
   unfocused_hollow: true
   thickness: 0.20
 
-
-# Font configuration
 font:
-  size: 14
+  size: 12.5
   normal:
     # family: Menlo
     # family: "FiraCode Nerd Font"
-    # family: "Noto Sans Mono"
-    family: "NotoSansMono Nerd Font"
+    # family: "FiraCode"
+    family: "Noto Sans Mono"
+    # family: "NotoSansMono Nerd Font"
     # family: CodeNewRoman Nerd Font
     # family: UbuntuMono Nerd Font
     # family: DejaVuSansMono Nerd Font
@@ -44,77 +42,61 @@ font:
     # style: Retina
     style: Regular
   bold:
-    style: Bold
+    style: Bold 
   italic:
-    style: Italic
+    style: Italic 
   use_thin_strokes: false
 
 draw_bold_text_with_bright_colors: false
 
 schemes:
 
-solarized: &solarized
+light: &light
   primary:
-    background: '#002b36'
-    foreground: '#93a1a1'
+    background: '#e6e6e6'
+    foreground: '#000000'
   cursor:
-    text: '#002b36'
-    cursor: '#ffffff'
+    text:       '#ffffff'
+    cursor:     '#000000'
+  vi_mode_cursor:
+    text:       '#ffffff'
+    cursor:     '#ef767c'
+  search:
+    matches:
+      foreground: '#000000'
+      background: '#C594C5'
+    focused_match:
+      foreground: '#ffffff'
+      background: '#df9707'
   normal:
-    black:   '#002b36'
-    red:     '#cb4b16'
-    green:   '#859900'
-    yellow:  '#b58900'
-    blue:    '#268bd2'
-    magenta: '#6c71c4'
-    cyan:    '#2aa198'
-    white:   '#93a1a1'
+    black:   '#000000'
+    red:     '#b30000'
+    green:   '#009933'
+    yellow:  '#e67300'
+    blue:    '#0033cc'
+    magenta: '#625194'
+    cyan:    '#227777'
+    white:   '#ffffff'
   bright:
-    black:   '#657b83'
-    red:     '#cb4b16'
-    green:   '#073642'
-    yellow:  '#586e75'
-    blue:    '#839496'
-    magenta: '#eee8d5'
-    cyan:    '#d33682'
-    white:   '#fdf6e3'
-
-one: &one
-  primary:
-    background: '#21252b'
-    foreground: '#b6bbc8'
-  cursor:
-    text: '#282c34'
-    cursor: '#ffffff'
-  normal:
-    black:   '#282c34'
-    red:     '#e06c75'
-    green:   '#98c379'
-    yellow:  '#ddae55'
-    blue:    '#61afef'
-    magenta: '#c270db'
-    cyan:    '#56b6c2'
-    white:   '#b6bbc8'
-  bright:
-    black:   '#282c34'
-    red:     '#e06c75'
-    green:   '#98c379'
-    yellow:  '#ddae55'
-    blue:    '#61afef'
-    magenta: '#c270db'
-    cyan:    '#56b6c2'
-    white:   '#b6bbc8'
+    black:   '#000000'
+    red:     '#b30000'
+    green:   '#009933'
+    yellow:  '#e67300'
+    blue:    '#0033cc'
+    magenta: '#625194'
+    cyan:    '#227777'
+    white:   '#ffffff'
     
-next: &next
+dark: &dark
   primary:
-    background: '#1B2B34'
+    background: '#1a1a1a'
     foreground: '#b6bbc8'
   cursor:
     text:       '#000000'
     cursor:     '#ffffff'
   vi_mode_cursor:
-    text: '#ffffff'
-    cursor: '#ef767c'
+    text:       '#ffffff'
+    cursor:     '#ef767c'
   search:
     matches:
       foreground: '#000000'
@@ -126,47 +108,28 @@ next: &next
     black:   '#1B2B34'
     red:     '#ef767c'
     green:   '#98c379'
-    yellow:  '#df9707'
+    yellow:  '#cca300'
     blue:    '#6699CC'
-    magenta: '#C594C5'
+    magenta: '#6d5ba4'
     cyan:    '#56b6c2'
     white:   '#CDD3DE'
   bright:
     black:   '#1B2B34'
     red:     '#ef767c'
     green:   '#98c379'
-    yellow:  '#df9707'
+    yellow:  '#cca300'
     blue:    '#6699CC'
-    magenta: '#C594C5'
+    magenta: '#6d5ba4'
     cyan:    '#56b6c2'
     white:   '#CDD3DE'
 
-colors: *next
-
-mouse_bindings:
-  - { mouse: Middle, action: PasteSelection }
+colors: *light
 
 mouse:
-  double_click: { threshold: 300 }
-  triple_click: { threshold: 300 }
   hide_when_typing:  true
-  url:
-    launcher:
-      program: xdg-open
-      args: []
-    modifiers: None
-
-selection:
-  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-  save_to_clipboard: true
 
 live_config_reload: true
 background_opacity: 1.0
-
-shell:
-  # program: fish
-  # args:
-  #   - -c tmux -u attach || tmux -u new
 enable_experimental_conpty_backend: true
 
 # Send ESC (\x1b) before characters when alt is pressed.
@@ -181,4 +144,4 @@ key_bindings:
   - { key: End,      mods: Shift,           action: ScrollToBottom    }
   - { key: Home,     mods: Shift,           action: ScrollToTop       }
   - { key: Tab,      mods: Control,         chars: "\e[27;5;9~" }
-  - { key: Space,    mods: Shift|Control,   action: ToggleViMode  } 
+  # - { key: Space,    mods: Shift|Control,   action: ToggleViMode  } 

@@ -1,18 +1,21 @@
 format = """
 $username\
-$directory\
 $git_branch\
 $kubernetes\
 $docker_context\
 $env_var\
 $line_break\
 $jobs\
-$character"""
+$directory $character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[✗](bold red)"
 
 [directory]
+format = "[$path](blue bold)"
 truncation_length = 8
 truncate_to_repo = false
-style = "yellow"
 # use_logical_path = false
 
 [hostname]
@@ -22,7 +25,7 @@ trim_at = ".companyname.com"
 disabled = false
 
 [username]
-style_user = "blue"
+style_user = "cyan"
 style_root = "red bold"
 format = "[$user]($style) "
 disabled = false
@@ -34,7 +37,7 @@ disabled = false
 
 [git_branch]
 symbol = ""
-style = "blue"
+style = "yellow"
 format = "[$symbol$branch]($style) "
 
 [docker_context]

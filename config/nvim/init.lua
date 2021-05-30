@@ -5,7 +5,7 @@ local keyopts = {nowait = true, noremap = true, silent = true}
 
 -- COLOR
 if vim.g.colors_name == nil then
-    vim.cmd("colorscheme mynext")
+    vim.cmd("colorscheme mymonolight")
 else
     vim.cmd("colorscheme " .. vim.g.colors_name)
 end
@@ -16,7 +16,6 @@ require "plugins"
 -- KEYS
 local keymaps = {
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
-    -- {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<C-t>", rhs = "<C-\\><C-N>:term<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<Esc>", rhs = "<C-\\><C-N>"},
     {mods = {"n", "v"}, lhs = "gh", rhs = "0"},
@@ -32,9 +31,16 @@ local keymaps = {
     {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
     {mods = {"v"}, lhs = "<C-S-up>", rhs = ":m '<-2<CR>gv=gv"},
     {mods = {"v"}, lhs = "<C-S-Down>", rhs = ":m '>+1<CR>gv=gv"},
-    {mods = {"n"}, lhs = "<RightMouse>", rhs = "<LeftMouse>gdzz"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightMouse>", rhs = ":bn<cr>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightRelease>", rhs = "<Nop>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightDrag>", rhs = "<Nop>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<2-RightMouse>", rhs = ":bn<cr>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<3-RightMouse>", rhs = ":bn<cr>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<4-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
     {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
+    {mods = {"n"}, lhs = "<space>j", rhs = ":bn<cr>"},
+    {mods = {"n"}, lhs = "<space>k", rhs = ":bprevious<cr>"},
     {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
     {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
     {mods = {"n"}, lhs = "<space>q", rhs = "q"},
@@ -54,6 +60,7 @@ local keymaps = {
     {mods = {"n"}, lhs = "yh", rhs = "y0"},
     {mods = {"n"}, lhs = "yl", rhs = "y$"},
     {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
+    {mods = {"n"}, lhs = "<f4>", rhs = ":%s/<C-r><C-w>//gc<left><left><left>"},
     {mods = {"n"}, lhs = "<f9>", rhs = ":luafile ~/dotfiles/config/nvim/init.lua<cr>:PackerCompile<cr>"},
     {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:bd!<cr>"},
     {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
@@ -65,7 +72,7 @@ for _, keymap in pairs(keymaps) do
 end
 
 -- OPTIONS
-vim.o["autoread"] = false
+vim.o["autoread"] = true
 vim.o["backup"] = false
 vim.o["writebackup"] = false
 vim.o["clipboard"] = "unnamedplus"
@@ -106,7 +113,7 @@ vim.o["termguicolors"] = true
 vim.o["ttyfast"] = true
 vim.o["undofile"] = true
 vim.o["updatetime"] = 300
-vim.o["wildignore"] = "*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*/.git/*,*/target/*,*~,tags"
+vim.o["wildignore"] = "tmp/**,*.so,*.swp,*.zip,*.pyc,*.db,.git/**,target/**,*~,tags,node_modules/**,classes/**"
 vim.o["wildmenu"] = true
 -- vim.o["wildmode"] = "full"
 vim.o["wildmode"] = "longest:full,full"
@@ -123,14 +130,13 @@ vim.wo["number"] = true
 vim.wo["signcolumn"] = "yes:1"
 vim.wo["cursorline"] = true
 
--- GLOBAL SETTTINGS
-vim.g.netrw_liststyle = 3
-vim.g.netrw_banner = 0
-vim.g.netrw_hide = 1
+-- disable netrw
+vim.g.loaded_netrw       = 1
+vim.g.loaded_netrwPlugin = 1
+    -- au TermOpen * startinsert
+    -- au Bufenter term://*fish* startinsert
 api.nvim_exec( [[
     au FileType markdown set shiftwidth=2
-    au TermOpen * startinsert
-    au Bufenter term://*fish* startinsert
     au TextYankPost * silent! lua vim.highlight.on_yank()
     au Filetype lua,html setlocal ts=4 sts=4 sw=4
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
@@ -226,6 +232,22 @@ local function setup_rust()
         )
     end
 end
+
+function Dark()
+    vim.cmd(":silent !sed -i 's/colors: \\*light/colors: \\*dark/g' ~/dotfiles/config/alacritty/alacritty.yml")
+    vim.cmd(":colors mymonodark")
+end
+function Light()
+    vim.cmd(":silent !sed -i 's/colors: \\*dark/colors: \\*light/g' ~/dotfiles/config/alacritty/alacritty.yml")
+    vim.cmd(":colors mymonolight")
+end
+api.nvim_exec("command! Dark call v:lua.Dark()", "")
+api.nvim_exec("command! Light call v:lua.Light()", "")
+
+function Pwd()
+   print(string.match(vim.fn.getcwd(),"%a*$"))
+end
+api.nvim_exec("command! Pwd call v:lua.Pwd()", "")
 
 setup_go()
 setup_rust()

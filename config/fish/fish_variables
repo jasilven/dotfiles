@@ -1,8 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:3100
-SETUVAR _fish_abbr_Dark:sed\x20\x2di\x20\x27s/colors\x3a\x20\x5c\x5c\x2alight/colors\x3a\x20\x5c\x5c\x2adark/g\x27\x20\x7e/dotfiles/config/alacritty/alacritty\x2eyml
-SETUVAR _fish_abbr_Light:sed\x20\x2di\x20\x27s/colors\x3a\x20\x5c\x5c\x2adark/colors\x3a\x20\x5c\x5c\x2alight/g\x27\x20\x7e/dotfiles/config/alacritty/alacritty\x2eyml
 SETUVAR _fish_abbr_la:exa\x20\x2dla
 SETUVAR _fish_abbr_ll:exa\x20\x2dl
 SETUVAR _fish_abbr_ls:exa
@@ -33,10 +31,10 @@ SETUVAR fish_color_selection:normal
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:blue
 SETUVAR fish_color_valid_path:normal
-SETUVAR fish_greeting:Welcome\x20to\x20fish\x2c\x20the\x20friendly\x20interactive\x20shell\x0aType\x20\x60help\x60\x20for\x20instructions\x20on\x20how\x20to\x20use\x20fish
+SETUVAR fish_greeting:Welcome\x21\x20to\x20fish\x2c\x20the\x20friendly\x20interactive\x20shell\x0aType\x20\x60help\x60\x20for\x20instructions\x20on\x20how\x20to\x20use\x20fish
 SETUVAR fish_key_bindings:fish_default_key_bindings
 SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
-SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
+SETUVAR fish_pager_color_prefix:red\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR starship:init\x1efish

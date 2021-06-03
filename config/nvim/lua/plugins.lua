@@ -9,12 +9,22 @@ return require('packer').startup(function(use)
     use {'sindrets/diffview.nvim'}
     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         config = function()
+            function Dir()
+                    print(vim.fn.expand('%'))
+                if vim.fn.expand('%') == "" then
+                    vim.cmd(":edit .")
+                else
+                    vim.cmd(":edit %:h")
+                end
+            end
+            vim.api.nvim_exec("command! Dir call v:lua.Dir()", "")
+
             local actions = require'lir.actions'
             local mark_actions = require 'lir.mark.actions'
             local clipboard_actions = require'lir.clipboard.actions'
 			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", '<space>n', ":edit .<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '-', ":edit .<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
             require'lir'.setup {
               show_hidden_files = false,
               devicons_enable = true,

@@ -2,29 +2,29 @@ highlight clear
 if exists('syntax_on')
   syntax reset
 endif
-set background=light
-let g:colors_name = 'mymonolight'
+set background=dark
+let g:colors_name = 'mydarkrust'
 let g:base16_hex_colors = {
-      \ 'background':   '#e6e6e6',
-      \ 'bg3':          '#dadada',
-      \ 'bg2':          '#cccccc',
-      \ 'bg1':          '#b3b3b3',
-      \ 'fg1':          '#595959',
-      \ 'fg2':          '#333333',
-      \ 'fg3':          '#1a1a1a',
-      \ 'foreground':   '#000000',
-      \ 'red':          '#b30000',
-      \ 'orange':       '#f65c09',
-      \ 'yellow':       '#e67300',
-      \ 'green':        '#009933',
-      \ 'aqua':         '#227777',
-      \ 'blue':         '#0033cc',
-      \ 'purple':       '#625194',
-      \ 'string':       '#196619',
+      \ 'background':   '#21252b',
+      \ 'bg3':          '#2c323a',
+      \ 'bg2':          '#434b56',
+      \ 'bg1':          '#596373',
+      \ 'fg1':          '#7c859c',
+      \ 'fg2':          '#8b93a7',
+      \ 'fg3':          '#a8aebd',
+      \ 'foreground':   '#b6bbc8',
+      \ 'red':          '#e06c75',
+      \ 'orange':       '#FF5F00',
+      \ 'yellow':       '#e0b96c',
+      \ 'green':        '#98c379',
+      \ 'aqua':         '#56b6c2',
+      \ 'blue':         '#61afef',
+      \ 'purple':       '#AB8AC1',
+      \ 'string':       '#98c379',
       \ 'white':        '#ffffff',
       \ 'black':        '#000000',
       \ 'comment':      '#6e6e91',
-      \ 'linenr':        '#a8a8bd'}
+      \ 'linenr':       '#4d4d66'}
 
 command! -bang -nargs=+ Base16Highlight call base16#highlight(<q-bang>=='!', <f-args>)
 
@@ -37,8 +37,8 @@ let s:specs['Constant']          = 'fg=foreground'
 let s:specs['String']            = 'fg=string'
 let s:specs['Character']         = 'fg=foreground'
 let s:specs['Identifier']        = 'fg=foreground'
-let s:specs['Function']          = 'fg=foreground bold'
-let s:specs['Statement']         = 'fg=foreground bold'
+let s:specs['Function']          = 'fg=blue'
+let s:specs['Statement']         = 'fg=purple'
 let s:specs['PreProc']           = 'fg=foreground'
 let s:specs['Type']              = 'fg=foreground'
 let s:specs['Special']           = 'fg=foreground bold'
@@ -68,9 +68,9 @@ let s:specs['Question']    = 'fg=aqua bold'
 let s:specs['Title']       = 'fg=blue bold'
 
 " SEARCH, COMPLETION, AND OTHER NVIM NAVIGATION
-let s:specs['IncSearch']  = 'fg=red bg=background reverse bold'
-let s:specs['Search']     = 'fg=orange bg=background reverse bold'
-let s:specs['WildMenu']   = 'fg=orange bg=background reverse'
+let s:specs['IncSearch']  = 'fg=orange bg=background reverse bold'
+let s:specs['Search']     = 'fg=yellow bg=background reverse bold'
+let s:specs['WildMenu']   = 'fg=yellow bg=background reverse'
 let s:specs['Directory']  = 'fg=blue'
 
 " DIFF
@@ -104,7 +104,7 @@ let s:specs['ColorColumn']   = 'bg=orange'
 let s:specs['SignColumn']    = 'fg=bg1'
 let s:specs['Folded']        = 'fg=bg1 bg=bg3 underline bold'
 let s:specs['FoldColumn']    = 'fg=bg1 bg=bg3'
-let s:specs['Cursor']        = 'fg=white bg=black'
+let s:specs['Cursor']        = 'fg=black bg=white'
 " let s:specs['TermCursor']    = 'reverse'
 " highlight link TermCursor Cursor
 " highlight link lCursor Cursor
@@ -116,9 +116,9 @@ let s:specs['GitSignsDelete']   = 'fg=red bold'
 
 " TELESCOPE
 let s:specs['TelescopeNormal']         = 'fg=fg3'
-let s:specs['TelescopeSelection']      = 'fg=orange bold underline'
+let s:specs['TelescopeSelection']      = 'fg=yellow bold underline'
 let s:specs['GitSignsSelectionCaret']  = 'fg=foreground'
-let s:specs['TelescopeMatching']       = 'fg=orange bold'
+let s:specs['TelescopeMatching']       = 'fg=yellow bold'
 let s:specs['TelescopeBorder']         = 'fg=linenr'
 
 " YAML 
@@ -160,11 +160,11 @@ let s:specs['TSFuncMacro']       = 'fg=foreground'
 let s:specs['TSConstMacro']      = 'fg=aqua bold'
 let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
 let s:specs['TSVariable']        = 'fg=foreground'
-let s:specs['TSDefinitionUsage'] = 'fg=orange bg=bg3 bold'
+let s:specs['TSDefinitionUsage'] = 'fg=yellow bg=bg3 bold'
 
 " RUST 
-let s:specs['RustTSKeywordOperator'] = 'fg=foreground bold'
-let s:specs['RustTSKeywordFunction'] = 'fg=foreground bold'
+" let s:specs['RustTSKeywordOperator'] = 'fg=foreground bold'
+let s:specs['RustTSKeywordFunction'] = 'fg=purple'
 
 " NEOGIT 
 hi link NeogitDiffAddHighlight DiffAdd

@@ -39,13 +39,13 @@ local keymaps = {
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<4-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
     {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
-    {mods = {"n"}, lhs = "<space>j", rhs = ":bn<cr>"},
+    {mods = {"n"}, lhs = "<M-h>", rhs = ":bn<cr>"},
+    {mods = {"n"}, lhs = "<M-l>", rhs = ":bprevious<cr>"},
     {mods = {"n"}, lhs = "<space>k", rhs = ":bprevious<cr>"},
     {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
     {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
-    {mods = {"n"}, lhs = "<space>q", rhs = "q"},
+    {mods = {"n"}, lhs = "Q", rhs = "q"},
     {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
-    {mods = {"n"}, lhs = "Q", rhs = "<Nop>"},
     {mods = {"n"}, lhs = "P", rhs = "<Nop>"},
     {mods = {"n"}, lhs = "gr", rhs = "<Nop>"},
     {mods = {"n"}, lhs = "P", rhs = "\"0p"},
@@ -245,7 +245,7 @@ api.nvim_exec("command! Dark call v:lua.Dark()", "")
 api.nvim_exec("command! Light call v:lua.Light()", "")
 
 function Pwd()
-   print(string.match(vim.fn.getcwd(),"%a*$"))
+   print(string.match(vim.fn.getcwd(),"[^/]*$"))
 end
 api.nvim_exec("command! Pwd call v:lua.Pwd()", "")
 

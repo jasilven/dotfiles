@@ -20,6 +20,8 @@ let g:base16_hex_colors = {
       \ 'aqua':         '#5FB3B3',
       \ 'blue':         '#6699CC',
       \ 'purple':       '#C594C5',
+      \ 'white':        '#ffffff',
+      \ 'black':        '#000000',
       \ 'brown':        '#AB7967'}
 
 command! -bang -nargs=+ Base16Highlight call base16#highlight(<q-bang>=='!', <f-args>)
@@ -106,8 +108,7 @@ let s:specs['TermCursor']    = 'reverse'
 " let s:specs['TabLine']       = 'fg=fg3'
 " let s:specs['TabLineSel']    = 'fg=fg bold'
 " let s:specs['TabLineFill']   = 'fg=fg3 bg=bg2'
-highlight link TermCursor Cursor
-highlight link lCursor Cursor
+let s:specs['Cursor']        = 'fg=black bg=white'
 
 " GITSIGNS
 let s:specs['GitSignsAdd']      = 'fg=green'

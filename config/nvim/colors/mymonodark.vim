@@ -5,7 +5,7 @@ endif
 set background=dark
 let g:colors_name = 'mymonodark'
 let g:base16_hex_colors = {
-      \ 'background':   '#1b1b18',
+      \ 'background':   '#1c1c1c',
       \ 'bg3':          '#222222',
       \ 'bg2':          '#404040',
       \ 'bg1':          '#555555',
@@ -98,7 +98,7 @@ let s:specs['CursorLine']    = 'bg=bg3 sp=fg2'
 let s:specs['CursorColumn']  = 'bg=bg3'
 let s:specs['Visual']        = 'bg=bg1'
 let s:specs['NormalFloat']   = 'bg=bg3'
-let s:specs['VertSplit']     = 'fg=linenr bg=background'
+let s:specs['VertSplit']     = 'fg=linenr bg=bg3'
 
 let s:specs['ColorColumn']   = 'bg=orange'
 let s:specs['SignColumn']    = 'fg=bg1'

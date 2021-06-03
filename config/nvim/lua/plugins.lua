@@ -73,7 +73,11 @@ return require('packer').startup(function(use)
                 end
             end
             local function dir()
-                return string.match(vim.fn.getcwd(),"%a*$")
+                local dir = string.match(vim.fn.getcwd(),"[^/]*$")
+                if dir == nil then
+                    dir = "<n/a>"
+                end
+                return dir
             end
             local custom_gruvbox = require'lualine.themes.gruvbox'
             local bg = '#4d4d66'
@@ -113,7 +117,7 @@ return require('packer').startup(function(use)
                 sections = {
                     lualine_a = {'mode'},
                     lualine_b = {{dir}},
-                    lualine_c = {{'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', {sources = {'nvim_lsp'}}}},
+                    lualine_c = {{'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', sources = {'nvim_lsp'}, color_error = '#ffffff', color_warn = '#ffffff', color_info = '#ffffff', color_hint = '#ffffff'}},
                     lualine_x = {},
                     lualine_y = {{lspclient}, 'branch', {'filetype', colored = false}, 'encoding'},
                     lualine_z = {'location'} },
@@ -171,8 +175,8 @@ return require('packer').startup(function(use)
 			vim.api.nvim_set_keymap("n", "<space>s", ":Rg<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
+			-- vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
+			-- vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
 			vim.api.nvim_exec(
 				[[
@@ -246,8 +250,10 @@ return require('packer').startup(function(use)
 			-- vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
 			-- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
 			-- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
+			vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
 			vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
 			local actions = require('telescope.actions')
 			require('telescope').setup{
@@ -280,7 +286,7 @@ return require('packer').startup(function(use)
                   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
                   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-                  -- vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)]], "")
+                  vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)]], "")
 
                   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -288,7 +294,7 @@ return require('packer').startup(function(use)
                   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
                   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
                   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-                  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+                  buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_dropdown<CR>', opts)
                   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
                   buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
                   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -340,7 +346,7 @@ return require('packer').startup(function(use)
               local servers = require'lspinstall'.installed_servers()
               -- ... and add manually installed servers
               -- table.insert(servers, "clangd")
-              table.insert(servers, "rust_analyzer")
+              -- table.insert(servers, "rust_analyzer")
 
               for _, server in pairs(servers) do
                 local config = make_config()

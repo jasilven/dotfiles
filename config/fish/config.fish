@@ -8,11 +8,11 @@ set -gx EDITOR nvim
 set -gx MOZ_USE_XINPUT2 1
 set -gx MOZ_ENABLE_WAYLAND 1
 set -gx LC_TIME en_US.UTF-8
-set -gx SKIM_DEFAULT_COMMAND fd --type f || git ls-tree -r --name-only HEAD || rg --files || ag -l -g \"\" || find .
-set -gx SKIM_DEFAULT_OPTIONS --color=hl+:-1,bg+:-1,bg:-1,fg+:4,hl+:-1,hl:1,matched_bg:-1,current_match_bg:-1
 set -gx FZF_DEFAULT_COMMAND fd --type f
 set -gx FZF_DEFAULT_OPTS --color dark,hl:3,hl+:3,bg+:0,fg+:3,info:#7d889b,prompt:7,spinner:7,pointer:3,marker:254
-set -gx BAT_THEME 'GitHub'
+set -gx SKIM_DEFAULT_COMMAND fd --type f || git ls-tree -r --name-only HEAD || rg --files || ag -l -g \"\" || find .
+set -gx SKIM_DEFAULT_OPTIONS --layout=reverse --color dark,matched:3,matched_bg:-1,current_match:1,current:1,current_bg:-1,info:#7d889b,prompt:#7d889b,spinner:7,pointer:1,marker:254,current_match_bg:-1
+set -gx BAT_THEME 'ansi'
 set -gx TERM xterm-256color
 set -gx RIPGREP_CONFIG_PATH $HOME/dotfiles/ripgreprc
 
@@ -26,15 +26,15 @@ function cd
     end
 end
 
-function Light 
-    sed -i 's/colors: \*dark/colors: \*light/g' ~/dotfiles/config/alacritty/alacritty.yml
-    set -gx BAT_THEME 'GitHub'
-end
-
-function Dark 
-    sed -i 's/colors: \*light/colors: \*dark/g' ~/dotfiles/config/alacritty/alacritty.yml
-    set -gx BAT_THEME 'TwoDark'
-end
+#function Light 
+#    sed -i 's/colors: \*dark/colors: \*light/g' ~/dotfiles/config/alacritty/alacritty.yml
+#    set -gx BAT_THEME 'GitHub'
+#end
+#
+#function Dark 
+#    sed -i 's/colors: \*light/colors: \*dark/g' ~/dotfiles/config/alacritty/alacritty.yml
+#    set -gx BAT_THEME 'TwoDark'
+#end
 
 function gl
     git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all

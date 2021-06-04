@@ -117,9 +117,9 @@ let s:specs['GitSignsDelete']   = 'fg=red'
 
 " TELESCOPE
 let s:specs['TelescopeNormal']         = 'fg=fg3'
-let s:specs['TelescopeSelection']      = 'fg=yellow bold underline'
+let s:specs['TelescopeSelection']      = 'fg=yellow bold'
 let s:specs['GitSignsSelectionCaret']  = 'fg=foreground'
-let s:specs['TelescopeMatching']       = 'fg=orange bold'
+let s:specs['TelescopeMatching']       = 'fg=yellow bold'
 let s:specs['TelescopeBorder']         = 'fg=linenr'
 
 " YAML 

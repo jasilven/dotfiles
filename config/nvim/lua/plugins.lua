@@ -7,10 +7,11 @@ return require('packer').startup(function(use)
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
     use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
     use {'sindrets/diffview.nvim'}
+    use {'simrat39/symbols-outline.nvim'}
     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         config = function()
             function Dir()
-                    print(vim.fn.expand('%'))
+                print(vim.fn.expand('%'))
                 if vim.fn.expand('%') == "" then
                     vim.cmd(":edit .")
                 else
@@ -22,47 +23,47 @@ return require('packer').startup(function(use)
             local actions = require'lir.actions'
             local mark_actions = require 'lir.mark.actions'
             local clipboard_actions = require'lir.clipboard.actions'
-			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
             require'lir'.setup {
-              show_hidden_files = false,
-              devicons_enable = true,
-              mappings = {
-                ['l']     = actions.edit,
-                ['<Enter>'] = actions.edit,
-                ['q'] = actions.quit,
-                ['<Esc>'] = actions.quit,
-                ['<C-s>'] = actions.split,
-                ['<C-v>'] = actions.vsplit,
-                ['<C-t>'] = actions.tabedit,
-                ['h']     = actions.up,
-                ['K']     = actions.mkdir,
-                ['N']     = actions.newfile,
-                ['R']     = actions.rename,
-                ['@']     = actions.cd,
-                ['Y']     = actions.yank_path,
-                ['.']     = actions.toggle_show_hidden,
-                ['D']     = actions.delete,
-                ['J'] = function()
-                  mark_actions.toggle_mark()
-                  vim.cmd('normal! j')
-                end,
-                ['C'] = clipboard_actions.copy,
-                ['X'] = clipboard_actions.cut,
-                ['P'] = clipboard_actions.paste,
-              },
-              float = {
-                -- If you want to configure the height and width of the window individually,
-                -- pass in a table like so: { width = 0.5, height = 0.8 }
-                size_percentage = 0.5,
-                winblend = 15,
-                border = true,
-                borderchars = {"╔" , "═" , "╗" , "║" , "╝" , "═" , "╚", "║"},
-                -- -- If you want to use `shadow`, set `shadow` to `true`.
-                -- -- Also, if you set shadow to true, the value of `borderchars` will be ignored.
-                shadow = false,
-              },
+                show_hidden_files = false,
+                devicons_enable = true,
+                mappings = {
+                    ['l']     = actions.edit,
+                    ['<Enter>'] = actions.edit,
+                    ['q'] = actions.quit,
+                    ['<Esc>'] = actions.quit,
+                    ['<C-s>'] = actions.split,
+                    ['<C-v>'] = actions.vsplit,
+                    ['<C-t>'] = actions.tabedit,
+                    ['h']     = actions.up,
+                    ['K']     = actions.mkdir,
+                    ['N']     = actions.newfile,
+                    ['R']     = actions.rename,
+                    ['@']     = actions.cd,
+                    ['Y']     = actions.yank_path,
+                    ['.']     = actions.toggle_show_hidden,
+                    ['D']     = actions.delete,
+                    ['J'] = function()
+                        mark_actions.toggle_mark()
+                        vim.cmd('normal! j')
+                    end,
+                    ['C'] = clipboard_actions.copy,
+                    ['X'] = clipboard_actions.cut,
+                    ['P'] = clipboard_actions.paste,
+                },
+                float = {
+                    -- If you want to configure the height and width of the window individually,
+                    -- pass in a table like so: { width = 0.5, height = 0.8 }
+                    size_percentage = 0.5,
+                    winblend = 15,
+                    border = true,
+                    borderchars = {"╔" , "═" , "╗" , "║" , "╝" , "═" , "╚", "║"},
+                    -- -- If you want to use `shadow`, set `shadow` to `true`.
+                    -- -- Also, if you set shadow to true, the value of `borderchars` will be ignored.
+                    shadow = false,
+                },
             }
         end}
 
@@ -77,9 +78,9 @@ return require('packer').startup(function(use)
         config = function()
             local function lspclient()
                 if next(vim.lsp.buf_get_clients()) == nil then
-                   return ""
+                    return ""
                 else
-                   return "lsp"
+                    return "lsp"
                 end
             end
             local function dir()
@@ -140,8 +141,8 @@ return require('packer').startup(function(use)
 
     use {'nvim-treesitter/playground',
         config = function ()
-		    local keyopts = {nowait = true, noremap = true, silent = true}
-		    vim.api.nvim_set_keymap("n", "<f10>", ":TSHighlightCapturesUnderCursor<CR>", keyopts)
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.api.nvim_set_keymap("n", "<f10>", ":TSHighlightCapturesUnderCursor<CR>", keyopts)
         end}
 
     use {'nvim-treesitter/nvim-treesitter',
@@ -169,215 +170,215 @@ return require('packer').startup(function(use)
 
     use {'nvim-lua/completion-nvim',
         config = function()
-			vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
+            vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
         end}
 
-    use {'junegunn/fzf.vim',
-		requires = {{'junegunn/fzf'}},
-		config = function()
-			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.g.fzf_layout = {down = "40%"}
-            vim.g.fzf_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
-			-- vim.g.fzf_preview_window = "up:50%"
-			vim.g.fzf_preview_window = {}
-			vim.g.fzf_buffers_jump = 1
-			vim.g.fzf_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-			vim.api.nvim_set_keymap("n", "<space>s", ":Rg<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
-			-- vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
-			-- vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
-			vim.api.nvim_exec(
-				[[
-				au FileType fzf tnoremap <buffer> jk jk
-				au FileType fzf tmap <buffer> <Esc> <c-g>
-				au FileType fzf imap <buffer> <Esc> <c-g>
-				au FileType fzf tmap <buffer> <C-j> <Down>
-				au FileType fzf tmap <buffer> <Tab> <Down>
-				au FileType fzf tmap <buffer> <S-Tab> <Up>
-				au FileType fzf set laststatus=0 noshowmode
-				au BufEnter term://*fzf* startinsert
-				au BufLeave term://*fzf*  set laststatus=2
-				command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
-				let g:fzf_colors = { 'fg+':  ['fg', 'Search'], 'bg+':  ['bg', 'Search'], 'hl+':  ['fg', 'Search'], 'pointer': ['fg', 'Search'], 'gutter': ['bg', 'Normal'], 'hl': ['fg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Function']} 
-				let g:fzf_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
-			]], "")
-		end }
+    use {'lotabout/skim.vim',
+        requires = {{'lotabout/skim'}},
+        config = function()
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            -- vim.g.skim_layout = {down = "40%"}
+            vim.g.skim_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
+            vim.g.skim_preview_window = {}
+            vim.g.skim_buffers_jump = 1
+            vim.g.skim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
+            vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+            vim.api.nvim_exec(
+                [[
+                au FileType skim tnoremap <buffer> jk jk
+                au FileType skim tmap <buffer> <Esc> <c-g>
+                au FileType skim imap <buffer> <Esc> <c-g>
+                au FileType skim tmap <buffer> <C-j> <Down>
+                au FileType skim tmap <buffer> <Tab> <Down>
+                au FileType skim tmap <buffer> <S-Tab> <Up>
+                au FileType skim set laststatus=0 noshowmode
+                au BufEnter term://*skim* startinsert
+                au BufLeave term://*skim* set laststatus=2
+                command! -bang -nargs=* Rg1 call fzf#vim#rg_interactive('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), fzf#vim#with_preview('right:50%:hidden', 'alt-h'))
+                command! -bang -nargs=* Rg0 call fzf#vim#rg_interactive(<q-args>, fzf#vim#with_preview('right:50%:hidden', 'alt-h'))
+                command! -bang -nargs=* Rg2 call fzf#vim#grep('rg -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
+                command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
+                let g:fzf_colors = { 'matched':  ['fg', 'Search'], 'matched_bg':  ['bg', 'Normal'], 'current_match':  ['fg', 'Search'], 'current_match_bg':  ['bg', 'Normal'],'pointer': ['fg', 'Search'], 'current': ['fg', 'Search'], 'current_bg': ['bg', 'Normal'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Normal']} 
+                let g:skim_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
+                ]], "")
+        end }
 
     use {'pechorin/any-jump.vim',
-		config = function()
-			vim.g.any_jump_window_width_ratio = 0.8
-			vim.g.any_jump_window_height_ratio = 0.3
-			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", "<space>J", ":AnyJump<cr>", keyopts)
-		end }
+        config = function()
+            vim.g.any_jump_window_width_ratio = 0.8
+            vim.g.any_jump_window_height_ratio = 0.3
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.api.nvim_set_keymap("n", "<space>J", ":AnyJump<cr>", keyopts)
+        end }
 
     use { 'phaazon/hop.nvim', as = 'hop',
         config = function()
             require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.api.nvim_set_keymap("n", "f", ":HopChar1<cr>", keyopts)
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.api.nvim_set_keymap("n", "f", ":HopChar1<cr>", keyopts)
         end }
 
     use {'lewis6991/gitsigns.nvim',
-      requires = { 'nvim-lua/plenary.nvim' },
-      config = function() require('gitsigns').setup() end
+        requires = { 'nvim-lua/plenary.nvim' },
+        config = function() require('gitsigns').setup() end
     }
 
     use {'airblade/vim-rooter',
-		config = function()
-			vim.g.rooter_change_directory_for_non_project_files = 'current'
-			vim.g.rooter_silent_chdir = 1
-			vim.g.rooter_patterns = { "project.clj", "deps.edn", "go.mod", "package.json", "build.sbt", "pom.xml", ".git" }
-		end }
+        config = function()
+            vim.g.rooter_change_directory_for_non_project_files = 'current'
+            vim.g.rooter_silent_chdir = 1
+            vim.g.rooter_patterns = { "project.clj", "deps.edn", "go.mod", "package.json", "build.sbt", "pom.xml", ".git" }
+        end }
 
     use {'kassio/neoterm',
-		config = function()
-			local keyopts = {nowait = true, noremap = true, silent = true}
-			vim.g.neoterm_size = 25
-			vim.g.neoterm_autoinsert = 1
-			vim.g.neoterm_default_mod = "botright"
-			vim.api.nvim_set_keymap("n", "<C-j>", ":botright Ttoggle<cr>", keyopts)
-			vim.api.nvim_set_keymap("i", "<C-j>", "<C-\\><C-N><C-w><C-p>:botright Ttoggle<cr>", keyopts)
-			vim.api.nvim_set_keymap("t", "<C-j>", "<C-\\><C-N><C-w><C-p>:botright Ttoggle<cr>", keyopts)
-			vim.api.nvim_exec(
-				[[
-			au TermOpen * setlocal nonumber 
-			au FileType neoterm nnoremap <silent> <buffer> <C-j> <C-\><C-N><C-w><C-p>:Tclose<cr>
-			au FileType neoterm nnoremap <silent> <buffer> q <C-\><C-N><C-w><C-p>:Tclose<cr>
-			au FileType neoterm tnoremap <silent> <buffer> <C-h> <C-\><C-N><C-\><C-N>:BufferPrevious<cr>
-			au FileType neoterm tnoremap <silent> <buffer> <C-l> <C-\><C-N><C-\><C-N>:BufferNext<cr>
-			au FileType neoterm tnoremap <silent> <buffer> <C-q> <C-\><C-N><C-w><C-p>:Tclose<cr>
-			au FileType neoterm tnoremap <Esc> <c-\><c-n>
-			]], "")
-		end }
-			-- au FileType neoterm tnoremap jk <c-\><c-n>
+        config = function()
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.g.neoterm_size = 25
+            vim.g.neoterm_autoinsert = 1
+            vim.g.neoterm_default_mod = "botright"
+            vim.api.nvim_set_keymap("n", "<C-j>", ":botright Ttoggle<cr>", keyopts)
+            vim.api.nvim_set_keymap("i", "<C-j>", "<C-\\><C-N><C-w><C-p>:botright Ttoggle<cr>", keyopts)
+            vim.api.nvim_set_keymap("t", "<C-j>", "<C-\\><C-N><C-w><C-p>:botright Ttoggle<cr>", keyopts)
+            vim.api.nvim_exec(
+                [[
+                au TermOpen * setlocal nonumber 
+                au FileType neoterm nnoremap <silent> <buffer> <C-j> <C-\><C-N><C-w><C-p>:Tclose<cr>
+                au FileType neoterm nnoremap <silent> <buffer> q <C-\><C-N><C-w><C-p>:Tclose<cr>
+                au FileType neoterm tnoremap <silent> <buffer> <C-h> <C-\><C-N><C-\><C-N>:BufferPrevious<cr>
+                au FileType neoterm tnoremap <silent> <buffer> <C-l> <C-\><C-N><C-\><C-N>:BufferNext<cr>
+                au FileType neoterm tnoremap <silent> <buffer> <C-q> <C-\><C-N><C-w><C-p>:Tclose<cr>
+                au FileType neoterm tnoremap <Esc> <c-\><c-n>
+                ]], "")
+        end }
+    -- au FileType neoterm tnoremap jk <c-\><c-n>
     use {'nvim-telescope/telescope.nvim',
-		requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
-		config = function()
-			local keyopts = {nowait = true, noremap = true, silent = true}
-			-- vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
-			-- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
-			-- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers theme=get_ivy<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
-			vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
-			local actions = require('telescope.actions')
-			require('telescope').setup{
-				defaults = {
-					scroll_strategy = nil,
-					shorten_path = false,
-					prompt_position = "bottom",
-					prompt_prefix="> ",
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+        config = function()
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            -- vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>s', ":Telescope live_grep theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
+            local actions = require('telescope.actions')
+            require('telescope').setup{
+                defaults = {
+                    scroll_strategy = nil,
+                    shorten_path = false,
+                    prompt_position = "bottom",
+                    prompt_prefix="> ",
                     border = {},
-					selection_caret = "▶ ",
-					mappings = {
-						i = {
-							["<PageDown>"] = actions.preview_scrolling_down,
-							["<PageUp>"] = actions.preview_scrolling_up,
-							["<esc>"] = actions.close,
-						},
-						n = {
-							["<PageDown>"] = actions.preview_scrolling_down,
-							["<PageUp>"] = actions.preview_scrolling_up,
-						}
-					}
-				},
-			}
-		end }
+                    selection_caret = "▶ ",
+                    mappings = {
+                        i = {
+                            ["<PageDown>"] = actions.preview_scrolling_down,
+                            ["<PageUp>"] = actions.preview_scrolling_up,
+                            ["<esc>"] = actions.close,
+                        },
+                        n = {
+                            ["<PageDown>"] = actions.preview_scrolling_down,
+                            ["<PageUp>"] = actions.preview_scrolling_up,
+                        }
+                    }
+                },
+            }
+        end }
 
     use {'neovim/nvim-lspconfig',
         requires = {'RishabhRD/popfix', 'nvim-lua/completion-nvim', 'kabouzeid/nvim-lspinstall'},
         config = function()
-              local on_attach = function(client, bufnr)
-                  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-                  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+            local on_attach = function(client, bufnr)
+                local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+                local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-                  vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)]], "")
+                vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)]], "")
 
-                  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+                buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-                  local opts = { noremap=true, silent=true }
-                  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-                  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-                  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-                  buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_dropdown<CR>', opts)
-                  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-                  buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-                  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-                  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-                  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-                  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-                  buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-                  buf_set_keymap('n', 'gr', ':Telescope lsp_references theme=get_dropdown<CR>', opts)
-                  buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-                  buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-                  buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-                  buf_set_keymap('n', '<space>el', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-                  if client.resolved_capabilities.document_formatting then
+                local opts = { noremap=true, silent=true }
+                buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+                buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+                buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+                buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_dropdown<CR>', opts)
+                buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+                buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+                buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+                buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+                buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+                buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+                buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+                buf_set_keymap('n', 'gr', ':Telescope lsp_references theme=get_dropdown<CR>', opts)
+                buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+                buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+                buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+                buf_set_keymap('n', '<space>el', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+                if client.resolved_capabilities.document_formatting then
                     buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-                  end
-             end
-             vim.fn.sign_define('LspDiagnosticsSignError', { text = "⛔", texthl = "ErrorMsg"})
-             vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "▲", texthl = "WarningMsg"})
-             vim.fn.sign_define('LspDiagnosticsSignInfo', { text = "", texthl = "MoreMsg"})
-             vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "Comment"})
-             local lua_settings = {
-               Lua = {
-                 runtime = {
-                   version = 'LuaJIT',
-                   path = vim.split(package.path, ';'),
-                 },
-                 diagnostics = {
-                   globals = {'vim'},
-                 },
-                 workspace = {
-                   library = {
-                     [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                     [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-                   },
-                 },
-               }
-             }
+                end
+            end
+            vim.fn.sign_define('LspDiagnosticsSignError', { text = "⛔", texthl = "ErrorMsg"})
+            vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "▲", texthl = "WarningMsg"})
+            vim.fn.sign_define('LspDiagnosticsSignInfo', { text = "", texthl = "MoreMsg"})
+            vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "Comment"})
+            local lua_settings = {
+                Lua = {
+                    runtime = {
+                        version = 'LuaJIT',
+                        path = vim.split(package.path, ';'),
+                    },
+                    diagnostics = {
+                        globals = {'vim'},
+                    },
+                    workspace = {
+                        library = {
+                            [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                            [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                        },
+                    },
+                }
+            }
 
             local function make_config()
-              local capabilities = vim.lsp.protocol.make_client_capabilities()
-              -- capabilities.textDocument.completion.completionItem.snippetSupport = true
-              return {
-                capabilities = capabilities,
-                on_attach = on_attach,
-              }
+                local capabilities = vim.lsp.protocol.make_client_capabilities()
+                -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+                return {
+                    capabilities = capabilities,
+                    on_attach = on_attach,
+                }
             end
             local function setup_servers()
-              require'lspinstall'.setup()
-              local servers = require'lspinstall'.installed_servers()
-              -- ... and add manually installed servers
-              -- table.insert(servers, "clangd")
-              -- table.insert(servers, "rust_analyzer")
+                require'lspinstall'.setup()
+                local servers = require'lspinstall'.installed_servers()
+                -- ... and add manually installed servers
+                -- table.insert(servers, "clangd")
+                -- table.insert(servers, "rust_analyzer")
 
-              for _, server in pairs(servers) do
-                local config = make_config()
-                if server == "lua" then
-                  config.settings = lua_settings
+                for _, server in pairs(servers) do
+                    local config = make_config()
+                    if server == "lua" then
+                        config.settings = lua_settings
+                    end
+                    require'lspconfig'[server].setup(config)
                 end
-                require'lspconfig'[server].setup(config)
-              end
             end
             setup_servers()
             vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-              vim.lsp.diagnostic.on_publish_diagnostics, {
-                virtual_text = true, signs = true, update_in_insert = false,
-              }
+                vim.lsp.diagnostic.on_publish_diagnostics, {
+                    virtual_text = true, signs = true, update_in_insert = false,
+                }
             )
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
             require'lspinstall'.post_install_hook = function ()
-              setup_servers()
-              vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+                setup_servers()
+                vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
             end
-	    end }
+        end }
 
     use {'kosayoda/nvim-lightbulb',
         after = {'nvim-lspconfig'},

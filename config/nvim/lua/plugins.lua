@@ -179,7 +179,7 @@ return require('packer').startup(function(use)
             local keyopts = {nowait = true, noremap = true, silent = true}
             -- vim.g.skim_layout = {down = "40%"}
             vim.g.skim_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
-            vim.g.skim_preview_window = {}
+            -- vim.g.skim_preview_window = {}
             vim.g.skim_buffers_jump = 1
             vim.g.skim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
             vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
@@ -196,10 +196,7 @@ return require('packer').startup(function(use)
                 au FileType skim set laststatus=0 noshowmode
                 au BufEnter term://*skim* startinsert
                 au BufLeave term://*skim* set laststatus=2
-                command! -bang -nargs=* Rg1 call fzf#vim#rg_interactive('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), fzf#vim#with_preview('right:50%:hidden', 'alt-h'))
-                command! -bang -nargs=* Rg0 call fzf#vim#rg_interactive(<q-args>, fzf#vim#with_preview('right:50%:hidden', 'alt-h'))
-                command! -bang -nargs=* Rg2 call fzf#vim#grep('rg -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
-                command! -bang -nargs=* MyRgHome call fzf#vim#grep('rg -- '.shellescape(<q-args>).' ~', 1, fzf#vim#with_preview({'options': ['--preview-window=right:50%']}), <bang>0)
+                command! -bang -nargs=* Rg call fzf#vim#rg_interactive(<q-args>, fzf#vim#with_preview('right:50%', 'alt-h'))
                 let g:fzf_colors = { 'matched':  ['fg', 'Search'], 'matched_bg':  ['bg', 'Normal'], 'current_match':  ['fg', 'Search'], 'current_match_bg':  ['bg', 'Normal'],'pointer': ['fg', 'Search'], 'current': ['fg', 'Search'], 'current_bg': ['bg', 'Normal'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Normal']} 
                 let g:skim_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
                 ]], "")

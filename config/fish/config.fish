@@ -26,15 +26,15 @@ function cd
     end
 end
 
-#function Light 
-#    sed -i 's/colors: \*dark/colors: \*light/g' ~/dotfiles/config/alacritty/alacritty.yml
-#    set -gx BAT_THEME 'GitHub'
-#end
-#
-#function Dark 
-#    sed -i 's/colors: \*light/colors: \*dark/g' ~/dotfiles/config/alacritty/alacritty.yml
-#    set -gx BAT_THEME 'TwoDark'
-#end
+function Light 
+    sed -i 's/colors: \*dark/colors: \*light/g' ~/dotfiles/config/alacritty/alacritty.yml
+    set -gx BAT_THEME 'GitHub'
+end
+
+function Dark 
+    sed -i 's/colors: \*light/colors: \*dark/g' ~/dotfiles/config/alacritty/alacritty.yml
+    set -gx BAT_THEME 'TwoDark'
+end
 
 function gl
     git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all

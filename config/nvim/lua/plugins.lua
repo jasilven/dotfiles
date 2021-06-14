@@ -173,39 +173,71 @@ return require('packer').startup(function(use)
             vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
         end}
 
-    use {'lotabout/skim.vim',
-        requires = {{'lotabout/skim'}},
+    use {'gfanto/fzf-lsp.nvim'}
+	use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
+    use {'junegunn/fzf.vim',requires = {{'junegunn/fzf'}},
         config = function()
             local keyopts = {nowait = true, noremap = true, silent = true}
-            -- vim.g.skim_layout = {down = "40%"}
-            vim.g.skim_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
-            -- vim.g.skim_preview_window = {}
-            vim.g.skim_buffers_jump = 1
-            vim.g.skim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
+            -- vim.g.fzf_layout = {down = "40%"}
+            vim.g.fzf_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
+            vim.g.vim_buffers_jump = 1
+            vim.g.vim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
             vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
             vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
             vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>h', ":History<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>s', ":Rg<CR>", keyopts)
             vim.api.nvim_exec(
                 [[
-                au FileType skim tnoremap <buffer> jk jk
-                au FileType skim tmap <buffer> <Esc> <c-g>
-                au FileType skim imap <buffer> <Esc> <c-g>
-                au FileType skim tmap <buffer> <C-j> <Down>
-                au FileType skim tmap <buffer> <Tab> <Down>
-                au FileType skim tmap <buffer> <S-Tab> <Up>
-                au FileType skim set laststatus=0 noshowmode
-                au BufEnter term://*skim* startinsert
-                au BufLeave term://*skim* set laststatus=2
-                command! -bang -nargs=* Rg call fzf#vim#rg_interactive(<q-args>, fzf#vim#with_preview('right:50%', 'alt-h'))
-                let g:fzf_colors = { 'matched':  ['fg', 'Search'], 'matched_bg':  ['bg', 'Normal'], 'current_match':  ['fg', 'Search'], 'current_match_bg':  ['bg', 'Normal'],'pointer': ['fg', 'Search'], 'current': ['fg', 'Search'], 'current_bg': ['bg', 'Normal'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Normal']} 
-                let g:skim_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
+                au FileType fzf tnoremap <buffer> jk jk
+                au FileType fzf tmap <buffer> <Esc> <c-g>
+                au FileType fzf tmap <buffer> <C-d> <c-g>
+                au FileType fzf imap <buffer> <Esc> <c-g>
+                au FileType fzf tmap <buffer> <C-j> <Down>
+                au FileType fzf tmap <buffer> <Tab> <Down>
+                au FileType fzf tmap <buffer> <S-Tab> <Up>
+                au FileType fzf set laststatus=0 noshowmode
+                au BufEnter term://*fzf* startinsert
+                au BufLeave term://*fzf* set laststatus=2
+                let g:fzf_colorsXX = { 'matched':  ['fg', 'Search'], 'matched_bg':  ['bg', 'Search'], 'current_match':  ['fg', 'Search'], 'current_match_bg':  ['bg', 'Search'],'pointer': ['fg', 'Search'], 'current': ['fg', 'Search'], 'current_bg': ['bg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Normal']} 
+                let g:fzf_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
                 ]], "")
         end }
+
+    -- use {'lotabout/skim.vim',
+    --     requires = {{'lotabout/skim'}},
+    --     config = function()
+    --         local keyopts = {nowait = true, noremap = true, silent = true}
+    --         -- vim.g.skim_layout = {down = "40%"}
+    --         vim.g.skim_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
+    --         -- vim.g.skim_preview_window = {}
+    --         vim.g.skim_buffers_jump = 1
+    --         vim.g.skim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
+    --         vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
+    --         vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
+    --         vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+    --         vim.api.nvim_exec(
+    --             [[
+    --             au FileType skim tnoremap <buffer> jk jk
+    --             au FileType skim tmap <buffer> <Esc> <c-g>
+    --             au FileType skim imap <buffer> <Esc> <c-g>
+    --             au FileType skim tmap <buffer> <C-j> <Down>
+    --             au FileType skim tmap <buffer> <Tab> <Down>
+    --             au FileType skim tmap <buffer> <S-Tab> <Up>
+    --             au FileType skim set laststatus=0 noshowmode
+    --             au BufEnter term://*skim* startinsert
+    --             au BufLeave term://*skim* set laststatus=2
+    --             let g:fzf_colorsXX = { 'matched':  ['fg', 'Search'], 'matched_bg':  ['bg', 'Search'], 'current_match':  ['fg', 'Search'], 'current_match_bg':  ['bg', 'Search'],'pointer': ['fg', 'Search'], 'current': ['fg', 'Search'], 'current_bg': ['bg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Normal']} 
+    --             let g:skim_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
+    --             ]], "")
+    --     end }
 
     use {'pechorin/any-jump.vim',
         config = function()
             vim.g.any_jump_window_width_ratio = 0.8
-            vim.g.any_jump_window_height_ratio = 0.3
+            vim.g.any_jump_window_height_ratio = 0.5
             local keyopts = {nowait = true, noremap = true, silent = true}
             vim.api.nvim_set_keymap("n", "<space>J", ":AnyJump<cr>", keyopts)
         end }
@@ -257,11 +289,11 @@ return require('packer').startup(function(use)
             -- vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers theme=get_ivy<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope live_grep theme=get_ivy<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space>s', ":Telescope live_grep theme=get_ivy<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
             local actions = require('telescope.actions')
             require('telescope').setup{

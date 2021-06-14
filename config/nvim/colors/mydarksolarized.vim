@@ -2,29 +2,29 @@ highlight clear
 if exists('syntax_on')
   syntax reset
 endif
-set background=light
-let g:colors_name = 'mymonolight'
+set background=dark
+let g:colors_name = 'mydarksolarized'
 let g:base16_hex_colors = {
-      \ 'background':   '#e0e0e0',
-      \ 'bg3':          '#d5d5d5',
-      \ 'bg2':          '#cccccc',
-      \ 'bg1':          '#b3b3b3',
-      \ 'fg1':          '#595959',
-      \ 'fg2':          '#333333',
-      \ 'fg3':          '#1a1a1a',
-      \ 'foreground':   '#000000',
-      \ 'red':          '#b30000',
-      \ 'orange':       '#f65c09',
-      \ 'yellow':       '#e67300',
-      \ 'green':        '#00802b',
-      \ 'aqua':         '#227777',
-      \ 'blue':         '#0033cc',
-      \ 'purple':       '#625194',
-      \ 'string':       '#196619',
+      \ 'background':   '#15242E',
+      \ 'bg3':          '#203746',
+      \ 'bg2':          '#284457',
+      \ 'bg1':          '#305269',
+      \ 'fg1':          '#7c859c',
+      \ 'fg2':          '#8b93a7',
+      \ 'fg3':          '#a8aebd',
+      \ 'foreground':   '#b6bbc8',
+      \ 'red':          '#e9969d',
+      \ 'orange':       '#FF5F00',
+      \ 'yellow':       '#e0b96c',
+      \ 'green':        '#98c379',
+      \ 'aqua':         '#56b6c2',
+      \ 'blue':         '#61afef',
+      \ 'purple':       '#AB8AC1',
+      \ 'string':       '#98c379',
       \ 'white':        '#ffffff',
       \ 'black':        '#000000',
-      \ 'comment':      '#6e6e91',
-      \ 'linenr':       '#a8a8bd'}
+      \ 'comment':      '#636383',
+      \ 'linenr':       '#424257'}
 
 command! -bang -nargs=+ Base16Highlight call base16#highlight(<q-bang>=='!', <f-args>)
 
@@ -37,8 +37,8 @@ let s:specs['Constant']          = 'fg=foreground'
 let s:specs['String']            = 'fg=string'
 let s:specs['Character']         = 'fg=foreground'
 let s:specs['Identifier']        = 'fg=foreground'
-let s:specs['Function']          = 'fg=foreground bold'
-let s:specs['Statement']         = 'fg=foreground bold'
+let s:specs['Function']          = 'fg=blue'
+let s:specs['Statement']         = 'fg=purple'
 let s:specs['PreProc']           = 'fg=foreground'
 let s:specs['Type']              = 'fg=foreground'
 let s:specs['Special']           = 'fg=foreground bold'
@@ -62,15 +62,15 @@ let s:specs['MatchParen']   = 'fg=orange bold underline'
 " MESSAGES, QUESTIONS, AND PROMPTS
 let s:specs['ModeMsg']     = 'bold'
 let s:specs['MoreMsg']     = 'fg=aqua bold'
-let s:specs['WarningMsg']  = 'fg=orange'
+let s:specs['WarningMsg']  = 'fg=yellow'
 let s:specs['ErrorMsg']    = 'fg=red'
 let s:specs['Question']    = 'fg=aqua bold'
 let s:specs['Title']       = 'fg=blue bold'
 
 " SEARCH, COMPLETION, AND OTHER NVIM NAVIGATION
-let s:specs['IncSearch']  = 'bg=red fg=background bold'
-let s:specs['Search']     = 'bg=orange fg=background bold'
-let s:specs['WildMenu']   = 'bg=orange fg=background reverse'
+let s:specs['IncSearch']  = 'fg=orange bg=background reverse bold'
+let s:specs['Search']     = 'fg=yellow bg=background reverse bold'
+let s:specs['WildMenu']   = 'fg=yellow bg=background reverse'
 let s:specs['Directory']  = 'fg=blue'
 
 " DIFF
@@ -94,7 +94,7 @@ let s:specs['PmenuThumb'] = 'bg=foreground'
 " INTERFACE COMPONENTS.
 let s:specs['LineNr']        = 'fg=linenr'
 let s:specs['CursorLineNr']  = 'fg=foreground bg=bg3 bold'
-let s:specs['CursorLine']    = 'bg=bg3 sp=fg2'
+let s:specs['CursorLine']    = 'bg=bg3'
 let s:specs['CursorColumn']  = 'bg=bg3'
 let s:specs['Visual']        = 'bg=bg1'
 let s:specs['NormalFloat']   = 'bg=bg3'
@@ -104,7 +104,7 @@ let s:specs['ColorColumn']   = 'bg=orange'
 let s:specs['SignColumn']    = 'fg=bg1'
 let s:specs['Folded']        = 'fg=bg1 bg=bg3 underline bold'
 let s:specs['FoldColumn']    = 'fg=bg1 bg=bg3'
-let s:specs['Cursor']        = 'fg=white bg=black'
+let s:specs['Cursor']        = 'fg=black bg=white'
 " let s:specs['TermCursor']    = 'reverse'
 " highlight link TermCursor Cursor
 " highlight link lCursor Cursor
@@ -160,11 +160,12 @@ let s:specs['TSFuncMacro']       = 'fg=foreground'
 let s:specs['TSConstMacro']      = 'fg=aqua bold'
 let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
 let s:specs['TSVariable']        = 'fg=foreground'
-let s:specs['TSDefinitionUsage'] = 'fg=orange bg=bg3 bold'
+let s:specs['TSDefinitionUsage'] = 'fg=yellow bg=bg3 bold'
+let s:specs['TSStringEscape']    = 'fg=string bold'
 
 " RUST 
 let s:specs['RustTSKeywordOperator'] = 'fg=foreground bold'
-let s:specs['RustTSKeywordFunction'] = 'fg=foreground bold'
+let s:specs['RustTSKeywordFunction'] = 'fg=purple'
 
 " NEOGIT 
 hi link NeogitDiffAddHighlight DiffAdd
@@ -175,11 +176,8 @@ hi link NeogitHunkHeaderHighlight Statusline
 hi link NeogitDiffContextHighlight Normal
 
 " LSP
-
-let s:specs['LspDiagnosticsDefaultError']      = 'fg=red bold'
-let s:specs['LspDiagnosticsDefaultWarning']    = 'fg=orange bold'
-" hi link LspDiagnosticsDefaultError ErrorMsg
-" hi link LspDiagnosticsDefaultWarning WarningMsg
+hi link LspDiagnosticsDefaultError ErrorMsg
+hi link LspDiagnosticsDefaultWarning WarningMsg
 hi link LspDiagnosticsDefaultInformation MoreMsg
 hi link LspDiagnosticsDefaultHint MoreMsg
 hi link LspDiagnosticsUnderlineError underlined
@@ -217,7 +215,7 @@ if has('termguicolors') && &termguicolors
   let g:terminal_color_4  = g:base16_hex_colors['blue']         " blue
   let g:terminal_color_5  = g:base16_hex_colors['purple']       " magenta
   let g:terminal_color_6  = g:base16_hex_colors['aqua']         " cyan
-  let g:terminal_color_7  = g:base16_hex_colors['bg3']          " light grey
+  let g:terminal_color_7  = g:base16_hex_colors['fg2']          " light grey
   let g:terminal_color_8  = g:base16_hex_colors['bg2']          " dark grey
   let g:terminal_color_9  = g:base16_hex_colors['orange']       " light red
   let g:terminal_color_10 = g:base16_hex_colors['green']        " light green

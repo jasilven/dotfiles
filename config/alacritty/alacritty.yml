@@ -30,8 +30,9 @@ font:
   normal:
     # family: Menlo
     # family: "FiraCode Nerd Font"
+    family: "JetBrains Mono Nerd Font"
     # family: "FiraCode"
-    family: "Noto Sans Mono"
+    # family: "Noto Sans Mono"
     # family: "NotoSansMono Nerd Font"
     # family: CodeNewRoman Nerd Font
     # family: UbuntuMono Nerd Font
@@ -71,21 +72,21 @@ light: &light
   normal:
     black:   '#000000'
     red:     '#b30000'
-    green:   '#009933'
+    green:   '#00802b'
     yellow:  '#e67300'
     blue:    '#0033cc'
     magenta: '#625194'
     cyan:    '#227777'
     white:   '#ffffff'
   bright:
-    black:   '#000000'
-    red:     '#b30000'
-    green:   '#009933'
+    black:   '#666666'
+    red:     '#900000'
+    green:   '#00802b'
     yellow:  '#e67300'
     blue:    '#0033cc'
     magenta: '#625194'
     cyan:    '#227777'
-    white:   '#ffffff'
+    white:   '#00ffff'
     
 dark: &dark
   primary:

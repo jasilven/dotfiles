@@ -8,3 +8,8 @@
 --glob=!/go/pkg/*
 --glob=!cache/*
 --glob=!Downloads/*
+--colors=path:fg:cyan
+--colors=line:fg:magenta
+--colors=column:fg:magenta
+--colors=match:style:bold
+--colors=match:fg:yellow

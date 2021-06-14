@@ -118,7 +118,7 @@ vim.o["wildmenu"] = true
 -- vim.o["wildmode"] = "full"
 vim.o["wildmode"] = "longest:full,full"
 vim.o["wrap"] = false
-vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case"
+vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case --color=ansi"
 vim.o["grepformat"] = "%f:%l:%c:%m,%f:%l:%m"
 vim.o["formatoptions"] = "tcrqnb"
 vim.o["fsync"] = false
@@ -235,11 +235,15 @@ end
 
 function Dark()
     vim.cmd(":silent !sed -i 's/colors: \\*light/colors: \\*dark/g' ~/dotfiles/config/alacritty/alacritty.yml")
-    vim.cmd(":colors mymonodark")
+    vim.cmd(":colors mydarkrust")
+    vim.fn.setenv("FZF_DEFAULT_OPTS ", "--layout=reverse --color=bg+:#3B4252,bg:#2E3440,spinner:#81A1C1,hl:#616E88,fg:#D8DEE9,header:#616E88,info:#81A1C1,pointer:#81A1C1,marker:#81A1C1,fg+:#D8DEE9,prompt:#81A1C1,hl+:#81A1C1")
+    vim.fn.setenv("BAT_THEME", "OneHalfDark")
 end
 function Light()
     vim.cmd(":silent !sed -i 's/colors: \\*dark/colors: \\*light/g' ~/dotfiles/config/alacritty/alacritty.yml")
     vim.cmd(":colors mymonolight")
+    vim.fn.setenv("FZF_DEFAULT_OPTS ", "--layout=reverse --color=bg+:#D9D9D9,bg:-1,border:#C8C8C8,spinner:#719899,hl:#f65c09,fg:#616161,header:#719872,info:#727100,pointer:#E12672,marker:#E17899,fg+:#000000,preview-bg:#D9D9D9,prompt:#0099BD,hl+:#f65c09")
+    vim.fn.setenv("BAT_THEME", "OneHalfLight")
 end
 api.nvim_exec("command! Dark call v:lua.Dark()", "")
 api.nvim_exec("command! Light call v:lua.Light()", "")

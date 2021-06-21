@@ -14,17 +14,12 @@ set -gx FZF_DEFAULT_COMMAND fd --type f -H || git ls-tree -r --name-only HEAD ||
 set -gx TERM xterm-256color
 set -gx RIPGREP_CONFIG_PATH $HOME/dotfiles/ripgreprc
 set -gx FZF_DEFAULT_OPTS --layout=reverse --color=bg+:#D9D9D9,bg:-1,border:#C8C8C8,spinner:#719899,hl:#f65c09,fg:#616161,header:#719872,info:#727100,pointer:#E12672,marker:#E17899,fg+:#000000,preview-bg:#D9D9D9,prompt:#0099BD,hl+:#f65c09
-set -gx BAT_THEME 'OneHalfLight'
+set -gx BAT_THEME 'GitHub'
 
 starship init fish | source
 
-function cd
-    if count $argv > /dev/null
-        builtin cd "$argv"; and exa -l
-    else
-        builtin cd ~; and exa -l
-    end
-end
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
 
 #function Light 
 #    set -gx FZF_DEFAULT_OPTS --layout=reverse --color=bg+:#D9D9D9,bg:-1,border:#C8C8C8,spinner:#719899,hl:#f65c09,fg:#616161,header:#719872,info:#727100,pointer:#E12672,marker:#E17899,fg+:#000000,preview-bg:#D9D9D9,prompt:#0099BD,hl+:#f65c09
@@ -41,25 +36,3 @@ end
 #
 #Light
 
-function gl
-    git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-end
-
-function rgvim
-    set choice (rg -il $argv | fzf -0 -1 --ansi --preview "bat --color=always --style=header {} | rg $argv --context 3")
-    if [ $choice ]
-        nvim "+/"(to_lower $argv) $choice
-    end
-end
-
-function fkill
-    ps -ef | fzf | awk '{print $2}' | xargs kill -9
-end
-
-function ds
-    set -l cid (docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
-    [ -n "$cid" ] && docker stop "$cid"
-end
-
-set -gx VOLTA_HOME "$HOME/.volta"
-set -gx PATH "$VOLTA_HOME/bin" $PATH

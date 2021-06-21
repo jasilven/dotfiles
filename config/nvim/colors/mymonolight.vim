@@ -175,7 +175,6 @@ hi link NeogitHunkHeaderHighlight Statusline
 hi link NeogitDiffContextHighlight Normal
 
 " LSP
-
 let s:specs['LspDiagnosticsDefaultError']      = 'fg=red bold'
 let s:specs['LspDiagnosticsDefaultWarning']    = 'fg=orange bold'
 " hi link LspDiagnosticsDefaultError ErrorMsg

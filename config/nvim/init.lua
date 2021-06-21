@@ -243,7 +243,7 @@ function Light()
     vim.cmd(":silent !sed -i 's/colors: \\*dark/colors: \\*light/g' ~/dotfiles/config/alacritty/alacritty.yml")
     vim.cmd(":colors mymonolight")
     vim.fn.setenv("FZF_DEFAULT_OPTS ", "--layout=reverse --color=bg+:#D9D9D9,bg:-1,border:#C8C8C8,spinner:#719899,hl:#f65c09,fg:#616161,header:#719872,info:#727100,pointer:#E12672,marker:#E17899,fg+:#000000,preview-bg:#D9D9D9,prompt:#0099BD,hl+:#f65c09")
-    vim.fn.setenv("BAT_THEME", "OneHalfLight")
+    vim.fn.setenv("BAT_THEME", "GitHub")
 end
 api.nvim_exec("command! Dark call v:lua.Dark()", "")
 api.nvim_exec("command! Light call v:lua.Light()", "")

@@ -7,7 +7,29 @@ return require('packer').startup(function(use)
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
     use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
     use {'sindrets/diffview.nvim'}
-    use {'simrat39/symbols-outline.nvim'}
+    use {'simrat39/symbols-outline.nvim',
+        config = function()
+        vim.g.symbols_outline = {
+            highlight_hovered_item = true,
+            show_guides = true,
+            auto_preview = false,
+            position = 'right',
+            keymaps = {
+                close = "<Esc>",
+                goto_location = "<Cr>",
+                focus_location = "o",
+                hover_symbol = "K",
+                rename_symbol = "r",
+                code_actions = "a",
+            },
+            lsp_blacklist = {},
+        }
+        local keyopts = {nowait = true, noremap = true, silent = true}
+        vim.api.nvim_set_keymap("n", '<space>i', ":SymbolsOutline<CR>", keyopts)
+        end
+
+    }
+    use {'f-person/git-blame.nvim', config = function() vim.g.gitblame_enabled = 0 end}
     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         config = function()
             function Dir()
@@ -19,6 +41,9 @@ return require('packer').startup(function(use)
                 end
             end
             vim.api.nvim_exec("command! Dir call v:lua.Dir()", "")
+
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.api.nvim_set_keymap("n", '<space>d', ":Dir<CR>", keyopts)
 
             local actions = require'lir.actions'
             local mark_actions = require 'lir.mark.actions'
@@ -127,10 +152,10 @@ return require('packer').startup(function(use)
             require('lualine').setup{
                 sections = {
                     lualine_a = {'mode'},
-                    lualine_b = {{dir}},
-                    lualine_c = {{'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', sources = {'nvim_lsp'}, color_error = '#ffffff', color_warn = '#ffffff', color_info = '#ffffff', color_hint = '#ffffff'}},
+                    lualine_b = {'branch'},
+                    lualine_c = {{dir}, {'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', sources = {'nvim_lsp'}, color_error = '#ffffff', color_warn = '#ffffff', color_info = '#ffffff', color_hint = '#ffffff'}, {'diff', colored = false}},
                     lualine_x = {},
-                    lualine_y = {{lspclient}, 'branch', {'filetype', colored = false}, 'encoding'},
+                    lualine_y = {{lspclient},  {'filetype', colored = false}, 'encoding'},
                     lualine_z = {'location'} },
                 extensions = { 'fzf' },
                 options = {
@@ -258,7 +283,7 @@ return require('packer').startup(function(use)
         config = function()
             vim.g.rooter_change_directory_for_non_project_files = 'current'
             vim.g.rooter_silent_chdir = 1
-            vim.g.rooter_patterns = { "project.clj", "deps.edn", "go.mod", "package.json", "build.sbt", "pom.xml", ".git" }
+            vim.g.rooter_patterns = { "project.clj", "deps.edn", "go.mod", "package.json", "build.sbt", "pom.xml", ".git", ".gitignore" }
         end }
 
     use {'kassio/neoterm',
@@ -293,7 +318,7 @@ return require('packer').startup(function(use)
             -- vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers theme=get_ivy<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope live_grep theme=get_ivy<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
             local actions = require('telescope.actions')
             require('telescope').setup{

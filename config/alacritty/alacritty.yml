@@ -30,7 +30,7 @@ font:
   normal:
     # family: Menlo
     # family: "FiraCode Nerd Font"
-    family: "JetBrains Mono Nerd Font"
+    family: "JetBrainsMono Nerd Font"
     # family: "FiraCode"
     # family: "Noto Sans Mono"
     # family: "NotoSansMono Nerd Font"
@@ -43,10 +43,10 @@ font:
     # style: Retina
     style: Regular
   bold:
-    style: Bold 
+    style: Bold
   italic:
     style: Italic 
-  use_thin_strokes: false
+  use_thin_strokes: true
 
 draw_bold_text_with_bright_colors: false
 

@@ -3,12 +3,12 @@ if exists('syntax_on')
   syntax reset
 endif
 set background=light
-let g:colors_name = 'mymonolight'
+let g:colors_name = 'mymonolight2'
 let g:base16_hex_colors = {
-      \ 'background':   '#e0e0e0',
-      \ 'bg3':          '#d5d5d5',
-      \ 'bg2':          '#cccccc',
-      \ 'bg1':          '#b3b3b3',
+      \ 'background':   '#cccccc',
+      \ 'bg3':          '#bfbfbf',
+      \ 'bg2':          '#a6a6a6',
+      \ 'bg1':          '#8c8c8c',
       \ 'fg1':          '#595959',
       \ 'fg2':          '#333333',
       \ 'fg3':          '#1a1a1a',
@@ -131,7 +131,6 @@ let s:specs['tomlTSProperty']       = 'fg=foreground'
 
 " MARKDOWN 
 let s:specs['MarkdownCode']   = 'fg=blue'
-let s:specs['MarkdownListMarker']   = 'fg=blue'
 
 " HOP 
 let s:specs['HopNextKey']   = 'fg=red bold,underline'
@@ -186,12 +185,6 @@ hi link LspDiagnosticsUnderlineError underlined
 hi link LspDiagnosticsUnderlineWarning underlined 
 hi link LspDiagnosticsUnderlineInformation  underlined
 hi link LspDiagnosticsUnderlineHint underlined 
-
-" COC
-let s:specs['CocErrorSign']      = 'fg=red bold'
-let s:specs['CocWarningSign']    = 'fg=orange bold'
-let s:specs['CocInfoSign']       = 'fg=yellow'
-let s:specs['CocHintSign']       = 'fg=aqua bold'
 
 " SYMBOLS OUTLINE
 let s:specs['FocusedSymbol'] = 'bg=yellow'

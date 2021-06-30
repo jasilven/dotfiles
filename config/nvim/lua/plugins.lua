@@ -7,6 +7,58 @@ return require('packer').startup(function(use)
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
     use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
     use {'sindrets/diffview.nvim'}
+    use {'f-person/git-blame.nvim', config = function() vim.g.gitblame_enabled = 0 end}
+    use {'hrsh7th/nvim-compe',
+        config = function()
+            require'compe'.setup {
+              enabled = true;
+              autocomplete = true;
+              debug = false;
+              min_length = 1;
+              preselect = 'enable';
+              throttle_time = 80;
+              source_timeout = 200;
+              resolve_timeout = 800;
+              incomplete_delay = 400;
+              max_abbr_width = 100;
+              max_kind_width = 100;
+              max_menu_width = 100;
+              documentation = true;
+
+              source = {
+                path = true;
+                buffer = true;
+                calc = false;
+                nvim_lsp = true;
+                nvim_lua = true;
+                vsnip = false;
+                ultisnips = false;
+                luasnip = false;
+              };
+            }
+        end }
+    -- use {'neoclide/coc.nvim', branch = 'release',
+    -- config = function()
+    --         local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    --         -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    --         local opts = { noremap=true, silent=true }
+    --         buf_set_keymap('n', 'gD', '<Plug>(coc-declaration)<CR>', opts)
+    --         buf_set_keymap('n', 'gd', '<Plug>(coc-definition)<CR>', opts)
+    --         buf_set_keymap('n', 'gr', '<Plug>(coc-references)<CR>', opts)
+    --         buf_set_keymap('n', '<space>a', '<Plug>(coc-codeaction)<CR>', opts)
+    --         vim.api.nvim_set_keymap('n', 'K', ":call CocActionAsync('doHover')<CR>", opts)
+    --         -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    --         -- buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_ivy<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    --         -- buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>el', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+    --     end}
     use {'simrat39/symbols-outline.nvim',
         config = function()
         vim.g.symbols_outline = {
@@ -29,7 +81,6 @@ return require('packer').startup(function(use)
         end
 
     }
-    use {'f-person/git-blame.nvim', config = function() vim.g.gitblame_enabled = 0 end}
     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         config = function()
             function Dir()
@@ -44,13 +95,12 @@ return require('packer').startup(function(use)
 
             local keyopts = {nowait = true, noremap = true, silent = true}
             vim.api.nvim_set_keymap("n", '<space>d', ":Dir<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
 
             local actions = require'lir.actions'
             local mark_actions = require 'lir.mark.actions'
             local clipboard_actions = require'lir.clipboard.actions'
-            local keyopts = {nowait = true, noremap = true, silent = true}
-            vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
             require'lir'.setup {
                 show_hidden_files = false,
                 devicons_enable = true,
@@ -193,12 +243,10 @@ return require('packer').startup(function(use)
             }
         end }
 
-    use {'nvim-lua/completion-nvim',
-        config = function()
-            vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
-        end}
-
-    use {'gfanto/fzf-lsp.nvim'}
+    -- use {'nvim-lua/completion-nvim',
+    --     config = function()
+    --         vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
+    --     end}
 	use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
     use {'junegunn/fzf.vim',requires = {{'junegunn/fzf'}},
         config = function()
@@ -208,10 +256,10 @@ return require('packer').startup(function(use)
             vim.g.vim_buffers_jump = 1
             vim.g.vim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
             vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
             vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", "<space>F", ":Files<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>h', ":History<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>s', ":Rg<CR>", keyopts)
             vim.api.nvim_exec(
@@ -226,38 +274,9 @@ return require('packer').startup(function(use)
                 au FileType fzf set laststatus=0 noshowmode
                 au BufEnter term://*fzf* startinsert
                 au BufLeave term://*fzf* set laststatus=2
-                let g:fzf_colorsXX = { 'matched':  ['fg', 'Search'], 'matched_bg':  ['bg', 'Search'], 'current_match':  ['fg', 'Search'], 'current_match_bg':  ['bg', 'Search'],'pointer': ['fg', 'Search'], 'current': ['fg', 'Search'], 'current_bg': ['bg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Normal']} 
                 let g:fzf_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
                 ]], "")
         end }
-
-    -- use {'lotabout/skim.vim',
-    --     requires = {{'lotabout/skim'}},
-    --     config = function()
-    --         local keyopts = {nowait = true, noremap = true, silent = true}
-    --         -- vim.g.skim_layout = {down = "40%"}
-    --         vim.g.skim_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
-    --         -- vim.g.skim_preview_window = {}
-    --         vim.g.skim_buffers_jump = 1
-    --         vim.g.skim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-    --         vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
-    --         vim.api.nvim_set_keymap("n", "<space>f", ":Files<CR>", keyopts)
-    --         vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
-    --         vim.api.nvim_exec(
-    --             [[
-    --             au FileType skim tnoremap <buffer> jk jk
-    --             au FileType skim tmap <buffer> <Esc> <c-g>
-    --             au FileType skim imap <buffer> <Esc> <c-g>
-    --             au FileType skim tmap <buffer> <C-j> <Down>
-    --             au FileType skim tmap <buffer> <Tab> <Down>
-    --             au FileType skim tmap <buffer> <S-Tab> <Up>
-    --             au FileType skim set laststatus=0 noshowmode
-    --             au BufEnter term://*skim* startinsert
-    --             au BufLeave term://*skim* set laststatus=2
-    --             let g:fzf_colorsXX = { 'matched':  ['fg', 'Search'], 'matched_bg':  ['bg', 'Search'], 'current_match':  ['fg', 'Search'], 'current_match_bg':  ['bg', 'Search'],'pointer': ['fg', 'Search'], 'current': ['fg', 'Search'], 'current_bg': ['bg', 'Search'], 'header': ['fg', 'Function'], 'info': ['fg', 'Comment'], 'prompt': ['fg', 'Normal']} 
-    --             let g:skim_action = { 'ctrl-o': '!open ', 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit'}
-    --             ]], "")
-    --     end }
 
     use {'pechorin/any-jump.vim',
         config = function()
@@ -311,13 +330,9 @@ return require('packer').startup(function(use)
         requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
         config = function()
             local keyopts = {nowait = true, noremap = true, silent = true}
-            -- vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope grep_string<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space> ', ":Telescope buffers theme=get_ivy<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space>s', ":Telescope live_grep theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
             local actions = require('telescope.actions')
@@ -351,7 +366,7 @@ return require('packer').startup(function(use)
                 local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
                 local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-                vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)]], "")
+                vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 500)]], "")
 
                 buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -359,7 +374,7 @@ return require('packer').startup(function(use)
                 buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
                 buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
                 buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-                buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_dropdown<CR>', opts)
+                buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_ivy<CR>', opts)
                 buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
                 buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
                 buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -367,7 +382,7 @@ return require('packer').startup(function(use)
                 buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
                 buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
                 buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-                buf_set_keymap('n', 'gr', ':Telescope lsp_references theme=get_dropdown<CR>', opts)
+                buf_set_keymap('n', 'gr', ':Telescope lsp_references theme=get_ivy<CR>', opts)
                 buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
                 buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
                 buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -376,7 +391,7 @@ return require('packer').startup(function(use)
                     buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
                 end
             end
-            vim.fn.sign_define('LspDiagnosticsSignError', { text = "⛔", texthl = "ErrorMsg"})
+            vim.fn.sign_define('LspDiagnosticsSignError', { text = "✖", texthl = "ErrorMsg"})
             vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "▲", texthl = "WarningMsg"})
             vim.fn.sign_define('LspDiagnosticsSignInfo', { text = "", texthl = "MoreMsg"})
             vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "Comment"})
@@ -397,6 +412,26 @@ return require('packer').startup(function(use)
                     },
                 }
             }
+            local rust_settings =  {
+                 ["rust-analyzer"] = {
+                      assist = {
+                        importMergeBehavior = "last",
+                        importPrefix = "by_self",
+                      },
+                      diagnostics = {
+                        disabled = { "unresolved-proc-macro" }
+                      },
+                      cargo = {
+                          loadOutDirsFromCheck = true
+                      },
+                      procMacro = {
+                          enable = true
+                      },
+                      checkOnSave = {
+                          command = "clippy"
+                      },
+                    }
+                  }
 
             local function make_config()
                 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -417,6 +452,9 @@ return require('packer').startup(function(use)
                     local config = make_config()
                     if server == "lua" then
                         config.settings = lua_settings
+                    end
+                    if server == "rust" then
+                        config.settings = rust_settings
                     end
                     require'lspconfig'[server].setup(config)
                 end
@@ -458,4 +496,14 @@ return require('packer').startup(function(use)
             vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
             vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
         end }
+
+    -- use {'nvim-lua/lsp_extensions.nvim',
+    --     after = {'nvim-lspconfig'},
+    --     config = function()
+    --         require'lsp_extensions'.inlay_hints{
+    --             aligned = false,
+    --             only_current_line = false }
+    --             vim.api.nvim_exec([[ autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{highlight = 'NonText', prefix= ' » ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} } ]], "")
+    --     end }
+
 end)

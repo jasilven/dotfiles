@@ -55,7 +55,7 @@ let s:specs['helpExample']       = 'fg=blue'
 
 " REST  
 let s:specs['SpecialKey']   = 'fg=fg3 bold'
-let s:specs['NonText']      = 'fg=linenr bold'
+let s:specs['NonText']      = 'fg=linenr'
 let s:specs['Conceal']      = 'fg=bg1 bg=bg3'
 let s:specs['MatchParen']   = 'fg=orange bold underline'
 
@@ -115,7 +115,7 @@ let s:specs['GitSignsChange']   = 'fg=yellow bold'
 let s:specs['GitSignsDelete']   = 'fg=red bold'
 
 " TELESCOPE
-let s:specs['TelescopeNormal']         = 'fg=fg3'
+let s:specs['TelescopeNormal']         = 'fg=fg2'
 let s:specs['TelescopeSelection']      = 'fg=yellow bold'
 let s:specs['GitSignsSelectionCaret']  = 'fg=foreground'
 let s:specs['TelescopeMatching']       = 'fg=yellow bold'
@@ -176,7 +176,6 @@ hi link NeogitHunkHeaderHighlight Statusline
 hi link NeogitDiffContextHighlight Normal
 
 " LSP
-
 let s:specs['LspDiagnosticsDefaultError']      = 'fg=red bold'
 let s:specs['LspDiagnosticsDefaultWarning']    = 'fg=orange bold'
 " hi link LspDiagnosticsDefaultError ErrorMsg
@@ -187,6 +186,9 @@ hi link LspDiagnosticsUnderlineError underlined
 hi link LspDiagnosticsUnderlineWarning underlined 
 hi link LspDiagnosticsUnderlineInformation  underlined
 hi link LspDiagnosticsUnderlineHint underlined 
+
+" SYMBOLS OUTLINE
+let s:specs['FocusedSymbol'] = 'bg=yellow'
 
 " Normal must go first.
 execute 'Base16Highlight! Normal' s:specs['Normal']

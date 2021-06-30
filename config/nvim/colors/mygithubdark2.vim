@@ -9,17 +9,17 @@ let g:base16_hex_colors = {
       \ 'bg3':          '#1c2431',
       \ 'bg2':          '#2e3c52',
       \ 'bg1':          '#374862',
-      \ 'fg1':          '#89929b',
+      \ 'fg1':          '#5e666e',
       \ 'fg2':          '#89929b',
-      \ 'fg3':          '#c6cdd5',
-      \ 'foreground':   '#ecf2f8',
-      \ 'red':          '#fa7970',
+      \ 'fg3':          '#b6bfc9',
+      \ 'foreground':   '#adbdd2',
+      \ 'red':          '#e69e98',
       \ 'orange':       '#faa356',
-      \ 'yellow':       '#e2bf78',
-      \ 'green':        '#7ce38b',
-      \ 'aqua':         '#a2d2fb',
+      \ 'yellow':       '#dbaf57',
+      \ 'green':        '#29a366',
+      \ 'aqua':         '#a2e5fb',
       \ 'blue':         '#77bdfb',
-      \ 'purple':       '#cea5fb',
+      \ 'purple':       '#ac99e6',
       \ 'brown':        '#AB7967'}
 
 command! -bang -nargs=+ Base16Highlight call base16#highlight(<q-bang>=='!', <f-args>)
@@ -28,7 +28,7 @@ let s:specs = {}
 
 " DEFAULTS
 let s:specs['Normal']            = 'fg=foreground bg=background'
-let s:specs['Comment']           = 'fg=fg2'
+let s:specs['Comment']           = 'fg=fg1 italic'
 let s:specs['Constant']          = 'fg=aqua'
 let s:specs['String']            = 'fg=green'
 let s:specs['Character']         = 'fg=green'
@@ -36,7 +36,7 @@ let s:specs['Identifier']        = 'fg=foreground'
 let s:specs['Function']          = 'fg=blue'
 let s:specs['Statement']         = 'fg=purple'
 let s:specs['PreProc']           = 'fg=aqua'
-let s:specs['Type']              = 'fg=aqua'
+let s:specs['Type']              = 'fg=foreground'
 let s:specs['Special']           = 'fg=orange'
 let s:specs['SpecialChar']       = 'fg=green bold'
 let s:specs['Underlined']        = 'fg=blue underline'
@@ -90,23 +90,18 @@ let s:specs['PmenuThumb'] = 'bg=foreground'
 
 " INTERFACE COMPONENTS.
 let s:specs['LineNr']        = 'fg=bg2'
-let s:specs['CursorLineNr']  = 'fg=yellow bold bg=bg3'
+let s:specs['CursorLineNr']  = 'fg=yellow bg=bg3'
 let s:specs['CursorLine']    = 'bg=bg3 sp=fg2'
 let s:specs['CursorColumn']  = 'bg=bg3'
 let s:specs['Visual']        = 'bg=bg1'
 let s:specs['NormalFloat']   = 'bg=bg3'
-let s:specs['VertSplit']     = 'fg=fg1 bg=bg3'
+let s:specs['VertSplit']     = 'fg=fg1 bg=background'
 let s:specs['ColorColumn']   = 'bg=orange'
 let s:specs['SignColumn']    = 'fg=bg1'
 let s:specs['Folded']        = 'fg=bg1 bg=bg3 underline bold'
 let s:specs['FoldColumn']    = 'fg=bg1 bg=bg3'
 let s:specs['Cursor']        = 'reverse'
 let s:specs['TermCursor']    = 'reverse'
-" let s:specs['StatusLine']    = 'fg=bg2 bg=bg3 reverse bold'
-" let s:specs['StatusLineNC']  = 'fg=fg3 bg=bg3 reverse bold'
-" let s:specs['TabLine']       = 'fg=fg3'
-" let s:specs['TabLineSel']    = 'fg=fg bold'
-" let s:specs['TabLineFill']   = 'fg=fg3 bg=bg2'
 highlight link TermCursor Cursor
 highlight link lCursor Cursor
 
@@ -143,18 +138,19 @@ let s:specs['TSProperty']        = 'fg=yellow'
 let s:specs['TSTagDelimiter']    = 'fg=brown'
 let s:specs['TSInclude']         = 'fg=purple'
 let s:specs['TSNamespace']       = 'fg=foreground'
-let s:specs['TSPunctDelimiter']  = 'fg=foreground'
+let s:specs['TSPunctDelimiter']  = 'fg=fg1'
 let s:specs['TSPunctBracket']    = 'fg=foreground'
-let s:specs['TSPunctSpecial']    = 'fg=red'
+let s:specs['TSPunctSpecial']    = 'fg=foreground'
 let s:specs['TSAnnotation']      = 'fg=red bold'
 let s:specs['TSAttribute']       = 'fg=yellow bold'
-let s:specs['TSFuncMacro']       = 'fg=purple'
+let s:specs['TSFuncMacro']       = 'fg=blue'
 let s:specs['TSConstMacro']      = 'fg=aqua bold'
 let s:specs['TSVariableBuiltIn'] = 'fg=foreground'
+let s:specs['TSDefinitionUsage'] = 'fg=yellow bg=bg3 bold'
 
 " RUST 
-let s:specs['RustTSPunctDelimiter'] = 'fg=fg3'
-let s:specs['RustTSKeywordOperator'] = 'fg=red'
+let s:specs['RustTSPunctDelimiter'] = 'fg=fg2'
+let s:specs['RustTSKeywordOperator'] = 'fg=purple'
 
 " NEOGIT 
 hi link NeogitDiffAddHighlight DiffAdd

@@ -1,5 +1,7 @@
 {
-  "rust-analyzer.diagnostics.enable": true,
+    "rust-analyzer.inlayHints.typeHints": true,
+    "rust-analyzer.diagnostics.enable": true,
+    "rust-analyzer.lens.enable": true,
     "json.enable": true,
     "codeLens.enable": true,
     "codeLens.separator": " ",
@@ -13,7 +15,6 @@
         "lua",
         "json"
     ],
-    "coc.preferences.snippets.enable": true,
     "diagnostic.enableMessage": "always",
     "diagnostic.messageDelay": 500,
     "diagnostic.enableSign": true,

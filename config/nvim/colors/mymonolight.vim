@@ -19,7 +19,7 @@ let g:base16_hex_colors = {
       \ 'green':        '#00802b',
       \ 'aqua':         '#227777',
       \ 'blue':         '#0033cc',
-      \ 'purple':       '#625194',
+      \ 'purple':       '#523b78',
       \ 'string':       '#196619',
       \ 'white':        '#ffffff',
       \ 'black':        '#000000',
@@ -34,6 +34,7 @@ let s:specs = {}
 let s:specs['Normal']            = 'fg=foreground bg=background'
 let s:specs['Comment']           = 'fg=comment italic'
 let s:specs['Constant']          = 'fg=foreground'
+let s:specs['Number']            = 'fg=aqua'
 let s:specs['String']            = 'fg=string'
 let s:specs['Character']         = 'fg=foreground'
 let s:specs['Identifier']        = 'fg=foreground'
@@ -98,17 +99,15 @@ let s:specs['CursorLine']    = 'bg=bg3 sp=fg2'
 let s:specs['CursorColumn']  = 'bg=bg3'
 let s:specs['Visual']        = 'bg=bg1'
 let s:specs['NormalFloat']   = 'bg=bg3'
-let s:specs['VertSplit']     = 'fg=linenr bg=bg3'
+let s:specs['VertSplit']     = 'fg=linenr bg=background'
 
 let s:specs['ColorColumn']   = 'bg=orange'
 let s:specs['SignColumn']    = 'fg=bg1'
 let s:specs['Folded']        = 'fg=bg1 bg=bg3 underline bold'
 let s:specs['FoldColumn']    = 'fg=bg1 bg=bg3'
 let s:specs['Cursor']        = 'fg=white bg=black'
-" let s:specs['TermCursor']    = 'reverse'
-" highlight link TermCursor Cursor
-" highlight link lCursor Cursor
-" 
+let s:specs['lCursor']        = 'fg=white bg=black'
+ 
 " GITSIGNS
 let s:specs['GitSignsAdd']      = 'fg=green bold'
 let s:specs['GitSignsChange']   = 'fg=yellow bold'
@@ -116,7 +115,7 @@ let s:specs['GitSignsDelete']   = 'fg=red bold'
 
 " TELESCOPE
 let s:specs['TelescopeNormal']         = 'fg=fg3'
-let s:specs['TelescopeSelection']      = 'fg=yellow bold'
+let s:specs['TelescopeSelection']      = 'fg=yellow bold,underline'
 let s:specs['GitSignsSelectionCaret']  = 'fg=foreground'
 let s:specs['TelescopeMatching']       = 'fg=yellow bold'
 let s:specs['TelescopeBorder']         = 'fg=linenr'
@@ -130,8 +129,16 @@ let s:specs['tomlTSTypeBuiltin']    = 'fg=blue'
 let s:specs['tomlTSProperty']       = 'fg=foreground'
 
 " MARKDOWN 
-let s:specs['MarkdownCode']   = 'fg=blue'
-let s:specs['MarkdownListMarker']   = 'fg=blue'
+let s:specs['MarkdownCode']          = 'fg=blue'
+let s:specs['MarkdownLinkText']      = 'fg=aqua'
+let s:specs['MarkdownUrl']           = 'fg=foreground italic'
+let s:specs['MarkdownListMarker']    = 'fg=red'
+let s:specs['MarkdownH1']            = 'fg=blue bold'
+let s:specs['MarkdownH2']            = 'fg=blue italic'
+let s:specs['MarkdownH3']            = 'fg=blue italic'
+let s:specs['MarkdownH1Delimiter']   = 'fg=blue italic'
+let s:specs['MarkdownH2Delimiter']   = 'fg=blue italic'
+let s:specs['MarkdownH3Delimiter']   = 'fg=blue italic'
 
 " HOP 
 let s:specs['HopNextKey']   = 'fg=red bold,underline'
@@ -168,24 +175,27 @@ let s:specs['RustTSKeywordOperator'] = 'fg=foreground bold'
 let s:specs['RustTSKeywordFunction'] = 'fg=foreground bold'
 
 " NEOGIT 
+"
+let s:specs['NeogitStagedchanges']  = 'fg=red bold'
+let s:specs['NeogitUnstagedchanges']  = 'fg=yellow bold'
+let s:specs['NeogitUntrackedfiles'] = 'fg=aqua bold'
+let s:specs['NeogitHunkHeader'] = 'fg=foreground bold'
 hi link NeogitDiffAddHighlight DiffAdd
 hi link NeogitDiffDeleteHighlight DiffDelete
 hi link NeogitDiffContextHighlight Keyword
-hi link NeogitHunkHeader Constant
 hi link NeogitHunkHeaderHighlight Statusline
 hi link NeogitDiffContextHighlight Normal
 
 " LSP
 let s:specs['LspDiagnosticsDefaultError']      = 'fg=red bold'
 let s:specs['LspDiagnosticsDefaultWarning']    = 'fg=orange bold'
-" hi link LspDiagnosticsDefaultError ErrorMsg
-" hi link LspDiagnosticsDefaultWarning WarningMsg
 hi link LspDiagnosticsDefaultInformation MoreMsg
 hi link LspDiagnosticsDefaultHint MoreMsg
-hi link LspDiagnosticsUnderlineError underlined
-hi link LspDiagnosticsUnderlineWarning underlined 
-hi link LspDiagnosticsUnderlineInformation  underlined
-hi link LspDiagnosticsUnderlineHint underlined 
+
+let s:specs['LspDiagnosticsUnderlineError']       = 'sp=red undercurl'
+let s:specs['LspDiagnosticsUnderlineWarning']     = 'fg=foreground undercurl'
+let s:specs['LspDiagnosticsUnderlineInformation'] = 'fg=foreground undercurl'
+let s:specs['LspDiagnosticsUnderlineHint']        = 'fg=foreground undercurl'
 
 " COC
 let s:specs['CocErrorSign']      = 'fg=red bold'
@@ -195,6 +205,9 @@ let s:specs['CocHintSign']       = 'fg=aqua bold'
 
 " SYMBOLS OUTLINE
 let s:specs['FocusedSymbol'] = 'bg=yellow'
+
+" NVIMTREE
+let s:specs['NvimTreeNormal'] = 'bg=bg3'
 
 " Normal must go first.
 execute 'Base16Highlight! Normal' s:specs['Normal']

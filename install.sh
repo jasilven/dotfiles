@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TOOLS="alacritty ripgrep exa fd-find bat tealdeer starship tokei drill skim git-delta xh"
+TOOLS="alacritty ripgrep exa fd-find bat tealdeer starship tokei skim git-delta xh gitui"
 
 if [ -x ~/.cargo/bin/cargo ]; then
     for tool in $TOOLS; do

@@ -13,7 +13,7 @@ end
 -- PLUGINS
 require "plugins"
 
--- KEYS
+-- GLOBAL KEYS
 local keymaps = {
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
@@ -37,13 +37,8 @@ local keymaps = {
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<2-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<3-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<4-RightMouse>", rhs = ":bn<cr>"},
-    {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
-    {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
     {mods = {"n"}, lhs = "<M-h>", rhs = ":bn<cr>"},
     {mods = {"n"}, lhs = "<M-l>", rhs = ":bprevious<cr>"},
-    {mods = {"n"}, lhs = "<space>k", rhs = ":bprevious<cr>"},
-    {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
-    {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
     {mods = {"n"}, lhs = "Q", rhs = "q"},
     {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
     {mods = {"n"}, lhs = "P", rhs = "<Nop>"},
@@ -63,8 +58,15 @@ local keymaps = {
     {mods = {"n"}, lhs = "<f4>", rhs = ":%s/<C-r><C-w>//gc<left><left><left>"},
     {mods = {"n"}, lhs = "<f9>", rhs = ":luafile ~/dotfiles/config/nvim/init.lua<cr>:PackerCompile<cr>"},
     {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:bd!<cr>"},
-    {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"}
+    {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"},
+    {mods = {"i"}, lhs = "<F5>", rhs = '<C-R>=strftime("%a %d %b %Y")<CR>'},
+    {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
+    {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
+    {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
+    {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
+    {mods = {"n"}, lhs = "<space>/", rhs = "*:%s/<c-r><c-w>//g<left><left>"},
 }
+
 for _, keymap in pairs(keymaps) do
     for _, mod in pairs(keymap.mods) do
         api.nvim_set_keymap(mod, keymap.lhs, keymap.rhs, keymap.opt or {nowait = true, noremap = true})
@@ -72,85 +74,92 @@ for _, keymap in pairs(keymaps) do
 end
 
 -- OPTIONS
-vim.o["autoread"] = true
-vim.o["backup"] = false
-vim.o["writebackup"] = false
-vim.o["clipboard"] = "unnamedplus"
-vim.o["completeopt"] = "menuone,noinsert,noselect"
-vim.o["confirm"] = true
-vim.o["encoding"] = "utf-8"
-vim.o["expandtab"] = true
-vim.o["fileencoding"] = "utf-8"
-vim.o["fillchars"] = "eob: ,vert:│"
-vim.o["guicursor"] = "n-v-c:block-Cursor/lCursor-blinkon1,i-ci-ve:ver40-Cursor/lCursor,r-cr:hor20-Cursor/lCursor"
-vim.o["hidden"] = true
-vim.o["hlsearch"] = true
-vim.o["ignorecase"] = true
-vim.o["inccommand"] = "nosplit"
-vim.o["incsearch"] = true
-vim.o["lazyredraw"] = true
-vim.o["linebreak"] = true
-vim.o["list"] = false
-vim.o["listchars"] = "tab:→ ,space:·,nbsp:␣,trail:•,eol:$,precedes:«,extends:»"
-vim.o["mouse"] = "a"
-vim.o["scrolloff"] = 2
-vim.o["sessionoptions"] = "blank,curdir,help,tabpages,winsize"
-vim.o["shiftwidth"] = 4
-vim.o["shortmess"] = "IcatFo"
-vim.o["showcmd"] = false
-vim.o["showmatch"] = true
-vim.o["showmode"] = false
-vim.o["smartindent"] = true
-vim.o["softtabstop"] = 4
-vim.o["spell"] = false
-vim.o["spelllang"] = "en_us"
-vim.o["splitbelow"] = true
-vim.o["splitright"] = true
-vim.o["swapfile"] = false
-vim.o["synmaxcol"] = 200
-vim.o["tabstop"] = 4
-vim.o["termguicolors"] = true
-vim.o["ttyfast"] = true
-vim.o["undofile"] = true
-vim.o["updatetime"] = 300
-vim.o["wildignore"] = "tmp/**,*.so,*.swp,*.zip,*.pyc,*.db,.git/**,target/**,*~,tags,node_modules/**,classes/**"
-vim.o["wildmenu"] = true
--- vim.o["wildmode"] = "full"
-vim.o["wildmode"] = "longest:full,full"
-vim.o["wrap"] = false
-vim.o["grepprg"] = "rg --no-heading --vimgrep --smart-case --color=ansi"
-vim.o["grepformat"] = "%f:%l:%c:%m,%f:%l:%m"
-vim.o["formatoptions"] = "tcrqnb"
-vim.o["fsync"] = false
-vim.wo["wrap"] = false
-vim.wo["foldenable"] = false
-vim.wo["foldmethod"] = "expr"
-vim.wo["foldexpr"] = "nvim_treesitter#foldexpr()"
-vim.wo["number"] = true
-vim.wo["signcolumn"] = "yes:1"
-vim.wo["cursorline"] = true
+vim.opt.autoread = true
+vim.opt.backup = false
+vim.opt.writebackup = false
+vim.opt.clipboard = "unnamedplus"
+vim.opt.completeopt = "menuone,noinsert,noselect"
+vim.opt.confirm = true
+vim.opt.encoding = "utf-8"
+vim.opt.expandtab = true
+vim.opt.fileencoding = "utf-8"
+vim.opt.fileformat = "unix"
+vim.opt.fillchars = "eob: ,vert:│"
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+vim.opt.hidden = true
+vim.opt.hlsearch = true
+vim.opt.ignorecase = true
+vim.opt.inccommand = "nosplit"
+vim.opt.incsearch = true
+vim.opt.lazyredraw = true
+vim.opt.linebreak = true
+vim.opt.list = false
+vim.opt.listchars = "tab:→ ,space:·,nbsp:␣,trail:•,eol:$,precedes:«,extends:»"
+vim.opt.mouse = "a"
+vim.opt.scrolloff = 2
+vim.opt.sessionoptions = "blank,curdir,help,tabpages,winsize"
+vim.opt.shiftwidth = 4
+-- vim.opt.shortmess = "IcatFo"
+vim.opt.shortmess = "Icato"
+vim.opt.showcmd = false
+vim.opt.showmatch = true
+vim.opt.showmode = false
+vim.opt.smartindent = true
+vim.opt.softtabstop = 4
+vim.opt.spell = false
+vim.opt.spelllang = "en_us"
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.swapfile = false
+vim.opt.synmaxcol = 200
+vim.opt.tabstop = 4
+vim.opt.termguicolors = true
+vim.opt.ttyfast = true
+vim.opt.undofile = true
+vim.opt.updatetime = 300
+vim.opt.wildignore = "tmp/**,*.so,*.swp,*.zip,*.pyc,*.db,.git/**,target/**,*~,tags,node_modules/**,classes/**"
+vim.opt.wildmenu = true
+-- vim.opt.wildmode = "full"
+vim.opt.wildmode = "longest:full,full"
+vim.opt.wrap = false
+vim.opt.grepprg = "rg --no-heading --vimgrep --smart-case --color=ansi"
+vim.opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+vim.opt.formatoptions = "tcrqnb"
+vim.opt.fsync = false
+vim.opt.wrap = false
+vim.opt.foldenable = false
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.number = true
+vim.opt.signcolumn = "yes:1"
+vim.opt.cursorline = true
 
--- disable netrw
+-- DISABLE LOADING
 vim.g.loaded_netrw       = 1
 vim.g.loaded_netrwPlugin = 1
-    -- au TermOpen * startinsert
-    -- au Bufenter term://*fish* startinsert
+vim.g.loaded_gzip = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_matchit = 1
+
+-- PUM
+vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
+vim.cmd([[cnoremap <expr> <up> pumvisible() ? "<C-p>" : "\\<C-p>"]])
+vim.cmd([[cnoremap <expr> <down> pumvisible() ? "<C-n>" : "\\<C-n>"]])
+
+-- MISC
+vim.cmd([[au BufRead,BufNewFile *.fish setfiletype fish]])
+vim.cmd([[au FileType markdown set shiftwidth=2]])
+vim.cmd([[au TextYankPost * silent! lua vim.highlight.on_yank()]])
+vim.cmd([[au Filetype lua,html setlocal ts=4 sts=4 sw=4]])
+vim.cmd([[command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z]])
+vim.cmd([[command! Bd bp | sp | bn | bd]])
+vim.cmd([[cnoreabbrev hon nohl]])
 api.nvim_exec( [[
-    au FileType markdown set shiftwidth=2
-    au TextYankPost * silent! lua vim.highlight.on_yank()
-    au Filetype lua,html setlocal ts=4 sts=4 sw=4
-    let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' 
-    vmap <LeftRelease> "+ygv
-    vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-    inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
-    nnoremap <space>/ *:%s/<c-r><c-w>//g<left><left>
-    inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-    cnoremap <expr> <up> pumvisible() ? "<C-p>" : "\\<C-p>"
-    cnoremap <expr> <down> pumvisible() ? "<C-n>" : "\\<C-n>"
-    command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z
-    command! Bd bp | sp | bn | bd
-    cnoreabbrev hon nohl 
-    cnoreabbrev hoh nohl 
     augroup autoquickfix
       autocmd!
       au QuickFixCmdPost [^l]* cwindow
@@ -158,6 +167,7 @@ api.nvim_exec( [[
     augroup END
     ]], "")
 
+-- GO
 local function setup_go()
     function Go_run()
         local cmd = "go run " .. fn.expand("%")
@@ -178,6 +188,9 @@ local function setup_go()
     end
 end
 
+setup_go()
+
+-- RUST
 local function setup_rust()
     function Cargo_run()
         local bin = fn.expand("%:t:r")
@@ -232,27 +245,11 @@ local function setup_rust()
         )
     end
 end
-
-function Dark()
-    vim.cmd(":silent !sed -i 's/colors: \\*light/colors: \\*dark/g' ~/dotfiles/config/alacritty/alacritty.yml")
-    vim.cmd(":colors mydarkrust")
-    vim.fn.setenv("FZF_DEFAULT_OPTS ", "--layout=reverse --color=bg+:#3B4252,bg:#2E3440,spinner:#81A1C1,hl:#616E88,fg:#D8DEE9,header:#616E88,info:#81A1C1,pointer:#81A1C1,marker:#81A1C1,fg+:#D8DEE9,prompt:#81A1C1,hl+:#81A1C1")
-    vim.fn.setenv("BAT_THEME", "OneHalfDark")
-end
-function Light()
-    vim.cmd(":silent !sed -i 's/colors: \\*dark/colors: \\*light/g' ~/dotfiles/config/alacritty/alacritty.yml")
-    vim.cmd(":colors mymonolight")
-    vim.fn.setenv("FZF_DEFAULT_OPTS ", "--layout=reverse --color=bg+:#D9D9D9,bg:-1,border:#C8C8C8,spinner:#719899,hl:#f65c09,fg:#616161,header:#719872,info:#727100,pointer:#E12672,marker:#E17899,fg+:#000000,preview-bg:#D9D9D9,prompt:#0099BD,hl+:#f65c09")
-    vim.fn.setenv("BAT_THEME", "GitHub")
-end
-api.nvim_exec("command! Dark call v:lua.Dark()", "")
-api.nvim_exec("command! Light call v:lua.Light()", "")
+setup_rust()
 
 function Pwd()
    print(string.match(vim.fn.getcwd(),"[^/]*$"))
 end
-api.nvim_exec("command! Pwd call v:lua.Pwd()", "")
+vim.cmd([[command! Pwd call v:lua.Pwd()]])
 
-setup_go()
-setup_rust()
 

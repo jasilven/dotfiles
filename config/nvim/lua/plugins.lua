@@ -1,5 +1,6 @@
 return require('packer').startup(function(use)
     use {'wbthomason/packer.nvim'}
+    use {'nvim-lua/plenary.nvim'}
     use {'terrortylor/nvim-comment', config = function() require('nvim_comment').setup() end }
     use {'tpope/vim-surround'}
     use {'kyazdani42/nvim-web-devicons'}
@@ -7,7 +8,17 @@ return require('packer').startup(function(use)
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
     use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
     use {'sindrets/diffview.nvim'}
+    use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }
     use {'f-person/git-blame.nvim', config = function() vim.g.gitblame_enabled = 0 end}
+    use {'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'},
+    config = function()
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.api.nvim_set_keymap("n", '<space>n', ":NvimTreeToggle<CR>", keyopts)
+        end}
+    use {'folke/tokyonight.nvim',
+        config = function()
+        end}
+    -- use {'nvim-lua/lsp-status.nvim'}
     use {'hrsh7th/nvim-compe',
         config = function()
             require'compe'.setup {
@@ -37,32 +48,10 @@ return require('packer').startup(function(use)
               };
             }
         end }
-    -- use {'neoclide/coc.nvim', branch = 'release',
-    -- config = function()
-    --         local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    --         -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-    --         local opts = { noremap=true, silent=true }
-    --         buf_set_keymap('n', 'gD', '<Plug>(coc-declaration)<CR>', opts)
-    --         buf_set_keymap('n', 'gd', '<Plug>(coc-definition)<CR>', opts)
-    --         buf_set_keymap('n', 'gr', '<Plug>(coc-references)<CR>', opts)
-    --         buf_set_keymap('n', '<space>a', '<Plug>(coc-codeaction)<CR>', opts)
-    --         vim.api.nvim_set_keymap('n', 'K', ":call CocActionAsync('doHover')<CR>", opts)
-    --         -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    --         -- buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_ivy<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    --         -- buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    --         -- buf_set_keymap('n', '<space>el', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    --     end}
     use {'simrat39/symbols-outline.nvim',
         config = function()
         vim.g.symbols_outline = {
-            highlight_hovered_item = true,
+            highlight_hovered_item = false,
             show_guides = true,
             auto_preview = false,
             position = 'right',
@@ -82,6 +71,7 @@ return require('packer').startup(function(use)
 
     }
     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
+        disable = true,
         config = function()
             function Dir()
                 print(vim.fn.expand('%'))
@@ -128,17 +118,6 @@ return require('packer').startup(function(use)
                     ['X'] = clipboard_actions.cut,
                     ['P'] = clipboard_actions.paste,
                 },
-                float = {
-                    -- If you want to configure the height and width of the window individually,
-                    -- pass in a table like so: { width = 0.5, height = 0.8 }
-                    size_percentage = 0.5,
-                    winblend = 15,
-                    border = true,
-                    borderchars = {"╔" , "═" , "╗" , "║" , "╝" , "═" , "╚", "║"},
-                    -- -- If you want to use `shadow`, set `shadow` to `true`.
-                    -- -- Also, if you set shadow to true, the value of `borderchars` will be ignored.
-                    shadow = false,
-                },
             }
         end}
 
@@ -151,19 +130,30 @@ return require('packer').startup(function(use)
     use {'hoob3rt/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
         config = function()
+            local function lsp_progress()
+                local messages = vim.lsp.util.get_progress_messages()
+                if #messages == 0 then
+                    return "lsp"
+                end
+                local status = {}
+                for _, msg in pairs(messages) do
+                    table.insert(status, (msg.percentage or 0) .. "%% " .. (string.lower(msg.title) or ""))
+                end
+                return table.concat(status, " | ")
+            end
             local function lspclient()
                 if next(vim.lsp.buf_get_clients()) == nil then
                     return ""
                 else
-                    return "lsp"
+                    return lsp_progress()
                 end
             end
             local function dir()
-                local dir = string.match(vim.fn.getcwd(),"[^/]*$")
-                if dir == nil then
-                    dir = "<n/a>"
+                local d = string.match(vim.fn.getcwd(),"[^/]*$")
+                if d == nil then
+                    d = "<n/a>"
                 end
-                return dir
+                return d
             end
             local custom_gruvbox = require'lualine.themes.gruvbox'
             local bg = '#4d4d66'
@@ -243,27 +233,25 @@ return require('packer').startup(function(use)
             }
         end }
 
-    -- use {'nvim-lua/completion-nvim',
-    --     config = function()
-    --         vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
-    --     end}
 	use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
     use {'junegunn/fzf.vim',requires = {{'junegunn/fzf'}},
         config = function()
             local keyopts = {nowait = true, noremap = true, silent = true}
             -- vim.g.fzf_layout = {down = "40%"}
-            vim.g.fzf_layout = { window = { width = 1.0, height = 0.4, relative=false, yoffset= 1.0 } }
+            vim.g.fzf_layout = { window = { width = 1.0, height = 0.5, relative=false, yoffset= 1.0 } }
             vim.g.vim_buffers_jump = 1
-            vim.g.vim_commits_log_options = "--graph --color always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
-            vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
+            -- vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
+            vim.g.fzf_commits_log_options = "--graph --color=always --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Creset(%cr) %Creset<%an>%Creset' --abbrev-commit"
             vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
             vim.api.nvim_set_keymap("n", "<space>F", ":Files<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
-            -- vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>h', ":History<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>s', ":Rg<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
             vim.api.nvim_exec(
                 [[
+                command! -bar -bang -range=% Commits    <line1>,<line2>call fzf#vim#commits(fzf#vim#with_preview({ "placeholder": "" }), <bang>0)
                 au FileType fzf tnoremap <buffer> jk jk
                 au FileType fzf tmap <buffer> <Esc> <c-g>
                 au FileType fzf tmap <buffer> <C-d> <c-g>
@@ -293,16 +281,12 @@ return require('packer').startup(function(use)
             vim.api.nvim_set_keymap("n", "f", ":HopChar1<cr>", keyopts)
         end }
 
-    use {'lewis6991/gitsigns.nvim',
-        requires = { 'nvim-lua/plenary.nvim' },
-        config = function() require('gitsigns').setup() end
-    }
 
     use {'airblade/vim-rooter',
         config = function()
             vim.g.rooter_change_directory_for_non_project_files = 'current'
             vim.g.rooter_silent_chdir = 1
-            vim.g.rooter_patterns = { "project.clj", "deps.edn", "go.mod", "package.json", "build.sbt", "pom.xml", ".git", ".gitignore" }
+            vim.g.rooter_patterns = { "project.clj", "deps.edn", "go.mod", "package.json", "build.sbt", "sbt", "pom.xml", ".git", ".gitignore" }
         end }
 
     use {'kassio/neoterm',
@@ -327,20 +311,24 @@ return require('packer').startup(function(use)
         end }
     -- au FileType neoterm tnoremap jk <c-\><c-n>
     use {'nvim-telescope/telescope.nvim',
+        disable = false,
         requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
         config = function()
             local keyopts = {nowait = true, noremap = true, silent = true}
             vim.api.nvim_set_keymap("n", '<space>f', ":Telescope find_files theme=get_ivy<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>b', ":Telescope buffers theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<tab>', ":Telescope buffers theme=get_ivy<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>h', ":Telescope oldfiles theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>m', ":Telescope marks theme=get_ivy<CR>", keyopts)
+            vim.api.nvim_set_keymap("n", '<space>r', ":Telescope registers theme=get_ivy<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>l', ":Telescope current_buffer_fuzzy_find theme=get_ivy<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space>i', ":Telescope lsp_document_symbols theme=get_ivy<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<M-x>', ":Telescope commands<CR>", keyopts)
             local actions = require('telescope.actions')
             require('telescope').setup{
                 defaults = {
                     scroll_strategy = nil,
-                    shorten_path = false,
-                    prompt_position = "bottom",
+                    shorten_path = true,
                     prompt_prefix="> ",
                     border = {},
                     selection_caret = "▶ ",
@@ -360,7 +348,7 @@ return require('packer').startup(function(use)
         end }
 
     use {'neovim/nvim-lspconfig',
-        requires = {'RishabhRD/popfix', 'nvim-lua/completion-nvim', 'kabouzeid/nvim-lspinstall'},
+        requires = {'RishabhRD/popfix', 'kabouzeid/nvim-lspinstall'},
         config = function()
             local on_attach = function(client, bufnr)
                 local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -380,7 +368,6 @@ return require('packer').startup(function(use)
                 buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
                 buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
                 buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-                buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
                 buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
                 buf_set_keymap('n', 'gr', ':Telescope lsp_references theme=get_ivy<CR>', opts)
                 buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
@@ -394,7 +381,7 @@ return require('packer').startup(function(use)
             vim.fn.sign_define('LspDiagnosticsSignError', { text = "✖", texthl = "ErrorMsg"})
             vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "▲", texthl = "WarningMsg"})
             vim.fn.sign_define('LspDiagnosticsSignInfo', { text = "", texthl = "MoreMsg"})
-            vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "Comment"})
+            vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "LspDiagnosticsSignHint"})
             local lua_settings = {
                 Lua = {
                     runtime = {
@@ -432,20 +419,26 @@ return require('packer').startup(function(use)
                       },
                     }
                   }
+            local scala_settings =  {
+                 ["metals"] = {
+                    sbtScript = "/Users/e103270/bin/sbt",
+                  }
+            }
 
             local function make_config()
                 local capabilities = vim.lsp.protocol.make_client_capabilities()
-                -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+                capabilities.textDocument.completion.completionItem.snippetSupport = true
                 return {
                     capabilities = capabilities,
                     on_attach = on_attach,
                 }
             end
+
             local function setup_servers()
                 require'lspinstall'.setup()
                 local servers = require'lspinstall'.installed_servers()
                 -- ... and add manually installed servers
-                -- table.insert(servers, "clangd")
+                table.insert(servers, "metals")
                 -- table.insert(servers, "rust_analyzer")
 
                 for _, server in pairs(servers) do
@@ -456,46 +449,54 @@ return require('packer').startup(function(use)
                     if server == "rust" then
                         config.settings = rust_settings
                     end
+                    if server == "metals" then
+                        config.cmd = {"/Users/e103270/Library/Application Support/Coursier/bin/metals"}
+                        config.root_dir =  require'lspconfig'.util.root_pattern("sbt")
+                        config.settings = scala_settings
+                    end
                     require'lspconfig'[server].setup(config)
                 end
             end
+
             setup_servers()
+
             vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
                 vim.lsp.diagnostic.on_publish_diagnostics, {
                     virtual_text = true, signs = true, update_in_insert = false,
                 }
             )
-            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
+            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = nil })
+
             require'lspinstall'.post_install_hook = function ()
                 setup_servers()
                 vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
             end
         end }
 
-    use {'kosayoda/nvim-lightbulb',
-        after = {'nvim-lspconfig'},
-        config = function()
-            vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-            vim.fn.sign_define('LightBulbSign', { text = "⚡", texthl = "Comment", linehl="", numhl="" })
-            require'nvim-lightbulb'.update_lightbulb {
-                sign = { enabled = true, priority = 10, },
-                float = { enabled = false, text = "A", win_opts = {}, },
-                virtual_text = { enabled = false, text = "A", }
-            }
-        end }
+    -- use {'kosayoda/nvim-lightbulb',
+    --     after = {'nvim-lspconfig'},
+    --     config = function()
+    --         vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+    --         vim.fn.sign_define('LightBulbSign', { text = "⚡", texthl = "LspDiagnosticsSignHint", linehl="", numhl="" })
+    --         require'nvim-lightbulb'.update_lightbulb {
+    --             sign = { enabled = true, priority = 10, },
+    --             float = { enabled = false, text = "A", win_opts = {}, },
+    --             virtual_text = { enabled = false, text = "A", }
+    --         }
+    --     end }
 
-    use {'RishabhRD/nvim-lsputils',
-        after = {'nvim-lspconfig'},
-        config = function()
-            vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-            vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
-            vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
-            vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-            vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-            vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-            vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-            vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-        end }
+    -- use {'RishabhRD/nvim-lsputils',
+    --     after = {'nvim-lspconfig'},
+    --     config = function()
+    --         vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+    --         vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+    --         vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+    --         vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+    --         vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+    --         vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+    --         vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+    --         vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+    --     end }
 
     -- use {'nvim-lua/lsp_extensions.nvim',
     --     after = {'nvim-lspconfig'},
@@ -506,4 +507,31 @@ return require('packer').startup(function(use)
     --             vim.api.nvim_exec([[ autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{highlight = 'NonText', prefix= ' » ', enabled = {"TypeHint", "ChainingHint", "ParameterHint"} } ]], "")
     --     end }
 
+    -- use {'neoclide/coc.nvim', branch = 'release',
+    -- config = function()
+    --         local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    --         -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    --         local opts = { noremap=true, silent=true }
+    --         buf_set_keymap('n', 'gD', '<Plug>(coc-declaration)<CR>', opts)
+    --         buf_set_keymap('n', 'gd', '<Plug>(coc-definition)<CR>', opts)
+    --         buf_set_keymap('n', 'gr', '<Plug>(coc-references)<CR>', opts)
+    --         buf_set_keymap('n', '<space>a', '<Plug>(coc-codeaction)<CR>', opts)
+    --         vim.api.nvim_set_keymap('n', 'K', ":call CocActionAsync('doHover')<CR>", opts)
+    --         -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    --         -- buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_ivy<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    --         -- buf_set_keymap('n', '<f2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>ep', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>en', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    --         -- buf_set_keymap('n', '<space>el', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+    --     end}
+    --
+    -- use {'nvim-lua/completion-nvim',
+    --     config = function()
+    --         vim.api.nvim_exec([[autocmd BufEnter * lua require'completion'.on_attach()]],"")
+    --     end}
 end)

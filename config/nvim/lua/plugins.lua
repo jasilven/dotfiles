@@ -1,24 +1,22 @@
 return require('packer').startup(function(use)
+    use {'tjdevries/colorbuddy.nvim'}
     use {'wbthomason/packer.nvim'}
     use {'nvim-lua/plenary.nvim'}
     use {'terrortylor/nvim-comment', config = function() require('nvim_comment').setup() end }
-    use {'tpope/vim-surround'}
+    -- use {'tpope/vim-surround'}
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
     use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
-    use {'sindrets/diffview.nvim'}
+    use {'sindrets/diffview.nvim', cmd = "DiffviewOpen"}
     use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }
-    use {'f-person/git-blame.nvim', config = function() vim.g.gitblame_enabled = 0 end}
+    use {'f-person/git-blame.nvim', cmd = "GitBlameToggle", setup = function() vim.g.gitblame_enabled = 0 end}
     use {'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'},
-    config = function()
-            local keyopts = {nowait = true, noremap = true, silent = true}
-            vim.api.nvim_set_keymap("n", '<space>n', ":NvimTreeToggle<CR>", keyopts)
-        end}
-    use {'folke/tokyonight.nvim',
+        keys = {"<space>n"},
         config = function()
-        end}
-    -- use {'nvim-lua/lsp-status.nvim'}
+                local keyopts = {nowait = true, noremap = true, silent = true}
+                vim.api.nvim_set_keymap("n", '<space>n', ":NvimTreeToggle<CR>", keyopts)
+            end}
     use {'hrsh7th/nvim-compe',
         config = function()
             require'compe'.setup {
@@ -49,79 +47,82 @@ return require('packer').startup(function(use)
             }
         end }
     use {'simrat39/symbols-outline.nvim',
-        config = function()
-        vim.g.symbols_outline = {
-            highlight_hovered_item = false,
-            show_guides = true,
-            auto_preview = false,
-            position = 'right',
-            keymaps = {
-                close = "<Esc>",
-                goto_location = "<Cr>",
-                focus_location = "o",
-                hover_symbol = "K",
-                rename_symbol = "r",
-                code_actions = "a",
-            },
-            lsp_blacklist = {},
-        }
-        local keyopts = {nowait = true, noremap = true, silent = true}
-        vim.api.nvim_set_keymap("n", '<space>i', ":SymbolsOutline<CR>", keyopts)
-        end
-
-    }
-    use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
-        disable = true,
-        config = function()
-            function Dir()
-                print(vim.fn.expand('%'))
-                if vim.fn.expand('%') == "" then
-                    vim.cmd(":edit .")
-                else
-                    vim.cmd(":edit %:h")
-                end
-            end
-            vim.api.nvim_exec("command! Dir call v:lua.Dir()", "")
-
-            local keyopts = {nowait = true, noremap = true, silent = true}
-            vim.api.nvim_set_keymap("n", '<space>d', ":Dir<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
-
-            local actions = require'lir.actions'
-            local mark_actions = require 'lir.mark.actions'
-            local clipboard_actions = require'lir.clipboard.actions'
-            require'lir'.setup {
-                show_hidden_files = false,
-                devicons_enable = true,
-                mappings = {
-                    ['l']     = actions.edit,
-                    ['<Enter>'] = actions.edit,
-                    ['q'] = actions.quit,
-                    ['<Esc>'] = actions.quit,
-                    ['<C-s>'] = actions.split,
-                    ['<C-v>'] = actions.vsplit,
-                    ['<C-t>'] = actions.tabedit,
-                    ['h']     = actions.up,
-                    ['K']     = actions.mkdir,
-                    ['N']     = actions.newfile,
-                    ['R']     = actions.rename,
-                    ['@']     = actions.cd,
-                    ['Y']     = actions.yank_path,
-                    ['.']     = actions.toggle_show_hidden,
-                    ['D']     = actions.delete,
-                    ['J'] = function()
-                        mark_actions.toggle_mark()
-                        vim.cmd('normal! j')
-                    end,
-                    ['C'] = clipboard_actions.copy,
-                    ['X'] = clipboard_actions.cut,
-                    ['P'] = clipboard_actions.paste,
+        keys = "<space>i",
+        setup = function()
+            vim.g.symbols_outline = {
+                highlight_hovered_item = false,
+                show_guides = true,
+                auto_preview = false,
+                position = 'right',
+                keymaps = {
+                    close = "<Esc>",
+                    goto_location = "<Cr>",
+                    focus_location = "o",
+                    hover_symbol = "K",
+                    rename_symbol = "r",
+                    code_actions = "a",
                 },
+                lsp_blacklist = {},
             }
-        end}
+        end,
+        config = function()
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            vim.api.nvim_set_keymap("n", '<space>i', ":SymbolsOutline<CR>", keyopts)
+        end }
+
+--     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
+--         disable = true,
+--         config = function()
+--             function Dir()
+--                 print(vim.fn.expand('%'))
+--                 if vim.fn.expand('%') == "" then
+--                     vim.cmd(":edit .")
+--                 else
+--                     vim.cmd(":edit %:h")
+--                 end
+--             end
+--             vim.api.nvim_exec("command! Dir call v:lua.Dir()", "")
+--
+--             local keyopts = {nowait = true, noremap = true, silent = true}
+--             vim.api.nvim_set_keymap("n", '<space>d', ":Dir<CR>", keyopts)
+--             vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
+--             vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
+--
+--             local actions = require'lir.actions'
+--             local mark_actions = require 'lir.mark.actions'
+--             local clipboard_actions = require'lir.clipboard.actions'
+--             require'lir'.setup {
+--                 show_hidden_files = false,
+--                 devicons_enable = true,
+--                 mappings = {
+--                     ['l']     = actions.edit,
+--                     ['<Enter>'] = actions.edit,
+--                     ['q'] = actions.quit,
+--                     ['<Esc>'] = actions.quit,
+--                     ['<C-s>'] = actions.split,
+--                     ['<C-v>'] = actions.vsplit,
+--                     ['<C-t>'] = actions.tabedit,
+--                     ['h']     = actions.up,
+--                     ['K']     = actions.mkdir,
+--                     ['N']     = actions.newfile,
+--                     ['R']     = actions.rename,
+--                     ['@']     = actions.cd,
+--                     ['Y']     = actions.yank_path,
+--                     ['.']     = actions.toggle_show_hidden,
+--                     ['D']     = actions.delete,
+--                     ['J'] = function()
+--                         mark_actions.toggle_mark()
+--                         vim.cmd('normal! j')
+--                     end,
+--                     ['C'] = clipboard_actions.copy,
+--                     ['X'] = clipboard_actions.cut,
+--                     ['P'] = clipboard_actions.paste,
+--                 },
+--             }
+--         end}
 
     use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
+        cmd = "Neogit",
         config = function()
             local neogit = require('neogit')
             neogit.setup { disable_context_highlighting = true, }
@@ -155,56 +156,23 @@ return require('packer').startup(function(use)
                 end
                 return d
             end
-            local custom_gruvbox = require'lualine.themes.gruvbox'
-            local bg = '#4d4d66'
-            local inactive_bg = '#4d4d66'
-            local fg = '#d9d9d9'
-            custom_gruvbox.normal.a.bg = bg
-            custom_gruvbox.normal.a.fg = fg
-            custom_gruvbox.normal.b.bg = bg
-            custom_gruvbox.normal.b.fg = fg
-            custom_gruvbox.normal.c.bg = bg
-            custom_gruvbox.normal.c.fg = fg
-
-            custom_gruvbox.insert.a.bg = '#e2bf78'
-            custom_gruvbox.insert.a.fg = bg
-            custom_gruvbox.insert.b.bg = bg
-            custom_gruvbox.insert.b.fg = fg
-            custom_gruvbox.insert.c.bg = bg
-            custom_gruvbox.insert.c.fg = fg
-
-            custom_gruvbox.inactive.a.bg = inactive_bg
-            custom_gruvbox.inactive.a.fg = fg
-            custom_gruvbox.inactive.b.bg = inactive_bg
-            custom_gruvbox.inactive.b.fg = fg
-            custom_gruvbox.inactive.c.bg = inactive_bg
-            custom_gruvbox.inactive.c.fg = fg
-
-            custom_gruvbox.visual.a.bg = '#e2bf78'
-            custom_gruvbox.visual.a.fg = bg
-            custom_gruvbox.visual.b.bg = bg
-            custom_gruvbox.visual.b.fg = fg
-            custom_gruvbox.visual.c.bg = bg
-            custom_gruvbox.visual.c.fg = fg
-
-            custom_gruvbox.replace = custom_gruvbox.visual
-            custom_gruvbox.command = custom_gruvbox.visual
             require('lualine').setup{
                 sections = {
                     lualine_a = {'mode'},
-                    lualine_b = {'branch'},
-                    lualine_c = {{dir}, {'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', sources = {'nvim_lsp'}, color_error = '#ffffff', color_warn = '#ffffff', color_info = '#ffffff', color_hint = '#ffffff'}, {'diff', colored = false}},
-                    lualine_x = {},
-                    lualine_y = {{lspclient},  {'filetype', colored = false}, 'encoding'},
-                    lualine_z = {'location'} },
+                    lualine_b = {},
+                    lualine_c = {{'branch'}, {dir}, {'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', sources = {'nvim_lsp'}, color_error = '#ffffff', color_warn = '#ffffff', color_info = '#ffffff', color_hint = '#ffffff'}, {'diff', colored = false}},
+                    lualine_x = {{lspclient},  {'filetype', colored = false}, 'encoding', 'location'},
+                    lualine_y = {},
+                    lualine_z = {} },
                 extensions = { 'fzf' },
                 options = {
-                    theme = custom_gruvbox,
+                    theme = 'nord',
                     section_separators = '',
                     component_separators = ''} }
         end }
 
     use {'nvim-treesitter/playground',
+        keys = {"<f10>"},
         config = function ()
             local keyopts = {nowait = true, noremap = true, silent = true}
             vim.api.nvim_set_keymap("n", "<f10>", ":TSHighlightCapturesUnderCursor<CR>", keyopts)
@@ -267,14 +235,18 @@ return require('packer').startup(function(use)
         end }
 
     use {'pechorin/any-jump.vim',
-        config = function()
+        keys = {"<space>J"},
+        setup = function()
             vim.g.any_jump_window_width_ratio = 0.8
             vim.g.any_jump_window_height_ratio = 0.5
+        end,
+        config = function()
             local keyopts = {nowait = true, noremap = true, silent = true}
             vim.api.nvim_set_keymap("n", "<space>J", ":AnyJump<cr>", keyopts)
         end }
 
     use { 'phaazon/hop.nvim', as = 'hop',
+        keys = {"f"},
         config = function()
             require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
             local keyopts = {nowait = true, noremap = true, silent = true}
@@ -290,6 +262,7 @@ return require('packer').startup(function(use)
         end }
 
     use {'kassio/neoterm',
+        keys = {"<C-j>"},
         config = function()
             local keyopts = {nowait = true, noremap = true, silent = true}
             vim.g.neoterm_size = 25
@@ -328,7 +301,9 @@ return require('packer').startup(function(use)
             require('telescope').setup{
                 defaults = {
                     scroll_strategy = nil,
-                    shorten_path = true,
+                    path_display = {
+                      "absolute",
+                    },
                     prompt_prefix="> ",
                     border = {},
                     selection_caret = "▶ ",
@@ -354,13 +329,13 @@ return require('packer').startup(function(use)
                 local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
                 local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-                vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 500)]], "")
+                vim.api.nvim_exec([[autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 300)]], "")
 
                 buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
                 local opts = { noremap=true, silent=true }
                 buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-                buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+                buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>zz', opts)
                 buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
                 buf_set_keymap('n', 'gi', ':Telescope lsp_implementations theme=get_ivy<CR>', opts)
                 buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -378,10 +353,10 @@ return require('packer').startup(function(use)
                     buf_set_keymap("n", "<space>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
                 end
             end
-            vim.fn.sign_define('LspDiagnosticsSignError', { text = "✖", texthl = "ErrorMsg"})
-            vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "▲", texthl = "WarningMsg"})
-            vim.fn.sign_define('LspDiagnosticsSignInfo', { text = "", texthl = "MoreMsg"})
-            vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "LspDiagnosticsSignHint"})
+            vim.fn.sign_define('LspDiagnosticsSignError', { text = "▲", texthl = "LspDiagnosticsDefaultError"})
+            vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "▲", texthl = "LspDiagnosticsDefaultWarning"})
+            vim.fn.sign_define('LspDiagnosticsSignInfo', { text = "ⓘ", texthl = "LspDiagnosticsDefaultInfo"})
+            vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "LspDiagnosticsDefaultHint"})
             local lua_settings = {
                 Lua = {
                     runtime = {

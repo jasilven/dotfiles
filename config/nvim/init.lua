@@ -4,11 +4,15 @@ local fn = vim.fn
 local keyopts = {nowait = true, noremap = true, silent = true}
 
 -- COLOR
-if vim.g.colors_name == nil then
-    vim.cmd("colorscheme mymonolight")
-else
-    vim.cmd("colorscheme " .. vim.g.colors_name)
-end
+vim.cmd("colorscheme mycolor")
+
+-- vim.cmd("syntax reset")
+-- require('mycolor')
+-- if vim.g.colors_name == nil then
+--     vim.cmd("colorscheme mymonolight")
+-- else
+--     vim.cmd("colorscheme " .. vim.g.colors_name)
+-- end
 
 -- PLUGINS
 require "plugins"
@@ -37,8 +41,6 @@ local keymaps = {
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<2-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<3-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<4-RightMouse>", rhs = ":bn<cr>"},
-    {mods = {"n"}, lhs = "<M-h>", rhs = ":bn<cr>"},
-    {mods = {"n"}, lhs = "<M-l>", rhs = ":bprevious<cr>"},
     {mods = {"n"}, lhs = "Q", rhs = "q"},
     {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
     {mods = {"n"}, lhs = "P", rhs = "<Nop>"},
@@ -77,7 +79,7 @@ end
 vim.opt.autoread = true
 vim.opt.backup = false
 vim.opt.writebackup = false
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.completeopt = "menuone,noinsert,noselect"
 vim.opt.confirm = true
 vim.opt.encoding = "utf-8"
@@ -133,7 +135,6 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.number = true
 vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
-
 -- DISABLE LOADING
 vim.g.loaded_netrw       = 1
 vim.g.loaded_netrwPlugin = 1
@@ -142,9 +143,8 @@ vim.g.loaded_tar = 1
 vim.g.loaded_tarPlugin = 1
 vim.g.loaded_zipPlugin = 1
 vim.g.loaded_2html_plugin = 1
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_matchit = 1
+vim.g.loaded_man = 1
 
 -- PUM
 vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
@@ -159,6 +159,7 @@ vim.cmd([[au Filetype lua,html setlocal ts=4 sts=4 sw=4]])
 vim.cmd([[command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z]])
 vim.cmd([[command! Bd bp | sp | bn | bd]])
 vim.cmd([[cnoreabbrev hon nohl]])
+vim.cmd([[cnoreabbrev noh nohl]])
 api.nvim_exec( [[
     augroup autoquickfix
       autocmd!
@@ -251,5 +252,4 @@ function Pwd()
    print(string.match(vim.fn.getcwd(),"[^/]*$"))
 end
 vim.cmd([[command! Pwd call v:lua.Pwd()]])
-
 

@@ -4,6 +4,7 @@ local fn = vim.fn
 local keyopts = {nowait = true, noremap = true, silent = true}
 
 -- COLOR
+vim.o.background = 'light'
 vim.cmd("colorscheme mycolor")
 
 -- vim.cmd("syntax reset")
@@ -19,54 +20,53 @@ require "plugins"
 
 -- GLOBAL KEYS
 local keymaps = {
-    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
-    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x", "t"}, lhs = "<Esc>", rhs = "<C-\\><C-N>"},
-    {mods = {"n", "v"}, lhs = "gh", rhs = "0"},
-    {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
-    {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
-    {mods = {"i"}, lhs = "jk", rhs = "<C-\\><C-N>"},
-    {mods = {"n"}, lhs = "<C-N>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
-    {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:Bd<cr>"},
-    {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
-    {mods = {"n"}, lhs = "<C-l>", rhs = "<C-l>:nohl<CR>"},
-    {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
-    {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
-    {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
-    {mods = {"v"}, lhs = "<C-S-up>", rhs = ":m '<-2<CR>gv=gv"},
-    {mods = {"v"}, lhs = "<C-S-Down>", rhs = ":m '>+1<CR>gv=gv"},
-    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightMouse>", rhs = ":bn<cr>"},
-    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightRelease>", rhs = "<Nop>"},
-    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightDrag>", rhs = "<Nop>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<2-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<3-RightMouse>", rhs = ":bn<cr>"},
     {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<4-RightMouse>", rhs = ":bn<cr>"},
-    {mods = {"n"}, lhs = "Q", rhs = "q"},
-    {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
-    {mods = {"n"}, lhs = "P", rhs = "<Nop>"},
-    {mods = {"n"}, lhs = "gr", rhs = "<Nop>"},
-    {mods = {"n"}, lhs = "P", rhs = "\"0p"},
-    {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
-    {mods = {"n"}, lhs = "dh", rhs = "d0"},
-    {mods = {"n"}, lhs = "dl", rhs = "d$"},
-    {mods = {"n"}, lhs = "WW", rhs = "<C-w>w"},
-    {mods = {"n"}, lhs = "Wj", rhs = "<C-w>j"},
-    {mods = {"n"}, lhs = "Wk", rhs = "<C-w>k"},
-    {mods = {"n"}, lhs = "Wh", rhs = "<C-w>h"},
-    {mods = {"n"}, lhs = "Wl", rhs = "<C-w>l"},
-    {mods = {"n"}, lhs = "yh", rhs = "y0"},
-    {mods = {"n"}, lhs = "yl", rhs = "y$"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:update<cr>:qa!<cr>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<C-g>", rhs = "<Esc>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightDrag>", rhs = "<Nop>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightMouse>", rhs = ":bn<cr>"},
+    {mods = {"c", "i", "l", "n", "o", "s", "v", "x"}, lhs = "<RightRelease>", rhs = "<Nop>"},
+    {mods = {"i"}, lhs = "<F5>", rhs = '<C-R>=strftime("%a %d %b %Y")<CR>'},
+    {mods = {"i"}, lhs = "jk", rhs = "<C-\\><C-N>"},
+    {mods = {"n", "i"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:Bd<cr>"},
+    {mods = {"n", "v"}, lhs = "gh", rhs = "0"},
+    {mods = {"n", "v"}, lhs = "gl", rhs = "$"},
+    {mods = {"n", "v"}, lhs = "gm", rhs = "%"},
+    {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"},
+    {mods = {"n"}, lhs = "<C-N>", rhs = "<C-\\><C-N>:vs +enew<cr>"},
+    {mods = {"n"}, lhs = "<C-S-Down>", rhs = ":m .+1<CR>=="},
+    {mods = {"n"}, lhs = "<C-S-up>", rhs = ":m .-2<CR>=="},
+    {mods = {"n"}, lhs = "<C-l>", rhs = "<C-l>:nohl<CR>"},
     {mods = {"n"}, lhs = "<f1>", rhs = ":help <C-r><C-w><cr>"},
     {mods = {"n"}, lhs = "<f4>", rhs = ":%s/<C-r><C-w>//gc<left><left><left>"},
     {mods = {"n"}, lhs = "<f9>", rhs = ":luafile ~/dotfiles/config/nvim/init.lua<cr>:PackerCompile<cr>"},
-    {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:bd!<cr>"},
-    {mods = {"n"}, lhs = "*", rhs = ":let @/='\\V\\<'.escape(expand('<cword>'), '\\').'\\>'<cr>:set hls<cr>"},
-    {mods = {"i"}, lhs = "<F5>", rhs = '<C-R>=strftime("%a %d %b %Y")<CR>'},
-    {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
-    {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
-    {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
-    {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
     {mods = {"n"}, lhs = "<space>/", rhs = "*:%s/<c-r><c-w>//g<left><left>"},
+    {mods = {"n"}, lhs = "<space><tab>", rhs = "<C-^>"},
+    {mods = {"n"}, lhs = "<space>Q", rhs = ":qall<cr>"},
+    {mods = {"n"}, lhs = "<space>o", rhs = ":only<cr>"},
+    {mods = {"n"}, lhs = "<space>w", rhs = ":update<cr>"},
+    {mods = {"n"}, lhs = "P", rhs = "<Nop>"},
+    {mods = {"n"}, lhs = "P", rhs = "\"0p"},
+    {mods = {"n"}, lhs = "Q", rhs = "q"},
+    {mods = {"n"}, lhs = "dh", rhs = "d0"},
+    {mods = {"n"}, lhs = "dl", rhs = "d$"},
+    {mods = {"n"}, lhs = "gH", rhs = "<C-\\><C-N><C-w>h"},
+    {mods = {"n"}, lhs = "gL", rhs = "<C-\\><C-N><C-w>l"},
+    {mods = {"n"}, lhs = "gJ", rhs = "<C-\\><C-N><C-w>j"},
+    {mods = {"n"}, lhs = "gK", rhs = "<C-\\><C-N><C-w>k"},
+    {mods = {"n"}, lhs = "gf", rhs = "<C-w>vgF", {noremap = false}},
+    {mods = {"n"}, lhs = "go", rhs = "<C-\\><C-N><C-w>w"},
+    {mods = {"n"}, lhs = "gr", rhs = "<Nop>"},
+    {mods = {"n"}, lhs = "q", rhs = ":close<cr>"},
+    {mods = {"n"}, lhs = "yh", rhs = "y0"},
+    {mods = {"n"}, lhs = "yl", rhs = "y$"},
+    {mods = {"t"}, lhs = "<C-d>", rhs = "<C-\\><C-N>:bd!<cr>"},
+    {mods = {"t"}, lhs = "<C-q>", rhs = "<C-\\><C-N>:bd!<cr>"},
+    {mods = {"v"}, lhs = "<C-S-Down>", rhs = ":m '>+1<CR>gv=gv"},
+    {mods = {"v"}, lhs = "<C-S-up>", rhs = ":m '<-2<CR>gv=gv"},
 }
 
 for _, keymap in pairs(keymaps) do
@@ -82,17 +82,18 @@ vim.opt.writebackup = false
 vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.completeopt = "menuone,noinsert,noselect"
 vim.opt.confirm = true
-vim.opt.encoding = "utf-8"
+-- vim.opt.encoding = "utf-8"
 vim.opt.expandtab = true
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.fillchars = "eob: ,vert:│"
-vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+vim.opt.termguicolors = true
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver50,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 vim.opt.hidden = true
-vim.opt.hlsearch = true
+-- vim.opt.hlsearch = true
 vim.opt.ignorecase = true
 vim.opt.inccommand = "nosplit"
-vim.opt.incsearch = true
+-- vim.opt.incsearch = true
 vim.opt.lazyredraw = true
 vim.opt.linebreak = true
 vim.opt.list = false
@@ -115,7 +116,6 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.synmaxcol = 200
 vim.opt.tabstop = 4
-vim.opt.termguicolors = true
 vim.opt.ttyfast = true
 vim.opt.undofile = true
 vim.opt.updatetime = 300
@@ -135,6 +135,7 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.number = true
 vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
+
 -- DISABLE LOADING
 vim.g.loaded_netrw       = 1
 vim.g.loaded_netrwPlugin = 1
@@ -145,6 +146,14 @@ vim.g.loaded_zipPlugin = 1
 vim.g.loaded_2html_plugin = 1
 vim.g.loaded_matchit = 1
 vim.g.loaded_man = 1
+vim.g.loaded_tutor_mode_plugin = 1
+vim.g.loaded_remote_plugins = 1
+vim.g.python_host_skip_check = 1
+vim.g.python2_host_skip_check = 1
+vim.g.python3_host_skip_check = 1
+vim.g.loaded_python_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- PUM
 vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])

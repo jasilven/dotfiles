@@ -12,33 +12,19 @@ set -gx LC_TIME en_US.UTF-8
 set -gx LC_ALL en_US.UTF-8
 
 set -gx TERM wezterm
-set -gx VTE_VERSION '6003'
+#set -gx VTE_VERSION 6003
 
 #set -gx TERM xterm-256color
 #set -gx FZF_DEFAULT_OPTS --layout=reverse --color=bg+:#D9D9D9,bg:-1,border:#C8C8C8,spinner:#719899,hl:#f65c09,fg:#616161,header:#719872,info:#727100,pointer:#E12672,marker:#E17899,fg+:#000000,preview-bg:#D9D9D9,prompt:#0099BD,hl+:#f65c09
 
 set -gx RIPGREP_CONFIG_PATH $HOME/dotfiles/ripgreprc
+
 set -gx FZF_DEFAULT_COMMAND fd --type f -H || git ls-tree -r --name-only HEAD || rg --files || ag -l -g \"\" || find .
 set -gx FZF_DEFAULT_OPTS --pointer=▶  --layout=reverse --color=bg+:-1,bg:-1,spinner:#81A1C1,hl:1,fg:#6c6c6c,header:#616E88,info:#81A1C1,pointer:1,marker:#81A1C1,fg+:1,prompt:#81A1C1,hl+:1
+
 set -gx BAT_THEME 'GitHub'
 
 starship init fish | source
 
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
-
-#function Light 
-#    set -gx FZF_DEFAULT_OPTS --layout=reverse --color=bg+:#D9D9D9,bg:-1,border:#C8C8C8,spinner:#719899,hl:#f65c09,fg:#616161,header:#719872,info:#727100,pointer:#E12672,marker:#E17899,fg+:#000000,preview-bg:#D9D9D9,prompt:#0099BD,hl+:#f65c09
-#    sed -i 's/colors: \*dark/colors: \*light/g' ~/dotfiles/config/alacritty/alacritty.yml
-#    set -gx BAT_THEME 'OneHalfLight'
-#end
-#
-#
-#function Dark 
-#    set -gx FZF_DEFAULT_OPTS --layout=reverse --color=bg+:#3B4252,bg:#2E3440,spinner:#81A1C1,hl:#616E88,fg:#D8DEE9,header:#616E88,info:#81A1C1,pointer:#81A1C1,marker:#81A1C1,fg+:#D8DEE9,prompt:#81A1C1,hl+:#81A1C1
-#    sed -i 's/colors: \*light/colors: \*dark/g' ~/dotfiles/config/alacritty/alacritty.yml
-#    set -gx BAT_THEME 'OneHalfDark'
-#end
-#
-#Light
-

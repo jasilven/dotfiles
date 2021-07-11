@@ -1,17 +1,15 @@
 return require('packer').startup(function(use)
     use {'tjdevries/colorbuddy.nvim'}
     use {'wbthomason/packer.nvim'}
-    use {'nvim-lua/plenary.nvim'}
     use {'terrortylor/nvim-comment', config = function() require('nvim_comment').setup() end }
-    -- use {'tpope/vim-surround'}
     use {'kyazdani42/nvim-web-devicons'}
     use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end }
     use {'windwp/nvim-autopairs', config = function() require('nvim-autopairs').setup() end }
-    use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
+    -- use {'ethanholz/nvim-lastplace', config = function() require'nvim-lastplace'.setup() end}
     use {'sindrets/diffview.nvim', cmd = "DiffviewOpen"}
-    use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }
+    use {'lewis6991/gitsigns.nvim', requires = {{ 'nvim-lua/plenary.nvim'}}, config = function() require('gitsigns').setup() end }
     use {'f-person/git-blame.nvim', cmd = "GitBlameToggle", setup = function() vim.g.gitblame_enabled = 0 end}
-    use {'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'},
+    use {'kyazdani42/nvim-tree.lua', requires = {{'kyazdani42/nvim-web-devicons', opt = true}},
         keys = {"<space>n"},
         config = function()
                 local keyopts = {nowait = true, noremap = true, silent = true}
@@ -70,58 +68,7 @@ return require('packer').startup(function(use)
             vim.api.nvim_set_keymap("n", '<space>i', ":SymbolsOutline<CR>", keyopts)
         end }
 
---     use {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
---         disable = true,
---         config = function()
---             function Dir()
---                 print(vim.fn.expand('%'))
---                 if vim.fn.expand('%') == "" then
---                     vim.cmd(":edit .")
---                 else
---                     vim.cmd(":edit %:h")
---                 end
---             end
---             vim.api.nvim_exec("command! Dir call v:lua.Dir()", "")
---
---             local keyopts = {nowait = true, noremap = true, silent = true}
---             vim.api.nvim_set_keymap("n", '<space>d', ":Dir<CR>", keyopts)
---             vim.api.nvim_set_keymap("n", '<space>n', ":Dir<CR>", keyopts)
---             vim.api.nvim_set_keymap("n", '-', ":Dir<CR>", keyopts)
---
---             local actions = require'lir.actions'
---             local mark_actions = require 'lir.mark.actions'
---             local clipboard_actions = require'lir.clipboard.actions'
---             require'lir'.setup {
---                 show_hidden_files = false,
---                 devicons_enable = true,
---                 mappings = {
---                     ['l']     = actions.edit,
---                     ['<Enter>'] = actions.edit,
---                     ['q'] = actions.quit,
---                     ['<Esc>'] = actions.quit,
---                     ['<C-s>'] = actions.split,
---                     ['<C-v>'] = actions.vsplit,
---                     ['<C-t>'] = actions.tabedit,
---                     ['h']     = actions.up,
---                     ['K']     = actions.mkdir,
---                     ['N']     = actions.newfile,
---                     ['R']     = actions.rename,
---                     ['@']     = actions.cd,
---                     ['Y']     = actions.yank_path,
---                     ['.']     = actions.toggle_show_hidden,
---                     ['D']     = actions.delete,
---                     ['J'] = function()
---                         mark_actions.toggle_mark()
---                         vim.cmd('normal! j')
---                     end,
---                     ['C'] = clipboard_actions.copy,
---                     ['X'] = clipboard_actions.cut,
---                     ['P'] = clipboard_actions.paste,
---                 },
---             }
---         end}
-
-    use {'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim',
+    use {'TimUntersberger/neogit', requires = {{'nvim-lua/plenary.nvim'}},
         cmd = "Neogit",
         config = function()
             local neogit = require('neogit')
@@ -129,7 +76,7 @@ return require('packer').startup(function(use)
         end }
 
     use {'hoob3rt/lualine.nvim',
-        requires = {'kyazdani42/nvim-web-devicons', opt = true},
+        requires = {{'kyazdani42/nvim-web-devicons', opt = true}},
         config = function()
             local function lsp_progress()
                 local messages = vim.lsp.util.get_progress_messages()
@@ -179,8 +126,8 @@ return require('packer').startup(function(use)
         end}
 
     use {'nvim-treesitter/nvim-treesitter',
-        requires = {{'nvim-treesitter/nvim-treesitter-textobjects'}, {'nvim-treesitter/nvim-treesitter-refactor'}},
         run = ':TSUpdate',
+        requires = {{'nvim-treesitter/nvim-treesitter-textobjects'}, {'nvim-treesitter/nvim-treesitter-refactor'}},
         config = function()
             require "nvim-treesitter.configs".setup {
                 highlight = { enable = true },
@@ -201,8 +148,12 @@ return require('packer').startup(function(use)
             }
         end }
 
-	use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
-    use {'junegunn/fzf.vim',requires = {{'junegunn/fzf'}},
+    use {'junegunn/fzf.vim',
+        opt = true,
+        requires = {{'junegunn/fzf', dir = '~/.fzf'}},
+        -- requires = {{'junegunn/fzf', dir = '~/.fzf', run = './install --all'}},
+        cmd = {"Files", "Rg"},
+        keys = {"<space>s", "<space>l", "<space>F"},
         config = function()
             local keyopts = {nowait = true, noremap = true, silent = true}
             -- vim.g.fzf_layout = {down = "40%"}
@@ -210,11 +161,11 @@ return require('packer').startup(function(use)
             vim.g.vim_buffers_jump = 1
             -- vim.g.fzf_commits_log_options = "--graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr'"
             vim.g.fzf_commits_log_options = "--graph --color=always --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Creset(%cr) %Creset<%an>%Creset' --abbrev-commit"
-            vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
             vim.api.nvim_set_keymap("n", "<space>F", ":Files<CR>", keyopts)
-            vim.api.nvim_set_keymap("n", '<space>h', ":History<CR>", keyopts)
             vim.api.nvim_set_keymap("n", '<space>s', ":Rg<CR>", keyopts)
             vim.api.nvim_set_keymap("n", "<space>l", ":BLines<CR>", keyopts)
+            -- vim.api.nvim_set_keymap("n", "<M-x>", ":Commands<cr>", keyopts)
+            -- vim.api.nvim_set_keymap("n", '<space>h', ":History<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space>b', ":Buffers<CR>", keyopts)
             -- vim.api.nvim_set_keymap("n", '<space> ', ":Buffers<CR>", keyopts)
             vim.api.nvim_exec(
@@ -323,7 +274,8 @@ return require('packer').startup(function(use)
         end }
 
     use {'neovim/nvim-lspconfig',
-        requires = {'RishabhRD/popfix', 'kabouzeid/nvim-lspinstall'},
+        requires = {{'kabouzeid/nvim-lspinstall', as='lspinstall'}},
+        ft = {'rs', 'ts', 'js', 'tsx', 'yaml', 'json', 'lua', 'go', 'html'},
         config = function()
             local on_attach = function(client, bufnr)
                 local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end

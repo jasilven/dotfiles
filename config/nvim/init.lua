@@ -85,7 +85,7 @@ vim.opt.confirm = true
 -- vim.opt.encoding = "utf-8"
 vim.opt.expandtab = true
 vim.opt.fileencoding = "utf-8"
-vim.opt.fileformat = "unix"
+vim.opt.fileformats = "unix"
 vim.opt.fillchars = "eob: ,vert:│"
 vim.opt.termguicolors = true
 vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver50,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
@@ -96,7 +96,7 @@ vim.opt.inccommand = "nosplit"
 -- vim.opt.incsearch = true
 vim.opt.lazyredraw = true
 vim.opt.linebreak = true
-vim.opt.list = false
+-- vim.opt.list = false
 vim.opt.listchars = "tab:→ ,space:·,nbsp:␣,trail:•,eol:$,precedes:«,extends:»"
 vim.opt.mouse = "a"
 vim.opt.scrolloff = 2
@@ -109,14 +109,14 @@ vim.opt.showmatch = true
 vim.opt.showmode = false
 vim.opt.smartindent = true
 vim.opt.softtabstop = 4
-vim.opt.spell = false
+-- vim.opt.spell = false
 vim.opt.spelllang = "en_us"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.synmaxcol = 200
 vim.opt.tabstop = 4
-vim.opt.ttyfast = true
+-- vim.opt.ttyfast = true
 vim.opt.undofile = true
 vim.opt.updatetime = 300
 vim.opt.wildignore = "tmp/**,*.so,*.swp,*.zip,*.pyc,*.db,.git/**,target/**,*~,tags,node_modules/**,classes/**"
@@ -137,7 +137,7 @@ vim.opt.signcolumn = "yes:1"
 vim.opt.cursorline = true
 
 -- DISABLE LOADING
-vim.g.loaded_netrw       = 1
+vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_gzip = 1
 vim.g.loaded_tar = 1
@@ -162,9 +162,9 @@ vim.cmd([[cnoremap <expr> <down> pumvisible() ? "<C-n>" : "\\<C-n>"]])
 
 -- MISC
 vim.cmd([[au BufRead,BufNewFile *.fish setfiletype fish]])
-vim.cmd([[au FileType markdown set shiftwidth=2]])
 vim.cmd([[au TextYankPost * silent! lua vim.highlight.on_yank()]])
-vim.cmd([[au Filetype lua,html setlocal ts=4 sts=4 sw=4]])
+vim.cmd([[au Filetype * setlocal ts=4 sts=4 sw=4]])
+vim.cmd([[au FileType markdown setlocal sw=2]])
 vim.cmd([[command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z]])
 vim.cmd([[command! Bd bp | sp | bn | bd]])
 vim.cmd([[cnoreabbrev hon nohl]])

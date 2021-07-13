@@ -13,3 +13,4 @@
 --colors=column:fg:magenta
 --colors=match:style:bold
 --colors=match:fg:yellow
+--smart-case

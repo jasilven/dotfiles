@@ -108,7 +108,7 @@ return require('packer').startup(function(use)
                     lualine_a = {'mode'},
                     lualine_b = {},
                     lualine_c = {{'branch'}, {dir}, {'filename', path = 1, shorten = false, full_name = true}, {'diagnostics', sources = {'nvim_lsp'}, color_error = '#ffffff', color_warn = '#ffffff', color_info = '#ffffff', color_hint = '#ffffff'}, {'diff', colored = false}},
-                    lualine_x = {{lspclient},  {'filetype', colored = false}, 'encoding', 'location'},
+                    lualine_x = {{lspclient},  {'filetype', colored = false}, 'encoding', 'fileformat', 'location'},
                     lualine_y = {},
                     lualine_z = {} },
                 extensions = { 'fzf' },
